@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>微服务下的权限与会话管理该怎么做 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+
+  
+  <meta name="keywords" content="zhaoo, hexo-theme-zhaoo,"> 
+  
+  <meta name="description" content="认证和权限
+
+
+认证和权限
+认证账户密码密码权限授权-..."> 
+  
+  <meta name="author" content="John Doe"> 
+
+  
+    <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  
+  
+    <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  
+  
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  
+  
+    <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_58xq2j9v1id.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {}
+    CONFIG = {
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        loadingImage: '/images/theme/loading.gif',
+      },
+      donate_alipay: 'http://xmt.ssluxury.cn/image-20200618172310303.png',
+      donate_wechat: 'http://xmt.ssluxury.cn/image-20200618172104218.png',
+      motto: {
+        api: '',
+        default: '真正的大师，永远怀着一颗学徒的心'
+      },
+      galleries: {
+        enable: 'true'
+      },
+      fab: {
+        enable: 'true',
+        alwaysShow: 'false'
+      }
+    }
+  </script>
+
+  
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="lock-screen">
+  <div class="loading"></div>
+  <nav class="menu">
+  <div class="menu-close">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <ul class="menu-content">
+    
+    
+    
+    
+    <li class="menu-item"><a href="/ "> 首页</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/galleries "> 相册</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/archives "> 归档</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/tags "> 标签</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/categories "> 分类</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/about "> 关于</a></li>
+    
+  </ul>
+  <div class="menu-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</nav>
+  <main id="main">
+  <div class="container" id="container">
+    <article class="article">
+  <section class="head">
+  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-41d69b7cffcda33ecb926b14482ae448_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">微服务下的权限与会话管理该怎么做</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-09-11</span
+        class="post-info-item">
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1038</span>
+    </div>
+  </div>
+</section>
+  <section class="main">
+    <section class="content">
+      <p><code>认证和权限</code></p>
+<span id="more"></span>
+
+<h2 id="认证和权限"><a href="#认证和权限" class="headerlink" title="认证和权限"></a>认证和权限</h2><blockquote>
+<p>认证<br>账户密码密码<br>权限<br>授权-&gt;相关权限对应角色</p>
+</blockquote>
+<h2 id="Cookie和Seesion"><a href="#Cookie和Seesion" class="headerlink" title="Cookie和Seesion"></a>Cookie和Seesion</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/55522549" title="标题">Cookie 和Session是什么?</a></p>
+<h2 id="有状态会话和无状态会话"><a href="#有状态会话和无状态会话" class="headerlink" title="有状态会话和无状态会话"></a>有状态会话和无状态会话</h2><h4 id="有状态"><a href="#有状态" class="headerlink" title="有状态"></a>有状态</h4><p>首先我们要知道一个概念,web程序是使用HTTP协议传输的,而HTTP协议是无状态的协议,对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息,则它必须重传,这样可能导致每次连接传送的数据量增大。另一方面,在服务器不需要先前信息时它的应答就较快。那服务器如何如何辨别客户端信息呢?<br>通常的做法是在用户完成认证以后,服务端生成一个Session对象记录用户状态信息,并且下发给客户端一个手牌,就可以了,也可以将其它相关的信息存储到JDBC数据库或者Redis缓存,第二次会首先从JDBC数据库或者Redis缓存查询对应的信息是否存在。有状态会话管理在单体应用中普遍使用,也就是我们通常所说的会话管理功能。<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618144659134.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200618144659134"></p>
+<h4 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h4><p>服务端不创建Session对象,下发给客户端一个Session ID,由客户端管理,每个客户端管理自己端Seesion ID,那么可能不太安全,该如何处理呢?<br>这个Session ID+会话信息=token,服务端对这个Token对成进行加密,然后下发给客户端,客户端拿着这个token请求的时候,只要服务端能解密处理即可(对成加密)<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618150439691.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200618150439691"></p>
+<h2 id="如何设计一个安全的的接口"><a href="#如何设计一个安全的的接口" class="headerlink" title="如何设计一个安全的的接口"></a>如何设计一个安全的的接口</h2><p>主要在两个方面<br>一方面就是如何保证数据在传输过程中的安全性;另一个方面是数据已经到达服务器端,服务器端如何识别数据,如何不被攻击<br>本篇文章继续刚次的无状态会话聊,如何保证这个Token的安全性呢?<br>既然由服务端下发token,并且由客户端传给服务端解密,那么只要保证盐的安全即可,如何保证呢?<br>一般人是不知道的,可是程序员知道呀?家贼难防,只有在部署的时候,将盐放到XXXX.yaml文件中,那么才能保证一部分,至于另一部分是需要走代码审查,比如像一些银行的代码,需要专人负责审查,并且不许向外网集群做io操作,不允许任何日志敏感信息的打印,才能保证其安全性!<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618151240019.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200618151240019"></p>
+<h2 id="SSO单点登陆系统的演化"><a href="#SSO单点登陆系统的演化" class="headerlink" title="SSO单点登陆系统的演化"></a>SSO单点登陆系统的演化</h2><p>单点登录英文全称Single Sign On,简称就是SSO。它的解释是:在多个应用系统中,只需要登录一次,就可以访问其他相互信任的应用系统。<br><a target="_blank" rel="noopener" href="https://juejin.im/post/5cdd42f9518825693f1ebf8d" title="标题">什么是单点登录(SSO)</a></p>
+<p>待写TODO</p>
+<h2 id="集群化Session-共享Spring-Session-Redis"><a href="#集群化Session-共享Spring-Session-Redis" class="headerlink" title="集群化Session+共享Spring Session+Redis"></a>集群化Session+共享Spring Session+Redis</h2><h2 id="OAuth2-0原理、应用场景"><a href="#OAuth2-0原理、应用场景" class="headerlink" title="OAuth2.0原理、应用场景"></a>OAuth2.0原理、应用场景</h2><h2 id="JWT底层原理和应用场景"><a href="#JWT底层原理和应用场景" class="headerlink" title="JWT底层原理和应用场景"></a>JWT底层原理和应用场景</h2><h2 id="JWT在微服务中的应用"><a href="#JWT在微服务中的应用" class="headerlink" title="JWT在微服务中的应用"></a>JWT在微服务中的应用</h2><h2 id="JWT的安全隐患"><a href="#JWT的安全隐患" class="headerlink" title="JWT的安全隐患"></a>JWT的安全隐患</h2>
+    </section>
+    <section class="extra">
+      
+        <section class="donate">
+  <div class="qrcode">
+    <img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618172310303.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+      
+      
+      
+<nav class="nav">
+  
+    <a href="/2020/09/13/%E4%BD%A0%E7%9F%A5%E9%81%93%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E5%90%97%EF%BC%9F%E4%BD%A0%E5%B9%B3%E6%97%B6%E7%94%A8%E7%9A%84%E5%AE%B9%E5%99%A8%E6%9C%89%E5%93%AA%E4%BA%9B/"><i class="iconfont iconleft"></i>你知道阻塞队列吗？你平时用的容器有哪些？</a>
+  
+  
+    <a href="/2020/09/06/%E7%94%9F%E6%97%A5/">生日<i class="iconfont iconright"></i></a>
+  
+</nav>
+
+    </section>
+    
+      <section class="comments">
+        
+          <div class="btn" id="comments-btn">查看评论</div>
+        
+        
+      </section>
+    
+  </section>
+</article>
+  </div>
+</main>
+  <footer class="footer">
+  <div class="footer-social">
+    
+    
+    
+    
+    
+    <a href="tencent://message/?Menu=yes&uin=894519210 " target="_blank" onMouseOver="this.style.color= '#12B7F5'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconQQ "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="javascript:; " target="_blank" onMouseOver="this.style.color= '#09BB07'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconwechat-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://www.instagram.com/izhaoo/ " target="_blank" onMouseOver="this.style.color= '#DA2E76'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconinstagram "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://github.com/longshenzhifeijue " target="_blank" onMouseOver="this.style.color= '#24292E'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  icongithub-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="mailto:xufei20160601@163.com " target="_blank" onMouseOver="this.style.color='#FFBE5B'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconmail"></i>
+    </a>
+    
+  </div>
+  <div class="footer-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  <div class="fab fab-menu">
+    <i class="iconfont iconmenu"></i>
+  </div>
+  
+</body>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>

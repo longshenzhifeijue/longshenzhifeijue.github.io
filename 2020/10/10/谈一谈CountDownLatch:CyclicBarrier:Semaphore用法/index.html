@@ -1,0 +1,331 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>谈一谈CountDownLatch/CyclicBarrier/Semaphore用法 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+
+  
+  <meta name="keywords" content="zhaoo, hexo-theme-zhaoo,"> 
+  
+  <meta name="description" content=" CountDownLatch/CyclicBarri..."> 
+  
+  <meta name="author" content="John Doe"> 
+
+  
+    <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  
+  
+    <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  
+  
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  
+  
+    <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_58xq2j9v1id.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {}
+    CONFIG = {
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        loadingImage: '/images/theme/loading.gif',
+      },
+      donate_alipay: 'http://xmt.ssluxury.cn/image-20200618172310303.png',
+      donate_wechat: 'http://xmt.ssluxury.cn/image-20200618172104218.png',
+      motto: {
+        api: '',
+        default: '真正的大师，永远怀着一颗学徒的心'
+      },
+      galleries: {
+        enable: 'true'
+      },
+      fab: {
+        enable: 'true',
+        alwaysShow: 'false'
+      }
+    }
+  </script>
+
+  
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="lock-screen">
+  <div class="loading"></div>
+  <nav class="menu">
+  <div class="menu-close">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <ul class="menu-content">
+    
+    
+    
+    
+    <li class="menu-item"><a href="/ "> 首页</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/galleries "> 相册</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/archives "> 归档</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/tags "> 标签</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/categories "> 分类</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/about "> 关于</a></li>
+    
+  </ul>
+  <div class="menu-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</nav>
+  <main id="main">
+  <div class="container" id="container">
+    <article class="article">
+  <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">谈一谈CountDownLatch/CyclicBarrier/Semaphore用法</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-10</span
+        class="post-info-item">
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>3025</span>
+    </div>
+  </div>
+</section>
+  <section class="main">
+    <section class="content">
+      <p> <code>CountDownLatch</code>/<code>CyclicBarrier</code>/<code>Semaphore</code></p>
+<span id="more"></span>
+
+<h1 id="一、CountDownLatch"><a href="#一、CountDownLatch" class="headerlink" title="一、CountDownLatch"></a>一、CountDownLatch</h1><p>让一些线程阻塞直到另一些线程完成一系列操作后才被唤醒<br>CountDownLatch主要有两个方法,当一个多个线程待用await方法时,调用线程会被阻塞,其他线程调用countDown方法会将计数器减1(调用countDown方法的线程不会阻塞)<br>当计数器的值变为零时,因调用await方法被阻塞的线程会被唤醒,继续执行</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs livescript">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CountDownLatchDemo</span> &#123;</span><br><br>    public <span class="hljs-keyword">static</span> <span class="hljs-literal">void</span> main(<span class="hljs-built_in">String</span>[] args) &#123;<br>        CountDownLatch countDownLatch = <span class="hljs-keyword">new</span> CountDownLatch(<span class="hljs-number">6</span>);<br>        <span class="hljs-keyword">for</span> (int i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">6</span>; i++) &#123;<br><br>            <span class="hljs-keyword">new</span> Thread<span class="hljs-function"><span class="hljs-params">(() -&gt; &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 上完自习,离开 👨‍&quot;</span>);</span></span><br><span class="hljs-function"><span class="hljs-params">                countDownLatch.countDown();</span></span><br><span class="hljs-function"><span class="hljs-params">            &#125;, <span class="hljs-built_in">String</span>.valueOf(i))</span>.<span class="hljs-title">start</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">        <span class="hljs-title">try</span> &#123;</span><br><span class="hljs-function">            <span class="hljs-title">countDownLatch</span>.<span class="hljs-title">await</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125; <span class="hljs-title">catch</span> <span class="hljs-params">(InterruptedException e)</span> &#123;</span><br><span class="hljs-function">            <span class="hljs-title">e</span>.<span class="hljs-title">printStackTrace</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">        <span class="hljs-title">System</span>.<span class="hljs-title">out</span>.<span class="hljs-title">println</span><span class="hljs-params">(Thread.currentThread().getName()+<span class="hljs-string">&quot;\t 班长最后关门离开自习室&quot;</span>)</span>;</span><br><span class="hljs-function"></span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="二、CycilcBarrier"><a href="#二、CycilcBarrier" class="headerlink" title="二、CycilcBarrier"></a>二、CycilcBarrier</h1><p>CyclicBarrier的字面意思是可循环(Cyclic)使用的屏障(Barrier),它主要做的事情是让一组线程达到一个<br>屏障(也可以叫同步点)时被阻塞.直到最后一个线程达到屏障时,屏障才会开门,所有被屏障拦截的线程才会继续干<br>活,线程进入屏障通过CyclicBarrier的await()方法<br>集齐7颗龙珠就能召唤神龙</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs livescript">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CyclicBarrierDemo</span> &#123;</span><br><br>    public <span class="hljs-keyword">static</span> <span class="hljs-literal">void</span> main(<span class="hljs-built_in">String</span>[] args) &#123;<br>        CyclicBarrier cyclicBarrier = <span class="hljs-keyword">new</span> CyclicBarrier<span class="hljs-function"><span class="hljs-params">(<span class="hljs-number">7</span>, () -&gt; System.out.println(<span class="hljs-string">&quot;召唤神龙&quot;</span>))</span>;</span><br><span class="hljs-function">        <span class="hljs-title">for</span> <span class="hljs-params">(int i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">7</span>; i++)</span> &#123;</span><br><span class="hljs-function">            <span class="hljs-title">final</span> <span class="hljs-title">int</span> <span class="hljs-title">temInt</span> = <span class="hljs-title">i</span>;</span><br><span class="hljs-function">            <span class="hljs-title">new</span> <span class="hljs-title">Thread</span><span class="hljs-params">(() -&gt; &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 收集到第&quot;</span> + temInt + <span class="hljs-string">&quot;龙珠&quot;</span>);</span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params">                <span class="hljs-keyword">try</span> &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    cyclicBarrier.<span class="hljs-keyword">await</span>();</span></span><br><span class="hljs-function"><span class="hljs-params">                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    e.printStackTrace();</span></span><br><span class="hljs-function"><span class="hljs-params">                &#125; <span class="hljs-keyword">catch</span> (BrokenBarrierException e) &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    e.printStackTrace();</span></span><br><span class="hljs-function"><span class="hljs-params">                &#125;</span></span><br><span class="hljs-function"><span class="hljs-params">            &#125;, <span class="hljs-built_in">String</span>.valueOf(i))</span>.<span class="hljs-title">start</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function"></span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="三、Semaphore"><a href="#三、Semaphore" class="headerlink" title="三、Semaphore"></a>三、Semaphore</h1><p>Semaphore叫信号量,理解成信号灯主要有两个目的,一个是用于多个共享资源的互斥使用,另一个用于并发线程数的控制</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs livescript">public <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SemaphoreDemo</span> &#123;</span><br><br>    public <span class="hljs-keyword">static</span> <span class="hljs-literal">void</span> main(<span class="hljs-built_in">String</span>[] args) &#123;<br>        Semaphore semaphore = <span class="hljs-keyword">new</span> Semaphore(<span class="hljs-number">3</span>);<br>        <span class="hljs-keyword">for</span> (int i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">20</span>; i++) &#123;<br><br>            <span class="hljs-keyword">new</span> Thread<span class="hljs-function"><span class="hljs-params">(() -&gt; &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                <span class="hljs-keyword">try</span> &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    semaphore.acquire();</span></span><br><span class="hljs-function"><span class="hljs-params">                    System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 抢到车位&quot;</span>);</span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params">                    <span class="hljs-keyword">try</span> &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                        TimeUnit.SECONDS.sleep(<span class="hljs-number">3</span>);</span></span><br><span class="hljs-function"><span class="hljs-params">                    &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                        e.printStackTrace();</span></span><br><span class="hljs-function"><span class="hljs-params">                    &#125;</span></span><br><span class="hljs-function"><span class="hljs-params">                    System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;\t 停车3秒后离开车位&quot;</span>);</span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params">                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    e.printStackTrace();</span></span><br><span class="hljs-function"><span class="hljs-params">                &#125; <span class="hljs-keyword">finally</span> &#123;</span></span><br><span class="hljs-function"><span class="hljs-params">                    semaphore.release();</span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params">                &#125;</span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params"></span></span><br><span class="hljs-function"><span class="hljs-params">            &#125;, <span class="hljs-built_in">String</span>.valueOf(i))</span>.<span class="hljs-title">start</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">        &#125;</span><br><span class="hljs-function">    &#125;</span><br><span class="hljs-function"></span><br></code></pre></td></tr></table></figure>
+
+    </section>
+    <section class="extra">
+      
+        <section class="donate">
+  <div class="qrcode">
+    <img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618172310303.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+      
+      
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+      
+<nav class="nav">
+  
+    <a href="/2020/10/10/%E5%B7%A5%E5%85%B7/Github%E9%AA%9A%E6%93%8D%E4%BD%9C/"><i class="iconfont iconleft"></i>Github骚操作</a>
+  
+  
+    <a href="/2020/10/10/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9volatile%E7%9A%84%E7%90%86%E8%A7%A3/">谈一谈对volatile对理解<i class="iconfont iconright"></i></a>
+  
+</nav>
+
+    </section>
+    
+      <section class="comments">
+        
+          <div class="btn" id="comments-btn">查看评论</div>
+        
+        
+      </section>
+    
+  </section>
+</article>
+  </div>
+</main>
+  <footer class="footer">
+  <div class="footer-social">
+    
+    
+    
+    
+    
+    <a href="tencent://message/?Menu=yes&uin=894519210 " target="_blank" onMouseOver="this.style.color= '#12B7F5'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconQQ "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="javascript:; " target="_blank" onMouseOver="this.style.color= '#09BB07'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconwechat-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://www.instagram.com/izhaoo/ " target="_blank" onMouseOver="this.style.color= '#DA2E76'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconinstagram "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://github.com/longshenzhifeijue " target="_blank" onMouseOver="this.style.color= '#24292E'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  icongithub-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="mailto:xufei20160601@163.com " target="_blank" onMouseOver="this.style.color='#FFBE5B'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconmail"></i>
+    </a>
+    
+  </div>
+  <div class="footer-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  <div class="fab fab-menu">
+    <i class="iconfont iconmenu"></i>
+  </div>
+  
+</body>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>

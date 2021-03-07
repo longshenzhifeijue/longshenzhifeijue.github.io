@@ -1,0 +1,525 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+
+  
+  <meta name="keywords" content="zhaoo, hexo-theme-zhaoo,"> 
+  
+  
+  <meta name="author" content="John Doe"> 
+
+  
+    <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  
+  
+    <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  
+  
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  
+  
+    <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_58xq2j9v1id.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {}
+    CONFIG = {
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        loadingImage: '/images/theme/loading.gif',
+      },
+      donate_alipay: 'http://xmt.ssluxury.cn/image-20200618172310303.png',
+      donate_wechat: 'http://xmt.ssluxury.cn/image-20200618172104218.png',
+      motto: {
+        api: '',
+        default: '真正的大师，永远怀着一颗学徒的心'
+      },
+      galleries: {
+        enable: 'true'
+      },
+      fab: {
+        enable: 'true',
+        alwaysShow: 'false'
+      }
+    }
+  </script>
+
+  
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="lock-screen">
+  <div class="loading"></div>
+  <nav class="menu">
+  <div class="menu-close">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <ul class="menu-content">
+    
+    
+    
+    
+    <li class="menu-item"><a href="/ "> 首页</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/galleries "> 相册</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/archives "> 归档</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/tags "> 标签</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/categories "> 分类</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/about "> 关于</a></li>
+    
+  </ul>
+  <div class="menu-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</nav>
+  <main id="main">
+  
+    <div class="preview">
+  <div class="preview-image">
+    <h2 class="preview-motto" id="motto"></h2>
+    <!-- <span class="preview-cursor">|</span> -->
+    
+    <div class="preview-overlay">
+      <svg class="preview-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="preview-parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+        </g>
+      </svg>
+    </div>
+    
+  </div>
+  <div class="preview-scroll">
+    <a href="#container" class="smooth-scroll"><i class="iconfont iconMouse"></i></a>
+  </div>
+</div>
+  
+  <div class="container" id="container">
+    <section class="row post">
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/15/(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6/" class="post-image">
+      <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/15/(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6/">四、Mysql锁机制</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">四、Mysql锁机制</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-15</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>1573</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/15/(%E4%B8%89)Mysql-%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/" class="post-image">
+      <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/15/(%E4%B8%89)Mysql-%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/">三、Mysql-索引优化</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">mysql-索引优化</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-15</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>5299</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/15/%E4%BA%94%E3%80%81Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="post-image">
+      <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/15/%E4%BA%94%E3%80%81Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">五、Mysql主从复制</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3"></p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-15</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>141</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/12/MySQL%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%99%BE%E4%B8%87%E7%BA%A7%E5%88%AB%E6%95%B0%E6%8D%AE/" class="post-image">
+      <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/12/MySQL%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%99%BE%E4%B8%87%E7%BA%A7%E5%88%AB%E6%95%B0%E6%8D%AE/">Mysql随机生成百万级别数据</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">Mysql随机生成百万级别数据</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-12</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>4304</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/12/Https%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/" class="post-image">
+      <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-08e653627f519b8c7ab307601802e4ac_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/12/Https%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/"></a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3"> HTTPS加密机制</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-12</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>3167</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <div class="post-top">
+      <div>置顶</div>
+    </div>
+    
+    <a href="/2020/10/10/Spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/" class="post-image">
+      <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-8de14e7653d7f31633d6c3cecba1ea36_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/10/Spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/">Spring注解开发</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">Spring注解开发</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-10</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>18006</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <div class="post-top">
+      <div>置顶</div>
+    </div>
+    
+    <a href="/2020/10/10/Redis%E7%AE%80%E4%BB%8B/" class="post-image">
+      <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-daf5eeb4bcd7ecf9043a5e0d8fa16fe1_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/10/Redis%E7%AE%80%E4%BB%8B/">Redis简介</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">redis+知识点</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-10</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>31395</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/10/%E5%B7%A5%E5%85%B7/Github%E9%AA%9A%E6%93%8D%E4%BD%9C/" class="post-image">
+      <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-851c76e2d11f37bd2c85432476d0fb99_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/10/%E5%B7%A5%E5%85%B7/Github%E9%AA%9A%E6%93%8D%E4%BD%9C/">Github骚操作</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3">带你走向神奇的Gtiub</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-10</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>1328</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <div class="col-lg-4 col-md-6 col-sm-12 post-item">
+  <div class="post-wrap">
+    
+    <a href="/2020/10/10/%E8%B0%88%E4%B8%80%E8%B0%88CountDownLatch:CyclicBarrier:Semaphore%E7%94%A8%E6%B3%95/" class="post-image">
+      <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+    </a>
+    <div class="post-content">
+      <h3 class="post-title"><a href="/2020/10/10/%E8%B0%88%E4%B8%80%E8%B0%88CountDownLatch:CyclicBarrier:Semaphore%E7%94%A8%E6%B3%95/">谈一谈CountDownLatch/CyclicBarrier/Semaphore用法</a></h3>
+      
+      
+      
+      <div class="post-excerpt">
+        <p class="substr-3"> CountDownLatch/CyclicBarrier/Semaphore</p>
+      </div>
+      <div class="post-info">
+        <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-10</span
+          class="post-info-item">
+        
+        <span class="post-info-item"><i class="iconfont iconfont-size"></i>3025</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+</section>
+    <section class="paginator">
+  
+  <a class="extend prev" rel="prev" href="/">&lt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">&gt;</a>
+  
+</section>
+  </div>
+</main>
+  <footer class="footer">
+  <div class="footer-social">
+    
+    
+    
+    
+    
+    <a href="tencent://message/?Menu=yes&uin=894519210 " target="_blank" onMouseOver="this.style.color= '#12B7F5'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconQQ "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="javascript:; " target="_blank" onMouseOver="this.style.color= '#09BB07'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconwechat-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://www.instagram.com/izhaoo/ " target="_blank" onMouseOver="this.style.color= '#DA2E76'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconinstagram "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://github.com/longshenzhifeijue " target="_blank" onMouseOver="this.style.color= '#24292E'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  icongithub-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="mailto:xufei20160601@163.com " target="_blank" onMouseOver="this.style.color='#FFBE5B'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconmail"></i>
+    </a>
+    
+  </div>
+  <div class="footer-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  <div class="fab fab-menu">
+    <i class="iconfont iconmenu"></i>
+  </div>
+  
+</body>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>

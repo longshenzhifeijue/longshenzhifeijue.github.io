@@ -1,0 +1,378 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>三、Mysql-索引优化 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+
+  
+  <meta name="keywords" content="zhaoo, hexo-theme-zhaoo,"> 
+  
+  <meta name="description" content="mysql-索引优化
+
+
+索引分析单表问题?(先完成功..."> 
+  
+  <meta name="author" content="John Doe"> 
+
+  
+    <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  
+  
+    <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  
+  
+    <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  
+  
+    <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_58xq2j9v1id.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css">
+
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css">
+
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {}
+    CONFIG = {
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        loadingImage: '/images/theme/loading.gif',
+      },
+      donate_alipay: 'http://xmt.ssluxury.cn/image-20200618172310303.png',
+      donate_wechat: 'http://xmt.ssluxury.cn/image-20200618172104218.png',
+      motto: {
+        api: '',
+        default: '真正的大师，永远怀着一颗学徒的心'
+      },
+      galleries: {
+        enable: 'true'
+      },
+      fab: {
+        enable: 'true',
+        alwaysShow: 'false'
+      }
+    }
+  </script>
+
+  
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body class="lock-screen">
+  <div class="loading"></div>
+  <nav class="menu">
+  <div class="menu-close">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <ul class="menu-content">
+    
+    
+    
+    
+    <li class="menu-item"><a href="/ "> 首页</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/galleries "> 相册</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/archives "> 归档</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/tags "> 标签</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/categories "> 分类</a></li>
+    
+    
+    
+    
+    <li class="menu-item"><a href="/about "> 关于</a></li>
+    
+  </ul>
+  <div class="menu-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</nav>
+  <main id="main">
+  <div class="container" id="container">
+    <article class="article">
+  <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">三、Mysql-索引优化</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>2020-10-15</span
+        class="post-info-item">
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5299</span>
+    </div>
+  </div>
+</section>
+  <section class="main">
+    <section class="content">
+      <p><code>mysql-索引优化</code></p>
+<span id="more"></span>
+
+<h2 id="索引分析"><a href="#索引分析" class="headerlink" title="索引分析"></a>索引分析</h2><h3 id="单表"><a href="#单表" class="headerlink" title="单表"></a>单表</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906130710271.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906130710271"><br>问题?(先完成功能,再优化)<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906130857312.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906130857312"><br>第一次建立索引(where后面字段)<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906131127855.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906131127855"><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906131322600.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906131322600"><br>说明了范围会导致索引失效<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906131430659.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906131430659"><br>第二次建立索引<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906131507734.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906131507734"></p>
+<h3 id="两表"><a href="#两表" class="headerlink" title="两表"></a>两表</h3><p>建表<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906131620522.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906131620522"><br>左连接加在右表<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906132104149.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906132104149"><br>左连接加在左表<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906132233388.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906132233388"><br>总结:左连接相反加;右连接也相反加,因为左连接特性,左表都有,比如结婚,你亲朋好友都来,但是右边可能因为一些事情耽误,因此左边不需要,右边需要加索引</p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>一般公司DBA索引可能建立右表也可能左表看,写sql的时候要灵活,不要轴,说别人不对😅</p>
+<h3 id="三表"><a href="#三表" class="headerlink" title="三表"></a>三表</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906132735899.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906132735899"><br>查询<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906133334839.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906133334839"><br>全部全表扫描(电商项目问题很严重)<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906133433915.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906133433915"><br>小表驱动大表(书类别表驱动书籍表,小表IO频繁小)<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906133633373.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906133633373"><br>总结:<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906133914588.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906133914588"></p>
+<h2 id="索引失效"><a href="#索引失效" class="headerlink" title="索引失效"></a>索引失效</h2><p>建表<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906135123112.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906135123112"></p>
+<h3 id="最佳左前缀法则-带头大哥不能死-比如-火车没了其他车厢-还可以跑的"><a href="#最佳左前缀法则-带头大哥不能死-比如-火车没了其他车厢-还可以跑的" class="headerlink" title="最佳左前缀法则(带头大哥不能死,比如:火车没了其他车厢,还可以跑的)"></a>最佳左前缀法则(带头大哥不能死,比如:火车没了其他车厢,还可以跑的)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906140339791.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906140339791"></p>
+<h3 id="避免用函数"><a href="#避免用函数" class="headerlink" title="避免用函数"></a>避免用函数</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906141354528.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906141354528"></p>
+<h3 id="范围之后失效"><a href="#范围之后失效" class="headerlink" title="范围之后失效"></a>范围之后失效</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906142410840.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906142410840"></p>
+<h3 id="减少select"><a href="#减少select" class="headerlink" title="减少select *"></a>减少select *</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906142628499.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906142628499"><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906142844134.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906142844134"></p>
+<h3 id="和-lt-gt"><a href="#和-lt-gt" class="headerlink" title="!=和&lt;&gt;"></a>!=和&lt;&gt;</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906143042188.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906143042188"></p>
+<h3 id="is-null"><a href="#is-null" class="headerlink" title="is null"></a>is null</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906143225417.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906143225417"></p>
+<h3 id="like-在左边的会失效"><a href="#like-在左边的会失效" class="headerlink" title="like %在左边的会失效"></a>like %在左边的会失效</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906143429452.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906143429452"><br>如何处理呢?<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906143801211.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906143801211"><br>使用覆盖索引来处理这个问题,深刻理解覆盖索引,就是建的索引和查的字段最好完全覆盖<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906144511150.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906144511150"></p>
+<h3 id="字符串不加单引号-隐士类型转换-记得’’"><a href="#字符串不加单引号-隐士类型转换-记得’’" class="headerlink" title="字符串不加单引号(隐士类型转换,记得’’)"></a>字符串不加单引号(隐士类型转换,记得’’)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906144814273.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906144814273"></p>
+<h3 id="少用or"><a href="#少用or" class="headerlink" title="少用or"></a>少用or</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906144926170.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906144926170"><br>总结<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906144951863.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906144951863"><br>小总结<br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906145216496.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906145216496"></p>
+<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906145411443.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906145411443"></p>
+<h3 id="mysql自我优化"><a href="#mysql自我优化" class="headerlink" title="mysql自我优化"></a>mysql自我优化</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906150610760.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906150610760"></p>
+<h3 id="mysql自我优化-1"><a href="#mysql自我优化-1" class="headerlink" title="mysql自我优化"></a>mysql自我优化</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906150742303.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906150742303"></p>
+<h3 id="索引是两大功能-排序和查找-c3作用在于排序"><a href="#索引是两大功能-排序和查找-c3作用在于排序" class="headerlink" title="索引是两大功能:排序和查找(c3作用在于排序)"></a>索引是两大功能:排序和查找(c3作用在于排序)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906150913964.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906150913964"></p>
+<h3 id="导致性能下降"><a href="#导致性能下降" class="headerlink" title="导致性能下降"></a>导致性能下降</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906151034319.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906151034319"></p>
+<h3 id="order-by-排序"><a href="#order-by-排序" class="headerlink" title="order by(排序)"></a>order by(排序)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906151513341.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906151513341"></p>
+<h3 id="order-by-特例-排序字段已经是一个常量了-c2是个常量"><a href="#order-by-特例-排序字段已经是一个常量了-c2是个常量" class="headerlink" title="order by 特例(排序字段已经是一个常量了,c2是个常量)"></a>order by 特例(排序字段已经是一个常量了,c2是个常量)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906151845217.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906151845217"></p>
+<h3 id="group-by-表面叫分组-分组之前必排序-一般会有临时表产生"><a href="#group-by-表面叫分组-分组之前必排序-一般会有临时表产生" class="headerlink" title="group by (表面叫分组,分组之前必排序,一般会有临时表产生)"></a>group by (表面叫分组,分组之前必排序,一般会有临时表产生)</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906152210402.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906152210402"></p>
+<h2 id="一般性建议"><a href="#一般性建议" class="headerlink" title="一般性建议"></a>一般性建议</h2><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906152407563.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906152407563"></p>
+<h3 id="1-案例"><a href="#1-案例" class="headerlink" title="1 案例"></a>1 案例</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906152555801.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906152555801"></p>
+<h3 id="2-口诀"><a href="#2-口诀" class="headerlink" title="2 口诀"></a>2 口诀</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906152836299.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906152836299"></p>
+<h2 id="查询截取分析"><a href="#查询截取分析" class="headerlink" title="查询截取分析"></a>查询截取分析</h2><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906153113866.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906153113866"></p>
+<h3 id="四步骤大纲"><a href="#四步骤大纲" class="headerlink" title="四步骤大纲"></a>四步骤大纲</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906153444321.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906153444321"></p>
+<h3 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h3><h4 id="永远小表驱动大表"><a href="#永远小表驱动大表" class="headerlink" title="永远小表驱动大表"></a>永远小表驱动大表</h4><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906153734100.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906153734100"></p>
+<h4 id="in和exist"><a href="#in和exist" class="headerlink" title="in和exist"></a>in和exist</h4><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906154102538.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906154102538"><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906154329745.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906154329745"><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200906154651870.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20200906154651870"></p>
+<h4 id="order-by关键字优化"><a href="#order-by关键字优化" class="headerlink" title="order by关键字优化"></a>order by关键字优化</h4><p><code>建表</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> tblA(<br>#id <span class="hljs-type">int</span> <span class="hljs-keyword">PRIMARY</span> key <span class="hljs-keyword">NOT</span> auto_increment,<br>age <span class="hljs-type">int</span>,<br>birth <span class="hljs-type">TIMESTAMP</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span><br>);<br><br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> tblA(age,birth) <span class="hljs-keyword">VALUES</span>(<span class="hljs-number">22</span>,NOW());<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> tblA(age,birth) <span class="hljs-keyword">VALUES</span>(<span class="hljs-number">23</span>,NOW());<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> tblA(age,birth) <span class="hljs-keyword">VALUES</span>(<span class="hljs-number">24</span>,NOW());<br><br><span class="hljs-keyword">CREATE</span> INDEX idx_A_ageBirth <span class="hljs-keyword">ON</span> tblA(age,birth)<br><br><span class="hljs-keyword">SELECT</span><span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA;<br><br><span class="hljs-number">1</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> age<span class="hljs-operator">&gt;</span><span class="hljs-number">20</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> age;<br><span class="hljs-number">2</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> age<span class="hljs-operator">&gt;</span><span class="hljs-number">20</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> age,birth;<br><span class="hljs-number">3</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> age<span class="hljs-operator">&gt;</span><span class="hljs-number">20</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth;<br><span class="hljs-number">4</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> age<span class="hljs-operator">&gt;</span><span class="hljs-number">20</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth,age;<br><br><span class="hljs-number">1</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth;<br><span class="hljs-number">2</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> birth <span class="hljs-operator">&gt;</span> <span class="hljs-string">&#x27;2016-01-28 00:00:00&#x27;</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> birth;<br><span class="hljs-number">3</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">WHERE</span> birth <span class="hljs-operator">&gt;</span> <span class="hljs-string">&#x27;2016-01-28 00:00:00&#x27;</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> age;<br><span class="hljs-number">4</span>)EXPLAIN <span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tblA <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> age <span class="hljs-keyword">ASC</span> ,birth <span class="hljs-keyword">DESC</span>;<br>MYSQL支持两种方式的排序,Filesort和Index,Index效率高,它指MYSQL扫描索引本身完成排序,Filesort效率低;<br></code></pre></td></tr></table></figure>
+<p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012113342882.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012113342882"><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012114109498.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012114109498"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">ORDER BY满足两种情况,会使用Index方式排序:<br>    <span class="hljs-number">1</span>)ORDER BY语句使用索引最左前列<br>    <span class="hljs-number">2</span>)使用WHERE子句和ORDER BY子句条件列组合满足索引最左前列<br></code></pre></td></tr></table></figure>
+<p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012140450919.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012140450919"><br><code>但是用单路有问题</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012140634048.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012140634048"><br><code>why</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012140913963.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012140913963"><br><code>小总结</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012141126592.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012141126592"></p>
+<h4 id="group-by关键字优化"><a href="#group-by关键字优化" class="headerlink" title="group by关键字优化"></a>group by关键字优化</h4><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012141415891.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012141415891"></p>
+<h3 id="慢查询日志"><a href="#慢查询日志" class="headerlink" title="慢查询日志"></a>慢查询日志</h3><p><code>定义</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012141529547.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012141529547"><br><code>说明</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012141800591.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012141800591"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-number">1</span>)默认<br><span class="hljs-keyword">show</span> VARIABLES <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%slow_query_log%&#x27;</span><br><span class="hljs-number">2</span>)开启<br><span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> slow_query_log<span class="hljs-operator">=</span><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p><code>永久开启</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012142135142.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012142135142"><br><code>那么开启了慢查询日志后,什么样的SQL才会记录到慢查询日志里面呢?</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012142337394.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012142337394"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">show</span> VARIABLES <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;%long_query_time%&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>案例</code><br>1)查看当前多少秒算慢 show VARIABLES LIKE ‘%long_query_time%’<br>2)设置慢到阙值时间 SET GLOBAL long_query_time=3<br>3)重新连接或者开启一个新会话才能看到修过到阙值<br>4)SELECT sleep(4)<br>5)查看log文件<br>6)查询当前系统中有多少条慢查询记录show GLOBAL STATUS LIKE ‘%slow_queries%’</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">![image-<span class="hljs-number">20201012143402868</span>](http:<span class="hljs-comment">//xmt.ssluxury.cn/image-20201012143402868.png) </span><br>![image-<span class="hljs-number">20201012143420537</span>](http:<span class="hljs-comment">//xmt.ssluxury.cn/image-20201012143420537.png)</span><br></code></pre></td></tr></table></figure>
+
+<p><code>配置版</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012144040711.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012144040711"></p>
+<p><code>mysqldumpslow日志分析工具</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012144313742.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012144313742"><br><code>工具常用参考</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012144350208.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012144350208"></p>
+<h3 id="批量数据脚本"><a href="#批量数据脚本" class="headerlink" title="批量数据脚本"></a>批量数据脚本</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><code class="hljs sql">函数有返回值,存储过程没有返回值,批量插入数据<br><span class="hljs-number">1</span>)建表<br><br><br><span class="hljs-comment">-- 部门表</span><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `dept` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">10</span>) unsigned <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,<br>  `deptno` mediumint(<span class="hljs-number">8</span>) unsigned <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;0&#x27;</span>,<br>  `dname` <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;&#x27;</span>,<br>  `loc` <span class="hljs-type">varchar</span>(<span class="hljs-number">13</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>gbk;<br><br><span class="hljs-comment">-- 员工表</span><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> `emp` (<br>  `id` <span class="hljs-type">int</span>(<span class="hljs-number">10</span>) unsigned <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> AUTO_INCREMENT,<br>  `empno` <span class="hljs-type">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;0&#x27;</span>,<br>  `ename` <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;&#x27;</span>,<br>  `job` <span class="hljs-type">varchar</span>(<span class="hljs-number">9</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;&#x27;</span>,<br>  `mgr` mediumint(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;0&#x27;</span>,<br>  `hiredate` <span class="hljs-type">date</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `sal` <span class="hljs-type">decimal</span>(<span class="hljs-number">7</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `comm` <span class="hljs-type">decimal</span>(<span class="hljs-number">7</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,<br>  `deptno` mediumint(<span class="hljs-number">9</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;0&#x27;</span>,<br>  <span class="hljs-keyword">PRIMARY</span> KEY (`id`)<br>) ENGINE<span class="hljs-operator">=</span>InnoDB <span class="hljs-keyword">DEFAULT</span> CHARSET<span class="hljs-operator">=</span>gbk;<br><span class="hljs-number">2</span>)设置参数log_bin_trust_function_creators<br>    <span class="hljs-keyword">SHOW</span> VARIABLES <span class="hljs-keyword">LIKE</span> <span class="hljs-string">&#x27;log_bin_trust_function_creators&#x27;</span>;<br>    <span class="hljs-keyword">SET</span> <span class="hljs-keyword">GLOBAL</span> log_bin_trust_function_creators<span class="hljs-operator">=</span><span class="hljs-number">1</span>;<br><span class="hljs-number">3</span>)创建函数,保证每条数据都不同<br><br><span class="hljs-number">4</span>)创建存储过程<br><br><span class="hljs-comment">-- 部门</span><br>DELIMITER $$<br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> insert_emp(<span class="hljs-keyword">IN</span> <span class="hljs-keyword">START</span> <span class="hljs-type">INT</span> (<span class="hljs-number">10</span>),<span class="hljs-keyword">IN</span> max_num <span class="hljs-type">INT</span> (<span class="hljs-number">10</span>))<br><span class="hljs-keyword">BEGIN</span><br><span class="hljs-keyword">DECLARE</span> i <span class="hljs-type">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>;<br># <span class="hljs-keyword">SET</span> autocommit<span class="hljs-operator">=</span><span class="hljs-number">0</span>把autocommit设置成<span class="hljs-number">0</span><br>	<span class="hljs-keyword">SET</span> autocommit <span class="hljs-operator">=</span><span class="hljs-number">0</span>;<br>	REPEAT<br>	<span class="hljs-keyword">SET</span> i <span class="hljs-operator">=</span> i<span class="hljs-operator">+</span><span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> emp (empno,ename,job,hiredate,sal,comm,deptno) <span class="hljs-keyword">VALUES</span> ((<span class="hljs-keyword">START</span><span class="hljs-operator">+</span>i),rand_string(<span class="hljs-number">6</span>),<span class="hljs-string">&#x27;SALESMAN&#x27;</span>,<span class="hljs-number">0001</span>,CURDATE(),<span class="hljs-number">2000</span>,<span class="hljs-number">400</span>,rand_num());<br>	UNTIl i <span class="hljs-operator">=</span> max_num<br>	<span class="hljs-keyword">END</span> REPEAT;<br>	<span class="hljs-keyword">COMMIT</span>;<br><span class="hljs-keyword">END</span> $$<br><br><br><br><span class="hljs-comment">-- 员工</span><br>DELIMITER $$<br><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> insert_dept(<span class="hljs-keyword">IN</span> <span class="hljs-keyword">START</span> <span class="hljs-type">INT</span> (<span class="hljs-number">10</span>),<span class="hljs-keyword">IN</span> max_num <span class="hljs-type">INT</span> (<span class="hljs-number">10</span>))<br><span class="hljs-keyword">BEGIN</span><br><span class="hljs-keyword">DECLARE</span> i <span class="hljs-type">INT</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>;<br># <span class="hljs-keyword">SET</span> autocommit<span class="hljs-operator">=</span><span class="hljs-number">0</span>把autocommit设置成<span class="hljs-number">0</span><br>	<span class="hljs-keyword">SET</span> autocommit <span class="hljs-operator">=</span><span class="hljs-number">0</span>;<br>	REPEAT<br>	<span class="hljs-keyword">SET</span> i <span class="hljs-operator">=</span> i<span class="hljs-operator">+</span><span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> dept (depnot,dname,loc) <span class="hljs-keyword">VALUES</span> ((<span class="hljs-keyword">START</span><span class="hljs-operator">+</span>i),rand_string(<span class="hljs-number">10</span>),rand_string(<span class="hljs-number">8</span>));<br>	UNTIl i <span class="hljs-operator">=</span> max_num<br>	<span class="hljs-keyword">END</span> REPEAT;<br>	<span class="hljs-keyword">COMMIT</span>;<br><span class="hljs-keyword">END</span> $$<br><br>#创建生成随机字符串和部门编号的函数<br>delimiter $<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">function</span> rand_string(n <span class="hljs-type">int</span>) <span class="hljs-keyword">returns</span> <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>)<br><span class="hljs-keyword">begin</span><br><span class="hljs-keyword">declare</span> chars_str <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">default</span> <span class="hljs-string">&#x27;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ&#x27;</span>;<br><span class="hljs-keyword">declare</span> return_str <span class="hljs-type">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">default</span> <span class="hljs-string">&#x27;&#x27;</span>;<br><span class="hljs-keyword">declare</span> i <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span>;<br>while i<span class="hljs-operator">&lt;</span>n do<br><span class="hljs-keyword">set</span> return_str<span class="hljs-operator">=</span>concat(return_str,substr(chars_str,<span class="hljs-built_in">FLOOR</span>(<span class="hljs-number">1</span><span class="hljs-operator">+</span>rand()<span class="hljs-operator">*</span><span class="hljs-number">52</span>),<span class="hljs-number">1</span>));<br><span class="hljs-keyword">set</span> i<span class="hljs-operator">=</span>i<span class="hljs-operator">+</span><span class="hljs-number">1</span>;<br><span class="hljs-keyword">end</span> while ;<br><span class="hljs-keyword">return</span> return_str;<br><span class="hljs-keyword">end</span> $<br><br>delimiter $<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">function</span> rand_num() <span class="hljs-keyword">returns</span> <span class="hljs-type">int</span>(<span class="hljs-number">5</span>)<br><span class="hljs-keyword">begin</span><br><span class="hljs-keyword">declare</span> i <span class="hljs-type">int</span> <span class="hljs-keyword">default</span> <span class="hljs-number">0</span>;<br><span class="hljs-keyword">set</span> i <span class="hljs-operator">=</span> <span class="hljs-built_in">floor</span>(<span class="hljs-number">100</span><span class="hljs-operator">+</span>rand()<span class="hljs-operator">*</span><span class="hljs-number">10</span>);<br><span class="hljs-keyword">return</span> i;<br><span class="hljs-keyword">end</span> $<br><br><span class="hljs-number">5</span>)调用存储过程<br>#插入部门数据<br><span class="hljs-keyword">call</span> insert_dept(<span class="hljs-number">100</span>,<span class="hljs-number">10</span>);<br><br>#插入员工数据（每次插入<span class="hljs-number">50</span>万条）<br><span class="hljs-keyword">call</span> insert_emp(<span class="hljs-number">100001</span>,<span class="hljs-number">500000</span>);<br></code></pre></td></tr></table></figure>
+<p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012145438517.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012145438517"><br><code>设置参数log_bin_trust_function_creators</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012152238185.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012152238185"></p>
+<h3 id="show-Profile"><a href="#show-Profile" class="headerlink" title="show Profile"></a>show Profile</h3><p><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012161651912.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012161651912"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)是否支持<br>    show VARIABLES like <span class="hljs-string">&#x27;profiling&#x27;</span><br><span class="hljs-number">2</span>)开启<br>    SET profiling=on;<br><span class="hljs-number">3</span>)sql运行慢,要么CPU运算复杂,要么频繁IO<br><span class="hljs-number">4</span>)诊断sql (一条sql的完整生命周期)<br>    SHOW profile  cpu,block io <span class="hljs-keyword">for</span> query <span class="hljs-number">248</span>;<br>    就是告诉你为什么这条sql花费<span class="hljs-number">0.4</span>秒左右<br><br><span class="hljs-number">5</span>)日常开发需要注意的结论    <br>    如果得到这条sql的生命周期和分布分解的细粒度,如果出现这四个中的一个需要改了<br>    <br></code></pre></td></tr></table></figure>
+<p><code>诊断sql</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012164419058.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012164419058"><br><code>参数备注</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012165247249.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012165247249"><br><code>日常开发需要注意的结论</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012165325188.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012165325188"><br><code>找到问题</code><br><img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012170012882.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  alt="image-20201012170012882"></p>
+<h3 id="全局查询日志"><a href="#全局查询日志" class="headerlink" title="全局查询日志"></a>全局查询日志</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)配置启用<br>![image-<span class="hljs-number">20201012170324232</span>](http:<span class="hljs-comment">//xmt.ssluxury.cn/image-20201012170324232.png)</span><br><span class="hljs-number">2</span>)编码启用<br>![image-<span class="hljs-number">20201012170339443</span>](http:<span class="hljs-comment">//xmt.ssluxury.cn/image-20201012170339443.png)</span><br><span class="hljs-number">3</span>)永远不要在生产环境中开启这个功能<br></code></pre></td></tr></table></figure>
+
+
+    </section>
+    <section class="extra">
+      
+        <section class="donate">
+  <div class="qrcode">
+    <img   class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618172310303.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+      
+      
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+      
+<nav class="nav">
+  
+    <a href="/2020/10/15/(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6/"><i class="iconfont iconleft"></i>四、Mysql锁机制</a>
+  
+  
+    <a href="/2020/10/15/%E4%BA%94%E3%80%81Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">五、Mysql主从复制<i class="iconfont iconright"></i></a>
+  
+</nav>
+
+    </section>
+    
+      <section class="comments">
+        
+          <div class="btn" id="comments-btn">查看评论</div>
+        
+        
+      </section>
+    
+  </section>
+</article>
+  </div>
+</main>
+  <footer class="footer">
+  <div class="footer-social">
+    
+    
+    
+    
+    
+    <a href="tencent://message/?Menu=yes&uin=894519210 " target="_blank" onMouseOver="this.style.color= '#12B7F5'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconQQ "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="javascript:; " target="_blank" onMouseOver="this.style.color= '#09BB07'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconwechat-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://www.instagram.com/izhaoo/ " target="_blank" onMouseOver="this.style.color= '#DA2E76'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconinstagram "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="https://github.com/longshenzhifeijue " target="_blank" onMouseOver="this.style.color= '#24292E'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  icongithub-fill "></i>
+    </a>
+    
+    
+    
+    
+    
+    <a href="mailto:xufei20160601@163.com " target="_blank" onMouseOver="this.style.color='#FFBE5B'"
+      onMouseOut="this.style.color='#33333D'">
+      <i class="iconfont footer-social-item  iconmail"></i>
+    </a>
+    
+  </div>
+  <div class="footer-copyright"><p>Copyright© 2019-2020 | <a target="_blank" href="https://longshenzhifeijue.github.io">xufei</a> .AllRightsReserved</p></div>
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  <div class="fab fab-menu">
+    <i class="iconfont iconmenu"></i>
+  </div>
+  
+</body>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+<script>
+  (function () {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</html>
