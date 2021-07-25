@@ -1,0 +1,399 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>谈一谈对volatile对理解 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="  volatile三大特性
+
+
+volatile是j...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: false,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">谈一谈对volatile对理解</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img src="http://xmt.ssluxury.cn/v2-d94a6e1b44d8fd4c682c0a72fe958645_1440w.jpg" draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">谈一谈对volatile对理解</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 10, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>3112</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h1 id="volatile是java虚拟机提供的轻量级的同步机制-可以理解成是轻量版的Synchronidzed-主要有三大特性"><a href="#volatile是java虚拟机提供的轻量级的同步机制-可以理解成是轻量版的Synchronidzed-主要有三大特性" class="headerlink" title="volatile是java虚拟机提供的轻量级的同步机制(可以理解成是轻量版的Synchronidzed),主要有三大特性"></a>volatile是java虚拟机提供的轻量级的同步机制(可以理解成是轻量版的Synchronidzed),主要有三大特性</h1><ul>
+<li>保证可见性</li>
+<li>不保证原子性</li>
+<li>禁止指令重排</li>
+</ul>
+<p>先说可见性,他是JMM(java内存模型 Java Memory Model,简称JMM)本身是一种抽象的概念并不真实存在,它描述的是一组规则或者规范,通过这组规范定义了程序中各个变量(包括实例字段,静态字段和构成数组对象的元素)的访问方式.</p>
+<p><img src="http://xmt.ssluxury.cn/v2-61cf17c9eb2a933d85ffba7e47eb603b_b.png" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/v2-0e96fec578442c7b1cf4c47721dbf869_b.png" alt="img"></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * volatile 关键字，使一个变量在多个线程间可见</span><br><span class="hljs-comment"> * A B线程都用到一个变量，java默认是A线程中保留一份copy，这样如果B线程修改了该变量，则A线程未必知道</span><br><span class="hljs-comment"> * 使用volatile关键字，会让所有线程都会读到变量的修改值</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * 在下面的代码中，running是存在于堆内存的t对象中</span><br><span class="hljs-comment"> * 当线程t1开始运行的时候，会把running值从内存中读到t1线程的工作区，在运行过程中直接使用这个copy，并不会每次都去</span><br><span class="hljs-comment"> * 读取堆内存，这样，当主线程修改running的值之后，t1线程感知不到，所以不会停止运行</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * 使用volatile，将会强制所有线程都去堆内存中读取running的值</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * 可以阅读这篇文章进行更深入的理解</span><br><span class="hljs-comment"> * http://www.cnblogs.com/nexiyi/p/java_memory_model_and_thread.html</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * volatile并不能保证多个线程共同修改running变量时所带来的不一致问题，也就是说volatile不能替代synchronized</span><br><span class="hljs-comment"> * @author mashibing</span><br><span class="hljs-comment"> */</span><br><br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span> &#123;</span><br>    <span class="hljs-comment">/*volatile*/</span> <span class="hljs-keyword">boolean</span> running = <span class="hljs-literal">true</span>; <span class="hljs-comment">//对比一下有无volatile的情况下，整个程序运行结果的区别</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">m</span><span class="hljs-params">()</span> </span>&#123;<br>        System.out.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;m start&quot;</span>);<br>        <span class="hljs-keyword">while</span>(running) &#123;<br>			<span class="hljs-comment">/*</span><br><span class="hljs-comment">			try &#123;</span><br><span class="hljs-comment">				TimeUnit.MILLISECONDS.sleep(10);</span><br><span class="hljs-comment">			&#125; catch (InterruptedException e) &#123;</span><br><span class="hljs-comment">				e.printStackTrace();</span><br><span class="hljs-comment">			&#125;*/</span><br>        &#125;<br>        System.out.<span class="hljs-built_in">println</span>(<span class="hljs-string">&quot;m end!&quot;</span>);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">String</span>[] args)</span> </span>&#123;<br>        T t = <span class="hljs-keyword">new</span> <span class="hljs-built_in">T</span>();<br><br>        <span class="hljs-keyword">new</span> <span class="hljs-built_in">Thread</span>(t::m, <span class="hljs-string">&quot;t1&quot;</span>).<span class="hljs-built_in">start</span>();<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            TimeUnit.SECONDS.<span class="hljs-built_in">sleep</span>(<span class="hljs-number">1</span>);<br>        &#125; <span class="hljs-built_in"><span class="hljs-keyword">catch</span></span> (InterruptedException e) &#123;<br>            e.<span class="hljs-built_in">printStackTrace</span>();<br>        &#125;<br><br>        t.running = <span class="hljs-literal">false</span>;<br><br><br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接着说原子性,原子性指不可分割,完整性,即某个线程正在做具体某个业务时,中间不可以被加塞或者被分割,需要完整性,要么同时成功,要么同时失败(比如:一个班级50个同学,只有一支笔,每个人写完自己姓名,再传给下个人,不能写一半就传下下去)</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">public <span class="hljs-keyword">class</span> Mydata &#123;<br><br>    <span class="hljs-comment">// 请注意,此时number前面是加了volatile关键字修饰的,volatile不保证原子性</span><br>    volatile <span class="hljs-built_in">int</span> number = <span class="hljs-number">0</span>;<br><br>    AtomicInteger atomicInteger=<span class="hljs-keyword">new</span> <span class="hljs-constructor">AtomicInteger()</span>;<br><br>    public void add<span class="hljs-constructor">PlusPlus()</span> &#123;<br>        number++;<br>        atomicInteger.get<span class="hljs-constructor">AndIncrement()</span>;<br>    &#125;<br><br>    public static void main(String<span class="hljs-literal">[]</span> args) &#123;<br>        Mydata mydata = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Mydata()</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-constructor">Thread(()</span> -&gt; &#123;<br><br>                <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">1000</span>; j++) &#123;<br>                    mydata.add<span class="hljs-constructor">PlusPlus()</span>;<br>                &#125;<br>            &#125;, <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">String</span>.</span></span>value<span class="hljs-constructor">Of(<span class="hljs-params">i</span>)</span>).start<span class="hljs-literal">()</span>;<br>        &#125;<br><br>        <span class="hljs-comment">/** 执行完任务,立即反馈main线程,无需让线程睡眠 **/</span><br>        <span class="hljs-keyword">while</span> (<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Thread</span>.</span></span>active<span class="hljs-constructor">Count()</span> &gt; <span class="hljs-number">2</span>) &#123;<br>            <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Thread</span>.</span></span>yield<span class="hljs-literal">()</span>;<br>        &#125;<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(mydata.number);<br>        <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">System</span>.</span></span>out.println(mydata.atomicInteger.get<span class="hljs-literal">()</span>);<br><br>    &#125;<br><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://pic4.zhimg.com/v2-261ee89c1e997a61a80ddd132a07ca67_b.png" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-5d58a59827b4caf08535ca7b9c634650_b.png" alt="img"></p>
+<p>由此可见,number++在多线程下是非安全的,如何不加synchronized保证原子性呢?</p>
+<p>最后说说指令重排,计算机在执行程序时,为了提高性能,编译器和处理器的常常会对指令做重排,一般分为3种:</p>
+<p><img src="https://pic1.zhimg.com/v2-5ce906558d30dce66bfd975b21d4922c_b.png" alt="img"></p>
+<p>单线程环境里面确保程序最终执行结果和代码顺序执行的结果一致</p>
+<p>处理器在进行重排序时必须要考虑指令间的数据依赖性</p>
+<p>多线程环境中线程交替执行,由于编译器优化重排的存在,两个线程中使用的变量能否保证一致性是无法确定的,结果无法预测</p>
+<p><img src="https://pic3.zhimg.com/v2-50aa853d2400d4479bd945bb020e72be_b.png" alt="img"></p>
+<p><img src="https://pic1.zhimg.com/v2-5d2dba5af3c1bcb797429a3d42edf4cc_b.png" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/v2-d134fa243803e6cc6308d51232daca09_b.png" alt="img"></p>
+<p>指令重排总结下:</p>
+<p>volaile实现禁止指令重排优化,从而避免多线程环境下程序出现乱序执行的现象;</p>
+<p>先了解一个概念,内存屏障(Memory Barrier)又称内存栏栅,是一个CPU指令,它的作用有两个:</p>
+<p>一是保证特定操作的执行顺序,</p>
+<p>二是保证某些变量的内存可见性(利用该特性实现volatile的内存可见性).</p>
+<p>由于编译器和处理器都能执行指令重排优化,如果在指令见插入一条Memory Barrier则会告诉编译器和CPU,不管什么指令都不能和这条Memeory Barrier指令重排序,也就是说通过插入内存屏障禁止在内存屏障前后的指令执行重排序优化,内存屏障另外一个作用是强制刷出各种CPU的缓存数据,因此任何CPU上的线程都能读取到这些数据的最新版本,</p>
+<p><img src="https://pic3.zhimg.com/v2-3e5944c5e55173abc0c5e91980122422_b.png" alt="img"></p>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/10/10/%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9volatile%E7%9A%84%E7%90%86%E8%A7%A3/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;10&#x2F;%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9volatile%E7%9A%84%E7%90%86%E8%A7%A3&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;10&#x2F;%E8%B0%88%E4%B8%80%E8%B0%88%E5%AF%B9volatile%E7%9A%84%E7%90%86%E8%A7%A3&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img src="https://pic.izhaoo.com/alipay.jpg">
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="tag">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/10/10/%E8%B0%88%E4%B8%80%E8%B0%88CountDownLatch:CyclicBarrier:Semaphore%E7%94%A8%E6%B3%95/"><i class="iconfont iconleft"></i>谈一谈CountDownLatch/CyclicBarrier/Semaphore用法</a>
+    <a href="/2020/10/10/java%E4%B8%AD%E9%94%81%E4%BD%A0%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B,%E8%AF%B7%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E8%87%AA%E6%97%8B%E9%94%81/">java中锁你知道哪些?请手写一个自旋锁<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#volatile%E6%98%AFjava%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E7%9A%84%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6-%E5%8F%AF%E4%BB%A5%E7%90%86%E8%A7%A3%E6%88%90%E6%98%AF%E8%BD%BB%E9%87%8F%E7%89%88%E7%9A%84Synchronidzed-%E4%B8%BB%E8%A6%81%E6%9C%89%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7"><span class="toc-text">volatile是java虚拟机提供的轻量级的同步机制(可以理解成是轻量版的Synchronidzed),主要有三大特性</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

@@ -1,0 +1,381 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Linux高级 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="Linux常用命令
+
+查看整体机器性能top命令
+看C...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: false,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Linux高级</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img src="/images/theme/post-image.jpg" draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Linux高级</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 12, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1163</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="查看整体机器性能"><a href="#查看整体机器性能" class="headerlink" title="查看整体机器性能"></a>查看整体机器性能</h2><h3 id="top命令"><a href="#top命令" class="headerlink" title="top命令"></a>top命令</h3><ul>
+<li>看CPU</li>
+<li>看MEM</li>
+<li>看Id(idel空闲率)</li>
+<li>看load average: (系统负载率)<br>不要给面试官机会或者ps -ef,<br>一般整机慢了,主要是CPU和MEM,如果长期高100%或者200%,任何一个慢,那么整机性能肯定下降,除了看CPU和MEM,top命令还可以帮助我们按键盘键数字1,可以观察到那个cpu核数高!<br>总结下话术:我会用top先查看下整机性能,这个命令敲出来后,根据我过往的经验,我主要是看以下几个参数:第一个首行会有CPU和内存的时间百分比和占用率,占有的程序就是最后的command,前面是它的进程Id,接着看load average的三个值(1分钟;5分钟;15分钟的系统平均负载量),如果这三个值相加后乘以3再乘以100%得到的值如果高于60%,说明系统负担重,如果高于80%,说明系统快奔溃了,如果要退出top命令,禁止ctrl+c(强制退出),我们按照qq即可,缓慢退出!<br><img src="http://xmt.ssluxury.cn/image-20200712150916325.png" alt="image-20200712150916325"><h3 id="uptime-低配版top命令"><a href="#uptime-低配版top命令" class="headerlink" title="uptime(低配版top命令)"></a>uptime(低配版top命令)</h3>直接拿uptime命令看load average系统负载率<br><img src="http://xmt.ssluxury.cn/image-20200712152406792.png" alt="image-20200712152406792"><h2 id="free-m"><a href="#free-m" class="headerlink" title="free -m"></a>free -m</h2>free 和free -g不友好,我们用free -m<br><img src="http://xmt.ssluxury.cn/image-20200712152636492.png" alt="image-20200712152636492"><h2 id="df-h-磁盘"><a href="#df-h-磁盘" class="headerlink" title="df -h(磁盘)"></a>df -h(磁盘)</h2>df不友好,我们用df -h<br><img src="http://xmt.ssluxury.cn/image-20200712152736059.png" alt="image-20200712152736059"><h2 id="vmstat-n-2-3-包含但不限于CPU"><a href="#vmstat-n-2-3-包含但不限于CPU" class="headerlink" title="vmstat -n 2 3(包含但不限于CPU)"></a>vmstat -n 2 3(包含但不限于CPU)</h2>看头尾procs和cpu即可,n是数字,后面2和3代表每2秒刷一次服务器,共3条数据,<br>procs:进程数,(2+0+0)/3表示后台有两个进程运行着<br>r:运行期程序<br>b:阻塞,越多系统性能越差<br>us:use<br>sy:system<br>id:idel(空闲率)<br>如果us+sy得到的值高于80%,说明系统慢,需要程序员处理<br><img src="http://xmt.ssluxury.cn/image-20200712153724559.png" alt="image-20200712153724559"><h2 id="iostat-xdk-2-3-磁盘IO"><a href="#iostat-xdk-2-3-磁盘IO" class="headerlink" title="iostat - xdk 2 3 (磁盘IO)"></a>iostat - xdk 2 3 (磁盘IO)</h2>看磁盘读写,偶尔高一下可以接受<br><img src="http://xmt.ssluxury.cn/image-20200712153657522.png" alt="image-20200712153657522"><br><img src="http://xmt.ssluxury.cn/image-20200712154112099.png" alt="image-20200712154112099"><h2 id="chmod-权限"><a href="#chmod-权限" class="headerlink" title="chmod(权限)"></a>chmod(权限)</h2><img src="http://xmt.ssluxury.cn/image-20200712154319881.png" alt="image-20200712154319881"><br>drwxrwxrwx. 3 root root        22 6月  10 03:20 data</li>
+<li>rw-r–r–. 1 root root       483 6月   6 10:21 JavaDemo02.class</li>
+<li>rw-r–r–. 1 root root       672 6月   6 10:20 JavaDemo02.java</li>
+<li>rw-r–r–. 1 root root 194545143 6月   6 10:00 jdk-8u241-linux-x64.tar.gz<br>drwxr-xr-x. 3 root root        51 6月  12 09:45 myredis</li>
+</ul>
+<blockquote>
+<p>从左到右10位(1+3+3),代表文件类型和读写权限<br>-代表文件;d代表文件夹;s代表socket;l代表软连接文件<br>(drwxrwxrwx)rwx第一组叫所数主;rwx第二组叫所属组;第三组rwx叫任何人</p>
+</blockquote>
+<h2 id="ifconfig-ip"><a href="#ifconfig-ip" class="headerlink" title="ifconfig(ip)"></a>ifconfig(ip)</h2>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/07/12/linux%E5%91%BD%E4%BB%A4/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;12&#x2F;linux%E5%91%BD%E4%BB%A4&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;12&#x2F;linux%E5%91%BD%E4%BB%A4&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img src="https://pic.izhaoo.com/alipay.jpg">
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/07/12/%E4%BD%A0%E7%9C%9F%E6%AD%A3%E4%BA%86%E8%A7%A3HashMap%E5%90%97/"><i class="iconfont iconleft"></i>你真正了解HashMap吗</a>
+    <a href="/2020/07/12/01mysql/(1)Mysql%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/">Mysql存储引擎<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B4%E4%BD%93%E6%9C%BA%E5%99%A8%E6%80%A7%E8%83%BD"><span class="toc-text">查看整体机器性能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#top%E5%91%BD%E4%BB%A4"><span class="toc-text">top命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uptime-%E4%BD%8E%E9%85%8D%E7%89%88top%E5%91%BD%E4%BB%A4"><span class="toc-text">uptime(低配版top命令)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#free-m"><span class="toc-text">free -m</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#df-h-%E7%A3%81%E7%9B%98"><span class="toc-text">df -h(磁盘)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vmstat-n-2-3-%E5%8C%85%E5%90%AB%E4%BD%86%E4%B8%8D%E9%99%90%E4%BA%8ECPU"><span class="toc-text">vmstat -n 2 3(包含但不限于CPU)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iostat-xdk-2-3-%E7%A3%81%E7%9B%98IO"><span class="toc-text">iostat - xdk 2 3 (磁盘IO)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#chmod-%E6%9D%83%E9%99%90"><span class="toc-text">chmod(权限)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ifconfig-ip"><span class="toc-text">ifconfig(ip)</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

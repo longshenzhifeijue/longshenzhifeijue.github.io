@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Springboot源码解析为所欲为 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="Springboot启动和自动配置原理
+
+
+
+Spri...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: false,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Springboot源码解析为所欲为</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img src="/images/theme/post-image.jpg" draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Springboot源码解析为所欲为</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>August 13, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>5527</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="Springboot启动流程"><a href="#Springboot启动流程" class="headerlink" title="Springboot启动流程"></a>Springboot启动流程</h2><p><img src="http://xmt.ssluxury.cn/springboot2.2.2%E5%90%AF%E5%8A%A8%E8%BF%87%E7%A8%8B%E6%B5%81%E7%A8%8B.jpg" alt="springboot2.2.2启动过程流程"></p>
+<h2 id="SpringApplication启动"><a href="#SpringApplication启动" class="headerlink" title="SpringApplication启动"></a>SpringApplication启动</h2><p>new SpringApplication(primarySources)).run(args</p>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><ul>
+<li><p>判断当前应用程序类型<br>NONE,<br>SERVLET,<br>REACTIVE;</p>
+</li>
+<li><p>加载所有的初始化容器 getSpringFactoriesInstances</p>
+</li>
+<li><p>加载所有的监听器</p>
+</li>
+<li><ul>
+<li>根据传入的类名(key),得到需要的工厂集合的实例</li>
+</ul>
+</li>
+<li><ul>
+<li>记载spring.factoris文件中的内容</li>
+</ul>
+</li>
+<li><ul>
+<li>获取文件中对应类的全路径</li>
+</ul>
+</li>
+<li><ul>
+<li>根据反射得到具体的实体类对象</li>
+</ul>
+</li>
+<li><ul>
+<li>生成对应的对象后再返回给调用者</li>
+</ul>
+</li>
+<li><p>找到程序运行的主类</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> ConfigurableApplicationContext <span class="hljs-title">run</span><span class="hljs-params">(String... args)</span> </span>&#123;<br>       StopWatch stopWatch = <span class="hljs-keyword">new</span> StopWatch();<br>       stopWatch.start();<br>       ConfigurableApplicationContext context = <span class="hljs-keyword">null</span>;<br>       Collection&lt;SpringBootExceptionReporter&gt; exceptionReporters = <span class="hljs-keyword">new</span> ArrayList();<br>       <span class="hljs-keyword">this</span>.configureHeadlessProperty();<br>       SpringApplicationRunListeners listeners = <span class="hljs-keyword">this</span>.getRunListeners(args);<br>       listeners.starting();<br><br>       Collection exceptionReporters;<br>       <span class="hljs-keyword">try</span> &#123;<br>           ApplicationArguments applicationArguments = <span class="hljs-keyword">new</span> DefaultApplicationArguments(args);<br>           ConfigurableEnvironment environment = <span class="hljs-keyword">this</span>.prepareEnvironment(listeners, applicationArguments);<br>           <span class="hljs-keyword">this</span>.configureIgnoreBeanInfo(environment);<br>           Banner printedBanner = <span class="hljs-keyword">this</span>.printBanner(environment);<br>           context = <span class="hljs-keyword">this</span>.createApplicationContext();<br>           exceptionReporters = <span class="hljs-keyword">this</span>.getSpringFactoriesInstances(SpringBootExceptionReporter.class, <span class="hljs-keyword">new</span> Class[]&#123;ConfigurableApplicationContext.class&#125;, context);<br>           <span class="hljs-keyword">this</span>.prepareContext(context, environment, listeners, applicationArguments, printedBanner);<br>           <span class="hljs-keyword">this</span>.refreshContext(context);<br>           <span class="hljs-keyword">this</span>.afterRefresh(context, applicationArguments);<br>           stopWatch.stop();<br>           <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.logStartupInfo) &#123;<br>               (<span class="hljs-keyword">new</span> StartupInfoLogger(<span class="hljs-keyword">this</span>.mainApplicationClass)).logStarted(<span class="hljs-keyword">this</span>.getApplicationLog(), stopWatch);<br>           &#125;<br><br>           listeners.started(context);<br>           <span class="hljs-keyword">this</span>.callRunners(context, applicationArguments);<br>       &#125; <span class="hljs-keyword">catch</span> (Throwable var10) &#123;<br>           <span class="hljs-keyword">this</span>.handleRunFailure(context, var10, exceptionReporters, listeners);<br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(var10);<br>       &#125;<br><br>       <span class="hljs-keyword">try</span> &#123;<br>           listeners.running(context);<br>           <span class="hljs-keyword">return</span> context;<br>       &#125; <span class="hljs-keyword">catch</span> (Throwable var9) &#123;<br>           <span class="hljs-keyword">this</span>.handleRunFailure(context, var9, exceptionReporters, (SpringApplicationRunListeners)<span class="hljs-keyword">null</span>);<br>           <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(var9);<br>       &#125;<br>   &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">开始计时器       <br>StopWatch stopWatch = <span class="hljs-keyword">new</span> StopWatch();<br>设置当前任务的id和启动的时间,方便后续的时候进行计时操作<br></code></pre></td></tr></table></figure>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stylus">配置系统属性java<span class="hljs-selector-class">.awt</span><span class="hljs-selector-class">.headless</span>,意义不大,可以忽略<br></code></pre></td></tr></table></figure>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">注册listeners<br>SpringApplicationRunListeners listeners = <span class="hljs-keyword">this</span>.getRunListeners(args);<br>listeners.starting();<br><br>获取EventPublishingRunListener对象<br>获取一个EventPublishingRunListener的对象,此对象会贯穿整个应用程序启动的过程,每次在进行监听器操作的时候都会从中获取具体的监听器<br></code></pre></td></tr></table></figure>
+<p><img src="http://xmt.ssluxury.cn/image-20200813151215908.png" alt="image-20200813151215908"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">执行starting方法<br><br>每次监听器在实际操作时候都会执行listeners.*()<br><span class="hljs-keyword">this</span>.initialMulticaster.multicastEvent(<span class="hljs-keyword">new</span> ApplicationStartingEvent(<span class="hljs-keyword">this</span>.application, <span class="hljs-keyword">this</span>.args));<br></code></pre></td></tr></table></figure>
+<p><img src="http://xmt.ssluxury.cn/image-20200813151937124.png" alt="image-20200813151937124"> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java">匹配不同类型时间,然后从所有对监听器中把不符合条件的监听给过滤掉<br>符合条件的监听器会循环执行具体的自己的处理逻辑<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">multicastEvent</span><span class="hljs-params">(ApplicationEvent event, <span class="hljs-meta">@Nullable</span> ResolvableType eventType)</span> </span>&#123;<br>        ResolvableType type = eventType != <span class="hljs-keyword">null</span> ? eventType : <span class="hljs-keyword">this</span>.resolveDefaultEventType(event);<br>        Executor executor = <span class="hljs-keyword">this</span>.getTaskExecutor();<br>        Iterator var5 = <span class="hljs-keyword">this</span>.getApplicationListeners(event, type).iterator();<br><br>        <span class="hljs-keyword">while</span>(var5.hasNext()) &#123;<br>            ApplicationListener&lt;?&gt; listener = (ApplicationListener)var5.next();<br>            <span class="hljs-keyword">if</span> (executor != <span class="hljs-keyword">null</span>) &#123;<br>                executor.execute(() -&gt; &#123;<br>                    <span class="hljs-keyword">this</span>.invokeListener(listener, event);<br>                &#125;);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">this</span>.invokeListener(listener, event);<br>            &#125;<br>        &#125;<br><br>    &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs maxima">加载命令行的参数值,解析在命令行中通过<span class="hljs-built_in">key</span>=value输入的属性值,封装到ApplicationArguments对象中<span class="hljs-built_in">new</span> SimpleCommandLinePropertySource<br></code></pre></td></tr></table></figure>
+<p><img src="http://xmt.ssluxury.cn/image-20200813154902046.png" alt="image-20200813154902046"></p>
+<h2 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">准备当前应用程序到环境<br>ConfigurableEnvironment environment = <span class="hljs-keyword">this</span>.prepareEnvironment(listeners, applicationArguments);<br>获取或者创建一个环境,根据当前应用程序到类型来做判断的<br>ConfigurableEnvironment environment = <span class="hljs-keyword">this</span>.getOrCreateEnvironment();<br>对当前环境进行配置<br></code></pre></td></tr></table></figure>
+<p><img src="http://xmt.ssluxury.cn/image-20200813155349353.png" alt="image-20200813155349353"></p>
+<h2 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h2><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mel">设置系统属性,保证某些bean不会添加到准备到环境中<span class="hljs-keyword">spring</span>.beaninfo.ignore<br></code></pre></td></tr></table></figure>
+
+<h2 id="第七步"><a href="#第七步" class="headerlink" title="第七步"></a>第七步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">准备banner的打印<br>Banner printedBanner = <span class="hljs-keyword">this</span>.printBanner(environment);<br></code></pre></td></tr></table></figure>
+<ul>
+<li>先判断是否有图片,支持jpg,gif,png格式到图片</li>
+<li>读取banner.txt文件中到内容</li>
+<li>循环打印输出默认到banner</li>
+</ul>
+<h2 id="第八步"><a href="#第八步" class="headerlink" title="第八步"></a>第八步</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">准备上下文应用对象,根据当前应用程序到类型来判断创建什么格式到上下文对象context = <span class="hljs-keyword">this</span>.createApplicationContext();<br>此处在看到创建上下文到对象之后一定要看到类图,在父子关系到类中完成了很多初始化到操作,容易忽略<br></code></pre></td></tr></table></figure>
+<p><img src="http://xmt.ssluxury.cn/image-20200813164510887.png" alt="image-20200813164510887"></p>
+<h2 id="第九步"><a href="#第九步" class="headerlink" title="第九步"></a>第九步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">设置异常报告器对象<br> exceptionReporters = <span class="hljs-keyword">this</span>.getSpringFactoriesInstances(SpringBootExceptionReporter.class, <span class="hljs-keyword">new</span> Class[]&#123;ConfigurableApplicationContext.class&#125;, context);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十步"><a href="#第十步" class="headerlink" title="第十步"></a>第十步</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">准备当前上下文对象<br><span class="hljs-keyword">this</span>.prepareContext(context, environment, listeners, applicationArguments, printedBanner);<br>设置初始化进行执行,向beanfactory中注入了三个postprocessor的对象,后续在自动装配的时候会用到<span class="hljs-keyword">this</span>.applyInitializers(context);<br>listeners.contextPrepared(context);<br>加载很多资源配置,自动装配在此环节完成<span class="hljs-keyword">this</span>.load(context, sources.toArray(<span class="hljs-keyword">new</span> Object[<span class="hljs-number">0</span>]));<br>listeners.contextLoaded(context);<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="第十一步"><a href="#第十一步" class="headerlink" title="第十一步"></a>第十一步</h2><figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">刷新上下文环境(关键操作)重点在spring的时候会讲到<span class="hljs-keyword">this</span>.<span class="hljs-built_in">ref</span>reshContext(context);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十二步"><a href="#第十二步" class="headerlink" title="第十二步"></a>第十二步</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs reasonml">上下文对象准备好之后的操作,默认什么都不做,方便扩展this.after<span class="hljs-constructor">Refresh(<span class="hljs-params">context</span>, <span class="hljs-params">applicationArguments</span>)</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十三步"><a href="#第十三步" class="headerlink" title="第十三步"></a>第十三步</h2><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">计时结束,并打印启动程序运行的时长stopWatch.<span class="hljs-built_in">stop</span>();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十四步"><a href="#第十四步" class="headerlink" title="第十四步"></a>第十四步</h2><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">开始所有第监听器对象listeners.started(context)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="第十五步"><a href="#第十五步" class="headerlink" title="第十五步"></a>第十五步</h2><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">listeners.running(context)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="源码怎么看"><a href="#源码怎么看" class="headerlink" title="源码怎么看"></a>源码怎么看</h2><p>先看脉络,再画出整体框架图,根据上下文学习整个扭转过程,适可而止,禁止每个方法点进去看</p>
+<h2 id="要知道前提"><a href="#要知道前提" class="headerlink" title="要知道前提"></a>要知道前提</h2><p>在整个Spring的框架中,如果想在某些阶段做一些独特的事情,应该怎么做?<br><img src="http://xmt.ssluxury.cn/springboot%E5%88%9D%E8%AE%B2%E8%A7%A3.jpg" alt="springboot2.2.2启动过程流程"></p>
+<h2 id="Bean的生命周期"><a href="#Bean的生命周期" class="headerlink" title="Bean的生命周期"></a>Bean的生命周期</h2><h2 id="BeanFactory"><a href="#BeanFactory" class="headerlink" title="BeanFactory"></a>BeanFactory</h2><p>先执行一些列Aware接口,里面都是set,set,往bean设置属性值,方便我后期使用直接获取<br><img src="http://xmt.ssluxury.cn/image-20200723212521522.png" alt="image-20200723212521522"><br>假设我有个Persion对象,如何我想获取工厂,需要先设置下<br><img src="http://xmt.ssluxury.cn/v2-b3a306269cf1179a413571dbe0fdef22_b.png" alt="img"></p>
+<h2 id="FactoryBean和BeanFactory的区别"><a href="#FactoryBean和BeanFactory的区别" class="headerlink" title="FactoryBean和BeanFactory的区别"></a>FactoryBean和BeanFactory的区别</h2><p>两个都是生产对象的,但是factoryBean提供三个方法:<br>小故事:中国神话故事人是怎么来的?<br>女娲捏人,但是女娃造了10万人长一样,我们可以使用工厂创建这10万人,但是这很没意思,我需要造一个怪物,可以说没必要为一个怪物造一个工厂,只需要factorybean,<br>比如:openfeign代码中就是实现了factorybean,用来生产某一个独特的复杂的对象</p>
+<h2 id="refresh"><a href="#refresh" class="headerlink" title="refresh"></a>refresh</h2><p><img src="http://xmt.ssluxury.cn/image-20200723212947546.png" alt="image-20200723212947546"><br><img src="http://xmt.ssluxury.cn/image-20200723213020675.png" alt="image-20200723213020675"></p>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/08/13/02spring/SpringBoot%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;13&#x2F;02spring&#x2F;SpringBoot%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;08&#x2F;13&#x2F;02spring&#x2F;SpringBoot%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img src="https://pic.izhaoo.com/alipay.jpg">
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Springboot/" rel="tag">Springboot</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/08/14/02spring/SpringBoot%E5%90%AF%E5%8A%A8%E8%A7%A3%E6%9E%90/"><i class="iconfont iconleft"></i></a>
+    <a href="/2020/08/12/Java%20SPI%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/">Java SPI机制详解<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Springboot%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B"><span class="toc-text">Springboot启动流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringApplication%E5%90%AF%E5%8A%A8"><span class="toc-text">SpringApplication启动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="toc-text">第一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="toc-text">第二步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="toc-text">第三步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5"><span class="toc-text">第四步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5"><span class="toc-text">第五步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5"><span class="toc-text">第六步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E6%AD%A5"><span class="toc-text">第七步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E6%AD%A5"><span class="toc-text">第八步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B9%9D%E6%AD%A5"><span class="toc-text">第九步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E6%AD%A5"><span class="toc-text">第十步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E6%AD%A5"><span class="toc-text">第十一步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E6%AD%A5"><span class="toc-text">第十二步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%89%E6%AD%A5"><span class="toc-text">第十三步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E5%9B%9B%E6%AD%A5"><span class="toc-text">第十四步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%94%E6%AD%A5"><span class="toc-text">第十五步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E6%80%8E%E4%B9%88%E7%9C%8B"><span class="toc-text">源码怎么看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A6%81%E7%9F%A5%E9%81%93%E5%89%8D%E6%8F%90"><span class="toc-text">要知道前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">Bean的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanFactory"><span class="toc-text">BeanFactory</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FactoryBean%E5%92%8CBeanFactory%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">FactoryBean和BeanFactory的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#refresh"><span class="toc-text">refresh</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
