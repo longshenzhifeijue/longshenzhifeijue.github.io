@@ -63,7 +63,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -189,7 +189,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">缓冲穿透、缓冲击穿、缓冲雪崩</h1>
     <div class="head-info">
@@ -201,7 +201,7 @@
 </section>
     <section class="main">
       <section class="content">
-        <h2 id="缓冲雪崩"><a href="#缓冲雪崩" class="headerlink" title="缓冲雪崩"></a>缓冲雪崩</h2><p><img  src="http://xmt.ssluxury.cn/image-20201009171932001.png"  ><span class="image-caption">image-20201009171932001</span></p>
+        <h2 id="缓冲雪崩"><a href="#缓冲雪崩" class="headerlink" title="缓冲雪崩"></a>缓冲雪崩</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201009171932001.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201009171932001</span></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">在双十一时候,点进去淘宝首页,这个首页在双十一访问量非常大的,它很多数据是放缓存中,对应redis中的<span class="hljs-number">100</span>个key,设置了缓存失效时间是<span class="hljs-number">3</span>小时,在购物期间,购物超过<span class="hljs-number">3</span>小时后,首页redis缓存在一瞬间全部失效,导致所有请求都打在数据库上,造成数据库响应不及时挂掉,这个时候,首页就没有办法对外提供服务<br></code></pre></td></tr></table></figure>
 <p>解决方案:</p>
 <ul>
@@ -210,7 +210,7 @@
 <li>暴力方法:不设置失效时间</li>
 <li>跑定时任务,定时刷新缓存</li>
 </ul>
-<h2 id="缓冲穿透"><a href="#缓冲穿透" class="headerlink" title="缓冲穿透"></a>缓冲穿透</h2><p><img  src="http://xmt.ssluxury.cn/image-20201009172659831.png"  ><span class="image-caption">image-20201009172659831</span></p>
+<h2 id="缓冲穿透"><a href="#缓冲穿透" class="headerlink" title="缓冲穿透"></a>缓冲穿透</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201009172659831.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201009172659831</span></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">比如自己开发一个网站,网站非常火爆,动了某人的蛋糕,遭到疯狂攻击,他的攻击手段就是缓存穿透,大家都知道数据库主键都是从<span class="hljs-number">0</span>递增,没有负数,但是黑客就利用id小于<span class="hljs-number">0</span>这个参数发请求,而我把数据库所有数据缓存放到redis,他这个请求,redis并没有这个id,小于<span class="hljs-number">0</span>的数据,这样redis就查询不到结果,就会去数据库去查询,就会造成请求打到数据库中,因为中间redis拦截不到这样的数据,redis被这被样的数据给穿透了,直接穿透到数据库了,他会写一个脚本,恶意中伤,缓存穿透是指redis和数据库都没有这样的数据,一般出现这种都不是正常的用户,都是恶意的用户<br></code></pre></td></tr></table></figure>
 
 <p>解决方案:</p>
@@ -220,7 +220,7 @@
 <li>对参数合法性校验</li>
 <li>使用布隆过滤器</li>
 </ul>
-<h2 id="缓冲击穿"><a href="#缓冲击穿" class="headerlink" title="缓冲击穿"></a>缓冲击穿</h2><p><img  src="http://xmt.ssluxury.cn/image-20201009175233464.png"  ><span class="image-caption">image-20201009175233464</span></p>
+<h2 id="缓冲击穿"><a href="#缓冲击穿" class="headerlink" title="缓冲击穿"></a>缓冲击穿</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201009175233464.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201009175233464</span></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">马爸爸在双十一期间想搞个噱头,把自己<span class="hljs-number">20</span>年的老布鞋拍卖,非常多人感兴趣,在<span class="hljs-number">9</span>点准时拍卖,某个程序员把鞋的数据缓存到redis,对应redis一个key,拍卖过程持续了<span class="hljs-number">4</span>个小时依然没有结束,但是这双鞋的缓存对应key失效时间是<span class="hljs-number">4</span>个半小时,当大家拍卖到<span class="hljs-number">4</span>个半小时的时候,这个鞋缓存突然失效了,导致这个大量的拍卖请求在redis查询不到结果,就会直接打到数据库上去,造成数据库响应不及时,然后挂掉了,注意:这里是某一个热点到key,大量用户请求去不断的访问这个热点key,当这个热点的key突然失效,把请求打到数据库,这个过程就是击穿,它是击穿某一个非常热点到key<br></code></pre></td></tr></table></figure>
 
 <p>解决方案:</p>
@@ -230,7 +230,7 @@
 <li>使用布隆过滤器</li>
 </ul>
 <h2 id="布隆过滤器"><a href="#布隆过滤器" class="headerlink" title="布隆过滤器"></a>布隆过滤器</h2><p>本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 “某样东西一定不存在或者可能存在”。<br>相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。</p>
-<p><img  src="http://xmt.ssluxury.cn/1030776-20170106143141784-1475031003.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1030776-20170106143141784-1475031003.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
       </section>
       <section class="extra">
         
@@ -245,7 +245,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
@@ -297,6 +297,13 @@
         onMouseOver="this.style.color= '#09BB07'" 
         onMouseOut="this.style.color='#33333D'">
           <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
       </a><a 
         href="https://github.com/longshenzhifeijue "
         target="_blank"

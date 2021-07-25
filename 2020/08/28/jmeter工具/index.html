@@ -63,7 +63,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -189,7 +189,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">jmeter</h1>
     <div class="head-info">
@@ -203,21 +203,21 @@
       <section class="content">
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>压力测试是每一个Web应用程序上线之前都需要做的一个测试，他可以帮助我们发现系统中的瓶颈问题，减少发布到生产环境后出问题的几率；预估系统的承载能力，使我们能根据其做出一些应对措施。所以压力测试是一个非常重要的步骤，下面我带大家来使用一款压力测试工具JMeter。</p>
 <h2 id="关于JMeter"><a href="#关于JMeter" class="headerlink" title="关于JMeter"></a>关于JMeter</h2><p>Apache JMeter是Apache组织开发的基于Java的压力测试工具。用于对软件做压力测试，它最初被设计用于Web应用测试，但后来扩展到其他测试领域。 它可以用于测试静态和动态资源，例如静态文件、Java 小服务程序、CGI 脚本、Java 对象、数据库、FTP 服务器， 等等。JMeter 可以用于对服务器、网络或对象模拟巨大的负载，来自不同压力类别下测试它们的强度和分析整体性能。另外，JMeter能够对应用程序做功能/回归测试，通过创建带有断言的脚本来验证你的程序返回了你期望的结果。为了最大限度的灵活性，JMeter允许使用正则表达式创建断言。<br>Apache jmeter 可以用于对静态的和动态的资源（文件，Servlet，Perl脚本，java 对象，数据库和查询，FTP服务器等等）的性能进行测试。它可以用于对服务器、网络或对象模拟繁重的负载来测试它们的强度或分析不同压力类型下的整体性能。你可以使用它做性能的图形分析或在大并发负载测试你的服务器/脚本/对象。</p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>启动之后会有两个窗口，一个cmd窗口，一个JMeter的 GUI。前面不要忽略CMD窗口的提示信息：<br><img  src="http://xmt.ssluxury.cn/image-20200828150330195.png"  ><span class="image-caption">image-20200828150330195</span><br>上面的意思就是：不要使用GUI运行压力测试，GUI仅用于压力测试的创建和调试；执行压力测试请不要使用GUI。使用下面的命令来执行测试：</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>启动之后会有两个窗口，一个cmd窗口，一个JMeter的 GUI。前面不要忽略CMD窗口的提示信息：<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828150330195.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828150330195</span><br>上面的意思就是：不要使用GUI运行压力测试，GUI仅用于压力测试的创建和调试；执行压力测试请不要使用GUI。使用下面的命令来执行测试：</p>
 <blockquote>
 <p>jmeter -n -t [jmx file] -l [results file] -e -o [Path to web report folder]<br>并且修改JMeter批处理文件的环境变量：HEAP=”-Xms1g -Xmx1g -XX:MaxMetaspaceSize=256m”</p>
 </blockquote>
-<h2 id="创建线程组"><a href="#创建线程组" class="headerlink" title="创建线程组"></a>创建线程组</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828150646917.png"  ><span class="image-caption">image-20200828150646917</span></p>
-<h2 id="配置元件"><a href="#配置元件" class="headerlink" title="配置元件"></a>配置元件</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828150950440.png"  ><span class="image-caption">image-20200828150950440</span></p>
+<h2 id="创建线程组"><a href="#创建线程组" class="headerlink" title="创建线程组"></a>创建线程组</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828150646917.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828150646917</span></p>
+<h2 id="配置元件"><a href="#配置元件" class="headerlink" title="配置元件"></a>配置元件</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828150950440.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828150950440</span></p>
 <blockquote>
 <p>当所有的接口测试的访问域名和端口都一样时，可以使用该元件，一旦服务器地址变更，只需要修改请求默认值即可。</p>
 </blockquote>
-<h2 id="构造HTTP请求"><a href="#构造HTTP请求" class="headerlink" title="构造HTTP请求"></a>构造HTTP请求</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828151123319.png"  ><span class="image-caption">image-20200828151123319</span></p>
-<h2 id="添加HTTP请求头"><a href="#添加HTTP请求头" class="headerlink" title="添加HTTP请求头"></a>添加HTTP请求头</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828151336184.png"  ><span class="image-caption">image-20200828151336184</span></p>
-<h2 id="添加断言"><a href="#添加断言" class="headerlink" title="添加断言"></a>添加断言</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828152540321.png"  ><span class="image-caption">image-20200828152540321</span></p>
-<h2 id="察看结果树"><a href="#察看结果树" class="headerlink" title="察看结果树"></a>察看结果树</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828152503334.png"  ><span class="image-caption">image-20200828152503334</span></p>
-<h2 id="汇总报告"><a href="#汇总报告" class="headerlink" title="汇总报告"></a>汇总报告</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828152635420.png"  ><span class="image-caption">image-20200828152635420</span></p>
-<h2 id="保存测试计划"><a href="#保存测试计划" class="headerlink" title="保存测试计划"></a>保存测试计划</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828152945357.png"  ><span class="image-caption">image-20200828152945357</span></p>
+<h2 id="构造HTTP请求"><a href="#构造HTTP请求" class="headerlink" title="构造HTTP请求"></a>构造HTTP请求</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828151123319.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828151123319</span></p>
+<h2 id="添加HTTP请求头"><a href="#添加HTTP请求头" class="headerlink" title="添加HTTP请求头"></a>添加HTTP请求头</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828151336184.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828151336184</span></p>
+<h2 id="添加断言"><a href="#添加断言" class="headerlink" title="添加断言"></a>添加断言</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828152540321.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828152540321</span></p>
+<h2 id="察看结果树"><a href="#察看结果树" class="headerlink" title="察看结果树"></a>察看结果树</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828152503334.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828152503334</span></p>
+<h2 id="汇总报告"><a href="#汇总报告" class="headerlink" title="汇总报告"></a>汇总报告</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828152635420.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828152635420</span></p>
+<h2 id="保存测试计划"><a href="#保存测试计划" class="headerlink" title="保存测试计划"></a>保存测试计划</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828152945357.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828152945357</span></p>
 <h2 id="执行测试计划"><a href="#执行测试计划" class="headerlink" title="执行测试计划"></a>执行测试计划</h2><p>我这里执行的命令为：</p>
 <blockquote>
 <p>jmeter -n -t /Users/xufei/Downloads/apache-jmeter-5.2.1/bin/test.jmx -l /Users/xufei/Downloads/apache-jmeter-5.2.1/bin/test.txt -e -o  /Users/xufei/Downloads/apache-jmeter-5.2.1/bin/testplan/webreport</p>
@@ -228,7 +228,7 @@
 <li>/Users/xufei/Downloads/apache-jmeter-5.2.1/bin/test.txt 为测试结果文件路径</li>
 <li>/Users/xufei/Downloads/apache-jmeter-5.2.1/bin/testplan/webreport</li>
 </ul>
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img  src="http://xmt.ssluxury.cn/image-20200828175019034.png"  ><span class="image-caption">image-20200828175019034</span></p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200828175019034.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200828175019034</span></p>
       </section>
       <section class="extra">
         
@@ -243,7 +243,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
@@ -295,6 +295,13 @@
         onMouseOver="this.style.color= '#09BB07'" 
         onMouseOut="this.style.color='#33333D'">
           <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
       </a><a 
         href="https://github.com/longshenzhifeijue "
         target="_blank"

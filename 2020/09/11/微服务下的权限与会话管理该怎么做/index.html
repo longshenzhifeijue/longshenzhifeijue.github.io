@@ -65,7 +65,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -191,7 +191,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="http://xmt.ssluxury.cn/v2-41d69b7cffcda33ecb926b14482ae448_1440w.jpg" draggable="false">
+  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-41d69b7cffcda33ecb926b14482ae448_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">微服务下的权限与会话管理该怎么做</h1>
     <div class="head-info">
@@ -207,9 +207,9 @@
 <p>认证<br>账户密码密码<br>权限<br>授权-&gt;相关权限对应角色</p>
 </blockquote>
 <h2 id="Cookie和Seesion"><a href="#Cookie和Seesion" class="headerlink" title="Cookie和Seesion"></a>Cookie和Seesion</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/55522549" title="标题">Cookie 和Session是什么?</a></p>
-<h2 id="有状态会话和无状态会话"><a href="#有状态会话和无状态会话" class="headerlink" title="有状态会话和无状态会话"></a>有状态会话和无状态会话</h2><h4 id="有状态"><a href="#有状态" class="headerlink" title="有状态"></a>有状态</h4><p>首先我们要知道一个概念,web程序是使用HTTP协议传输的,而HTTP协议是无状态的协议,对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息,则它必须重传,这样可能导致每次连接传送的数据量增大。另一方面,在服务器不需要先前信息时它的应答就较快。那服务器如何如何辨别客户端信息呢?<br>通常的做法是在用户完成认证以后,服务端生成一个Session对象记录用户状态信息,并且下发给客户端一个手牌,就可以了,也可以将其它相关的信息存储到JDBC数据库或者Redis缓存,第二次会首先从JDBC数据库或者Redis缓存查询对应的信息是否存在。有状态会话管理在单体应用中普遍使用,也就是我们通常所说的会话管理功能。<br><img  src="http://xmt.ssluxury.cn/image-20200618144659134.png"  ><span class="image-caption">image-20200618144659134</span></p>
-<h4 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h4><p>服务端不创建Session对象,下发给客户端一个Session ID,由客户端管理,每个客户端管理自己端Seesion ID,那么可能不太安全,该如何处理呢?<br>这个Session ID+会话信息=token,服务端对这个Token对成进行加密,然后下发给客户端,客户端拿着这个token请求的时候,只要服务端能解密处理即可(对成加密)<br><img  src="http://xmt.ssluxury.cn/image-20200618150439691.png"  ><span class="image-caption">image-20200618150439691</span></p>
-<h2 id="如何设计一个安全的的接口"><a href="#如何设计一个安全的的接口" class="headerlink" title="如何设计一个安全的的接口"></a>如何设计一个安全的的接口</h2><p>主要在两个方面<br>一方面就是如何保证数据在传输过程中的安全性;另一个方面是数据已经到达服务器端,服务器端如何识别数据,如何不被攻击<br>本篇文章继续刚次的无状态会话聊,如何保证这个Token的安全性呢?<br>既然由服务端下发token,并且由客户端传给服务端解密,那么只要保证盐的安全即可,如何保证呢?<br>一般人是不知道的,可是程序员知道呀?家贼难防,只有在部署的时候,将盐放到XXXX.yaml文件中,那么才能保证一部分,至于另一部分是需要走代码审查,比如像一些银行的代码,需要专人负责审查,并且不许向外网集群做io操作,不允许任何日志敏感信息的打印,才能保证其安全性!<br><img  src="http://xmt.ssluxury.cn/image-20200618151240019.png"  ><span class="image-caption">image-20200618151240019</span></p>
+<h2 id="有状态会话和无状态会话"><a href="#有状态会话和无状态会话" class="headerlink" title="有状态会话和无状态会话"></a>有状态会话和无状态会话</h2><h4 id="有状态"><a href="#有状态" class="headerlink" title="有状态"></a>有状态</h4><p>首先我们要知道一个概念,web程序是使用HTTP协议传输的,而HTTP协议是无状态的协议,对于事务处理没有记忆能力。缺少状态意味着如果后续处理需要前面的信息,则它必须重传,这样可能导致每次连接传送的数据量增大。另一方面,在服务器不需要先前信息时它的应答就较快。那服务器如何如何辨别客户端信息呢?<br>通常的做法是在用户完成认证以后,服务端生成一个Session对象记录用户状态信息,并且下发给客户端一个手牌,就可以了,也可以将其它相关的信息存储到JDBC数据库或者Redis缓存,第二次会首先从JDBC数据库或者Redis缓存查询对应的信息是否存在。有状态会话管理在单体应用中普遍使用,也就是我们通常所说的会话管理功能。<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618144659134.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200618144659134</span></p>
+<h4 id="无状态"><a href="#无状态" class="headerlink" title="无状态"></a>无状态</h4><p>服务端不创建Session对象,下发给客户端一个Session ID,由客户端管理,每个客户端管理自己端Seesion ID,那么可能不太安全,该如何处理呢?<br>这个Session ID+会话信息=token,服务端对这个Token对成进行加密,然后下发给客户端,客户端拿着这个token请求的时候,只要服务端能解密处理即可(对成加密)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618150439691.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200618150439691</span></p>
+<h2 id="如何设计一个安全的的接口"><a href="#如何设计一个安全的的接口" class="headerlink" title="如何设计一个安全的的接口"></a>如何设计一个安全的的接口</h2><p>主要在两个方面<br>一方面就是如何保证数据在传输过程中的安全性;另一个方面是数据已经到达服务器端,服务器端如何识别数据,如何不被攻击<br>本篇文章继续刚次的无状态会话聊,如何保证这个Token的安全性呢?<br>既然由服务端下发token,并且由客户端传给服务端解密,那么只要保证盐的安全即可,如何保证呢?<br>一般人是不知道的,可是程序员知道呀?家贼难防,只有在部署的时候,将盐放到XXXX.yaml文件中,那么才能保证一部分,至于另一部分是需要走代码审查,比如像一些银行的代码,需要专人负责审查,并且不许向外网集群做io操作,不允许任何日志敏感信息的打印,才能保证其安全性!<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200618151240019.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200618151240019</span></p>
 <h2 id="SSO单点登陆系统的演化"><a href="#SSO单点登陆系统的演化" class="headerlink" title="SSO单点登陆系统的演化"></a>SSO单点登陆系统的演化</h2><p>单点登录英文全称Single Sign On,简称就是SSO。它的解释是:在多个应用系统中,只需要登录一次,就可以访问其他相互信任的应用系统。<br><a target="_blank" rel="noopener" href="https://juejin.im/post/5cdd42f9518825693f1ebf8d" title="标题">什么是单点登录(SSO)</a></p>
 <p>待写TODO</p>
 <h2 id="集群化Session-共享Spring-Session-Redis"><a href="#集群化Session-共享Spring-Session-Redis" class="headerlink" title="集群化Session+共享Spring Session+Redis"></a>集群化Session+共享Spring Session+Redis</h2><h2 id="OAuth2-0原理、应用场景"><a href="#OAuth2-0原理、应用场景" class="headerlink" title="OAuth2.0原理、应用场景"></a>OAuth2.0原理、应用场景</h2><h2 id="JWT底层原理和应用场景"><a href="#JWT底层原理和应用场景" class="headerlink" title="JWT底层原理和应用场景"></a>JWT底层原理和应用场景</h2><h2 id="JWT在微服务中的应用"><a href="#JWT在微服务中的应用" class="headerlink" title="JWT在微服务中的应用"></a>JWT在微服务中的应用</h2><h2 id="JWT的安全隐患"><a href="#JWT的安全隐患" class="headerlink" title="JWT的安全隐患"></a>JWT的安全隐患</h2>
@@ -227,7 +227,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
@@ -277,6 +277,13 @@
         onMouseOver="this.style.color= '#09BB07'" 
         onMouseOut="this.style.color='#33333D'">
           <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
       </a><a 
         href="https://github.com/longshenzhifeijue "
         target="_blank"

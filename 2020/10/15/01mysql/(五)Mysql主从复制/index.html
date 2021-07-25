@@ -62,7 +62,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -188,7 +188,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">五、Mysql主从复制</h1>
     <div class="head-info">
@@ -201,14 +201,14 @@
     <section class="main">
       <section class="content">
         <p><code>五、Mysql主从复制</code></p>
-<h2 id="复制的基本原理"><a href="#复制的基本原理" class="headerlink" title="复制的基本原理"></a>复制的基本原理</h2><p>salve会从master读取binlog来进行数据同步<br><code>三步骤+原理图</code><br><img  src="http://xmt.ssluxury.cn/image-20201015141146375.png"  ><span class="image-caption">image-20201015141146375</span></p>
+<h2 id="复制的基本原理"><a href="#复制的基本原理" class="headerlink" title="复制的基本原理"></a>复制的基本原理</h2><p>salve会从master读取binlog来进行数据同步<br><code>三步骤+原理图</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141146375.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141146375</span></p>
 <h2 id="复制的基本原则"><a href="#复制的基本原则" class="headerlink" title="复制的基本原则"></a>复制的基本原则</h2><ul>
 <li>每个salve只有一个master</li>
 <li>每个salve只能有一个唯一的服务器ID</li>
 <li>每个master可以有多个salve</li>
 </ul>
 <h2 id="复制的最大问题"><a href="#复制的最大问题" class="headerlink" title="复制的最大问题"></a>复制的最大问题</h2><p>延时</p>
-<h2 id="一主一从常见配置"><a href="#一主一从常见配置" class="headerlink" title="一主一从常见配置"></a>一主一从常见配置</h2><p><img  src="http://xmt.ssluxury.cn/image-20201015141615557.png"  ><span class="image-caption">image-20201015141615557</span></p>
+<h2 id="一主一从常见配置"><a href="#一主一从常见配置" class="headerlink" title="一主一从常见配置"></a>一主一从常见配置</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141615557.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141615557</span></p>
 
       </section>
       <section class="extra">
@@ -224,7 +224,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
@@ -276,6 +276,13 @@
         onMouseOver="this.style.color= '#09BB07'" 
         onMouseOut="this.style.color='#33333D'">
           <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
       </a><a 
         href="https://github.com/longshenzhifeijue "
         target="_blank"

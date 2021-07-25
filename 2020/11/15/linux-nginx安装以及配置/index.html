@@ -64,7 +64,7 @@ linux nginx安装以及配置一、N...">
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -190,7 +190,7 @@ linux nginx安装以及配置一、N...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">nginx</h1>
     <div class="head-info">
@@ -204,23 +204,23 @@ linux nginx安装以及配置一、N...">
       <section class="content">
         <h1 id="linux-nginx安装以及配置"><a href="#linux-nginx安装以及配置" class="headerlink" title="linux nginx安装以及配置"></a>linux nginx安装以及配置</h1><h1 id="一、Nginx简介"><a href="#一、Nginx简介" class="headerlink" title="一、Nginx简介"></a><strong>一、Nginx简介</strong></h1><p>Nginx (“engine x”) 是一个高性能的HTTP和反向代理服务器，也是一个IMAP/POP3/SMTP服务器。Nginx是由Igor Sysoev为俄罗斯访问量第二的Rambler.ru站点开发的，第一个公开版本0.1.0发布于2004年10月4日。其将源代码以类BSD许可证的形式发布，因它的稳定性、丰富的功能集、示例配置文件和低系统资源的消耗而闻名。2011年6月1日，nginx 1.0.4发布。</p>
 <p>Nginx是一款轻量级的Web 服务器/反向代理服务器及电子邮件（IMAP/POP3）代理服务器，并在一个BSD-like 协议下发行。由俄罗斯的程序设计师Igor Sysoev所开发，供俄国大型的入口网站及搜索引擎Rambler（俄文：Рамблер）使用。其特点是占有内存少，并发能力强，事实上nginx的并发能力确实在同类型的网页服务器中表现较好，中国大陆使用nginx网站用户有：百度、京东、新浪、网易、腾讯、淘宝等。</p>
-<h1 id="二、Nginx安装"><a href="#二、Nginx安装" class="headerlink" title="二、Nginx安装"></a><strong>二、Nginx安装</strong></h1><h2 id="2-1-直接下载nginxd的tar-gz安装包"><a href="#2-1-直接下载nginxd的tar-gz安装包" class="headerlink" title="2.1 直接下载nginxd的tar.gz安装包"></a><strong>2.1 直接下载nginxd的tar.gz安装包</strong></h2><p>下载地址：<a target="_blank" rel="noopener" href="https://nginx.org/en/download.html">nginx下载</a><br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171409552.png"  ><span class="image-caption">这里写图片描述</span><br>将下载的包直接通过ftp工具放到我们的linux服务器即可。<br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171416380.png"  ><span class="image-caption">这里写图片描述</span></p>
+<h1 id="二、Nginx安装"><a href="#二、Nginx安装" class="headerlink" title="二、Nginx安装"></a><strong>二、Nginx安装</strong></h1><h2 id="2-1-直接下载nginxd的tar-gz安装包"><a href="#2-1-直接下载nginxd的tar-gz安装包" class="headerlink" title="2.1 直接下载nginxd的tar.gz安装包"></a><strong>2.1 直接下载nginxd的tar.gz安装包</strong></h2><p>下载地址：<a target="_blank" rel="noopener" href="https://nginx.org/en/download.html">nginx下载</a><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171409552.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>将下载的包直接通过ftp工具放到我们的linux服务器即可。<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171416380.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span></p>
 <h2 id="2-2-使用wget命令下载"><a href="#2-2-使用wget命令下载" class="headerlink" title="2.2 使用wget命令下载"></a><strong>2.2 使用wget命令下载</strong></h2><p>版本可以根据自己的需要下载，先去Nginx官网看一下有什么版本，下载即可。</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">wget</span> -c https://nginx.org/download/nginx-<span class="hljs-number">1</span>.<span class="hljs-number">11</span>.<span class="hljs-number">6</span>.tar.gz<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://img-blog.csdn.net/20170426162729336?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdzQxMDU4OTUwMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"  ><span class="image-caption">这里写图片描述</span><br>使用wget下载的好处就是快速，而且直接下载到我们的linux服务器，方便。</p>
+<p><img    class="lazyload" data-original="https://img-blog.csdn.net/20170426162729336?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdzQxMDU4OTUwMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>使用wget下载的好处就是快速，而且直接下载到我们的linux服务器，方便。</p>
 <h2 id="2-3-解压安装包"><a href="#2-3-解压安装包" class="headerlink" title="2.3 解压安装包"></a><strong>2.3 解压安装包</strong></h2><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> -zxvf nginx-<span class="hljs-number">1</span>.<span class="hljs-number">11</span>.<span class="hljs-number">6</span>.tar.gz<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p>解压之后进入nginx的安装目录<br><img  src="https://img-blog.csdn.net/20170426163247293?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdzQxMDU4OTUwMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"  ><span class="image-caption">这里写图片描述</span></p>
+<p>解压之后进入nginx的安装目录<br><img    class="lazyload" data-original="https://img-blog.csdn.net/20170426163247293?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdzQxMDU4OTUwMg==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span></p>
 <h2 id="2-4-nginx的配置"><a href="#2-4-nginx的配置" class="headerlink" title="2.4 nginx的配置"></a><strong>2.4 nginx的配置</strong></h2><h3 id="2-4-1-使用默认配置（推荐）"><a href="#2-4-1-使用默认配置（推荐）" class="headerlink" title="2.4.1 使用默认配置（推荐）"></a><strong>2.4.1 使用默认配置（推荐）</strong></h3><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gcode">./co<span class="hljs-symbol">nfigure1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171427844.png"  ><span class="image-caption">这里写图片描述</span><br>执行命令后会发现出现错误，我们需要添加依赖库。<br><strong>（1）安装gcc 环境</strong><br>因为是的linux系统版本是aliyun，已经安装了gcc 环境。所以不需要安装，但是centos7等系统需要gcc环境编译。<br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171533800.png"  ><span class="image-caption">这里写图片描述</span><br>如果没有 gcc 环境，则需要安装：</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171427844.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>执行命令后会发现出现错误，我们需要添加依赖库。<br><strong>（1）安装gcc 环境</strong><br>因为是的linux系统版本是aliyun，已经安装了gcc 环境。所以不需要安装，但是centos7等系统需要gcc环境编译。<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171533800.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>如果没有 gcc 环境，则需要安装：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> install gcc-c++<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><strong>（2）安装PCRE依赖库</strong><br>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库，pcre-devel 是使用 pcre 开发的一个二次开发库。<br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171530033.png"  ><span class="image-caption">这里写图片描述</span>安装<br>PCRE依赖库安装命令：</p>
+<p><strong>（2）安装PCRE依赖库</strong><br>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库，pcre-devel 是使用 pcre 开发的一个二次开发库。<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171530033.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span>安装<br>PCRE依赖库安装命令：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">yum</span> install -y pcre pcre-devel<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171526650.png"  ><span class="image-caption">这里写图片描述</span><br><strong>（3）安装zlib 依赖库</strong><br>zlib 库提供了很多种压缩和解压缩的方式， nginx 使用 zlib 对 http 包的内容进行 gzip ，所以需要在 Centos 上安装 zlib 库。<br>zlib依赖库安装命令：</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171526650.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br><strong>（3）安装zlib 依赖库</strong><br>zlib 库提供了很多种压缩和解压缩的方式， nginx 使用 zlib 对 http 包的内容进行 gzip ，所以需要在 Centos 上安装 zlib 库。<br>zlib依赖库安装命令：</p>
 <figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nsis">yum install -y <span class="hljs-literal">zlib</span> <span class="hljs-literal">zlib</span>-devel1<br></code></pre></td></tr></table></figure>
 
 <p><strong>（4）安装OpenSSL安全套接字层密码库</strong><br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及 SSL 协议，并提供丰富的应用程序供测试或其它目的使用。<br>nginx 不仅支持 http 协议，还支持 https（即在ssl协议上传输http），所以需要在 Centos 安装 OpenSSL 库。<br>OpenSSL安装命令：</p>
@@ -229,17 +229,17 @@ linux nginx安装以及配置一、N...">
 <p>再次执行配置命令：</p>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gcode">./co<span class="hljs-symbol">nfigure1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171522026.png"  ><span class="image-caption">这里写图片描述</span><br>执行成功。</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171522026.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>执行成功。</p>
 <h3 id="2-4-2-自定义配置（不推荐）"><a href="#2-4-2-自定义配置（不推荐）" class="headerlink" title="2.4.2 自定义配置（不推荐）"></a><strong>2.4.2 自定义配置（不推荐）</strong></h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs awk">./configure \<br>--prefix=<span class="hljs-regexp">/usr/</span>local/nginx \<br>--conf-path=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>conf/nginx.conf \<br>--pid-path=<span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>conf/nginx.pid \<br>--lock-path=<span class="hljs-regexp">/var/</span>lock/nginx.lock \<br>--error-log-path=<span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/nginx/</span>error.log \<br>--http-log-path=<span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/nginx/</span>access.log \<br>--with-http_gzip_static_module \<br>--http-client-body-temp-path=<span class="hljs-regexp">/var/</span>temp<span class="hljs-regexp">/nginx/</span>client \<br>--http-proxy-temp-path=<span class="hljs-regexp">/var/</span>temp<span class="hljs-regexp">/nginx/</span>proxy \<br>--http-fastcgi-temp-path=<span class="hljs-regexp">/var/</span>temp<span class="hljs-regexp">/nginx/</span>fastcgi \<br>--http-uwsgi-temp-path=<span class="hljs-regexp">/var/</span>temp<span class="hljs-regexp">/nginx/u</span>wsgi \<br>--http-scgi-temp-path=<span class="hljs-regexp">/var/</span>temp<span class="hljs-regexp">/nginx/</span>scgi12345678910111213<br></code></pre></td></tr></table></figure>
 
 <p>注：将临时文件目录指定为/var/temp/nginx，需要在/var下创建temp及nginx目录</p>
 <h2 id="2-5-编译安装"><a href="#2-5-编译安装" class="headerlink" title="2.5 编译安装"></a><strong>2.5 编译安装</strong></h2><p>执行命令</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">make</span> install<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171516488.png"  ><span class="image-caption">这里写图片描述</span><br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171511925.png"  ><span class="image-caption">这里写图片描述</span><br>查找安装路径命令：</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171516488.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171511925.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>查找安装路径命令：</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">whereis</span> nginx<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171509129.png"  ><span class="image-caption">这里写图片描述</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171509129.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span></p>
 <h2 id="2-6-启动、停止nginx"><a href="#2-6-启动、停止nginx" class="headerlink" title="2.6 启动、停止nginx"></a><strong>2.6 启动、停止nginx</strong></h2><p>启动和停止nginx的命令<br><strong>（1）先进入nginx的目录</strong></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>sbin/<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
@@ -247,7 +247,7 @@ linux nginx安装以及配置一、N...">
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./nginx</span> 开启<br><span class="hljs-string">./nginx</span> -s stop 停止<br><span class="hljs-string">./nginx</span> -s <span class="hljs-keyword">quit</span><br><span class="hljs-string">./nginx</span> -s <span class="hljs-keyword">reload</span>1234<br></code></pre></td></tr></table></figure>
 
 <p><strong>./nginx -s quit:此方式停止步骤是待nginx进程处理任务完毕进行停止。</strong><br><strong>./nginx -s stop:此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程。</strong></p>
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171503893.png"  ><span class="image-caption">这里写图片描述</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171503893.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span></p>
 <h2 id="2-7-修改端口号"><a href="#2-7-修改端口号" class="headerlink" title="2.7 修改端口号"></a><strong>2.7 修改端口号</strong></h2><p>默认端口号为80，因为通常80端口都是服务于tomcat的，所以这里我们需要修改一下端口号。<br><strong>（1）进入配置文件文件夹</strong></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>conf1<br></code></pre></td></tr></table></figure>
 
@@ -257,27 +257,27 @@ linux nginx安装以及配置一、N...">
 <p><strong>（3）编辑nginx.conf配置文件</strong></p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">vi</span> nginx.conf<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171455404.png"  ><span class="image-caption">这里写图片描述</span><br>将端口号修改为81（自定）Esc退出 :wq（保存并退出）<br><strong>（4）重新启动一下</strong></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171455404.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>将端口号修改为81（自定）Esc退出 :wq（保存并退出）<br><strong>（4）重新启动一下</strong></p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./nginx</span> -s <span class="hljs-keyword">reload</span>1<br></code></pre></td></tr></table></figure>
 
 <p>注：记住要进入/usr/local/nginx/sbin路径下执行命令<br><strong>（5）查询nginx进程</strong></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">ps</span> aux|<span class="hljs-keyword">grep</span> nginx1<br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171451705.png"  ><span class="image-caption">这里写图片描述</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171451705.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span></p>
 <h2 id="2-8-重启-nginx"><a href="#2-8-重启-nginx" class="headerlink" title="2.8 重启 nginx"></a><strong>2.8 重启 nginx</strong></h2><p><strong>（1）先停止再启动（推荐）</strong><br>对 nginx 进行重启相当于先停止再启动，即先执行停止命令再执行启动命令。如下：</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./nginx</span> -s <span class="hljs-keyword">quit</span><br><span class="hljs-string">./nginx12</span><br></code></pre></td></tr></table></figure>
 
 <p><strong>（2）重新加载配置文件</strong><br>当修改nginx.conf 修改，要想让配置生效需要重启nginx，使用./nginx -s reload不用先停止nginx再启动，即可将配置信息在nginx中生效。</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli"><span class="hljs-string">./nginx</span> -s <span class="hljs-keyword">reload</span>1<br></code></pre></td></tr></table></figure>
 
-<p>启动成功后，输入你的IP地址还有配置的nginx端口号在浏览器可以看到这样的页面：<br><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171358929-20201114171447602.png"  ><span class="image-caption">这里写图片描述</span><br>这就说明我们nginx配置成功了。</p>
+<p>启动成功后，输入你的IP地址还有配置的nginx端口号在浏览器可以看到这样的页面：<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171358929-20201114171447602.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br>这就说明我们nginx配置成功了。</p>
 <h2 id="2-9-开机自启动"><a href="#2-9-开机自启动" class="headerlink" title="2.9 开机自启动"></a><strong>2.9 开机自启动</strong></h2><p>在etc的rc.local增加启动代码就可以了。</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">vi <span class="hljs-regexp">/etc/</span>rc.local1<br></code></pre></td></tr></table></figure>
 
 <p><strong>（1）添加语句</strong></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/nginx/</span>sbin/nginx1<br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/SouthEast-20201114171435844.png"  ><span class="image-caption">这里写图片描述</span><br><strong>（2）设置权限</strong></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/SouthEast-20201114171435844.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">这里写图片描述</span><br><strong>（2）设置权限</strong></p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">chmod</span> <span class="hljs-number">755</span> /etc/rc.local<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="三、安装命令总结"><a href="#三、安装命令总结" class="headerlink" title="三、安装命令总结"></a><strong>三、安装命令总结</strong></h1><pre><code>wget -c https://nginx.org/download/nginx-1.11.6.tar.gz
@@ -327,7 +327,7 @@ ps aux|grep nginx1234567891011121314151617181920212223242526272829
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
@@ -379,6 +379,13 @@ ps aux|grep nginx1234567891011121314151617181920212223242526272829
         onMouseOver="this.style.color= '#09BB07'" 
         onMouseOut="this.style.color='#33333D'">
           <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://www.instagram.com/izhaoo/ "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#DA2E76'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconinstagram "></i>
       </a><a 
         href="https://github.com/longshenzhifeijue "
         target="_blank"
