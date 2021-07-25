@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FeignClient的path参数作用 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="FeignClient
+
+
+FeignClient说明...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">FeignClient的path参数作用</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">FeignClient的path参数作用</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>June 11, 2021</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>4239</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="FeignClient说明"><a href="#FeignClient说明" class="headerlink" title="FeignClient说明"></a>FeignClient说明</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Annotation for interfaces declaring that a REST client with that interface should be</span><br><span class="hljs-comment"> * created (e.g. for autowiring into another component). If ribbon is available it will be</span><br><span class="hljs-comment"> * used to load balance the backend requests, and the load balancer can be configured</span><br><span class="hljs-comment"> * using a &lt;code&gt;<span class="hljs-doctag">@RibbonClient</span>&lt;/code&gt; with the same name (i.e. value) as the feign client.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Spencer Gibb</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Venil Noronha</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> FeignClient &#123;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The name of the service with optional protocol prefix. Synonym for &#123;<span class="hljs-doctag">@link</span> #name()</span><br><span class="hljs-comment">	 * name&#125;. A name must be specified for all clients, whether or not a url is provided.</span><br><span class="hljs-comment">	 * Can be specified as property key, eg: $&#123;propertyKey&#125;.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> the name of the service with optional protocol prefix</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-meta">@AliasFor(&quot;name&quot;)</span><br>	<span class="hljs-function">String <span class="hljs-title">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * The service id with optional protocol prefix. Synonym for &#123;<span class="hljs-doctag">@link</span> #value() value&#125;.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@deprecated</span> use &#123;<span class="hljs-doctag">@link</span> #name() name&#125; instead</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> the service id with optional protocol prefix</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-meta">@Deprecated</span><br>	<span class="hljs-function">String <span class="hljs-title">serviceId</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * This will be used as the bean name instead of name if present, but will not be used</span><br><span class="hljs-comment">	 * as a service id.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> bean name instead of name if present</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function">String <span class="hljs-title">contextId</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> The service id with optional protocol prefix. Synonym for &#123;<span class="hljs-doctag">@link</span> #value()</span><br><span class="hljs-comment">	 * value&#125;.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-meta">@AliasFor(&quot;value&quot;)</span><br>	<span class="hljs-function">String <span class="hljs-title">name</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> the &lt;code&gt;<span class="hljs-doctag">@Qualifier</span>&lt;/code&gt; value for the feign client.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function">String <span class="hljs-title">qualifier</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> an absolute URL or resolvable hostname (the protocol is optional).</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function">String <span class="hljs-title">url</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> whether 404s should be decoded instead of throwing FeignExceptions</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">decode404</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">false</span></span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * A custom &lt;code&gt;<span class="hljs-doctag">@Configuration</span>&lt;/code&gt; for the feign client. Can contain override</span><br><span class="hljs-comment">	 * &lt;code&gt;<span class="hljs-doctag">@Bean</span>&lt;/code&gt; definition for the pieces that make up the client, for instance</span><br><span class="hljs-comment">	 * &#123;<span class="hljs-doctag">@link</span> feign.codec.Decoder&#125;, &#123;<span class="hljs-doctag">@link</span> feign.codec.Encoder&#125;, &#123;<span class="hljs-doctag">@link</span> feign.Contract&#125;.</span><br><span class="hljs-comment">	 *</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@see</span> FeignClientsConfiguration for the defaults</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> list of configurations for feign client</span><br><span class="hljs-comment">	 */</span><br>	Class&lt;?&gt;[] configuration() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * Fallback class for the specified Feign client interface. The fallback class must</span><br><span class="hljs-comment">	 * implement the interface annotated by this annotation and be a valid spring bean.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> fallback class for the specified Feign client interface</span><br><span class="hljs-comment">	 */</span><br>	Class&lt;?&gt; fallback() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span>.class;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * Define a fallback factory for the specified Feign client interface. The fallback</span><br><span class="hljs-comment">	 * factory must produce instances of fallback classes that implement the interface</span><br><span class="hljs-comment">	 * annotated by &#123;<span class="hljs-doctag">@link</span> FeignClient&#125;. The fallback factory must be a valid spring bean.</span><br><span class="hljs-comment">	 *</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@see</span> feign.hystrix.FallbackFactory for details.</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> fallback factory for the specified Feign client interface</span><br><span class="hljs-comment">	 */</span><br>	Class&lt;?&gt; fallbackFactory() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span>.class;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> path prefix to be used by all method-level mappings. Can be used with or</span><br><span class="hljs-comment">	 * without &lt;code&gt;<span class="hljs-doctag">@RibbonClient</span>&lt;/code&gt;.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function">String <span class="hljs-title">path</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> &quot;&quot;</span>;<br><br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@return</span> whether to mark the feign proxy as a primary bean. Defaults to true.</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">primary</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">true</span></span>;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="问题一-Feign-404-小坑"><a href="#问题一-Feign-404-小坑" class="headerlink" title="问题一 Feign 404 小坑"></a>问题一 Feign 404 小坑</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>的path参数只对FeignClient的请求路径起作用，不会对restcontroller实现起作用，而接口上的requestMapping（包括衍生的GetMapping之类）会同时对FeignClient和Restcontroller起作用不加path参数的话FeignClient的请求路径和服务的路径是一致的，可以调用成功。加了path=<span class="hljs-string">&quot;/cms&quot;</span>参数后，要想两边路径一致，就需要在实现上加<span class="hljs-meta">@RequestMapping(&quot;/cms&quot;)</span>或配置项目的context-path=/cms使请求路径和服务路径一致，说明:path 就是对应被调用服务的 context-path 值（服务的 server.context-path 配置），正确配置 path 后问题便会解决;<br></code></pre></td></tr></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000021551730">https://segmentfault.com/q/1010000021551730</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/catoop/article/details/101021847">https://blog.csdn.net/catoop/article/details/101021847</a><br><a target="_blank" rel="noopener" href="https://www.fangzhipeng.com/architecture/2018/07/07/ctl-mapping.html">https://www.fangzhipeng.com/architecture/2018/07/07/ctl-mapping.html</a></p>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2021/06/11/FeignClient%E7%9A%84path%E6%B3%A8%E8%A7%A3/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;FeignClient%E7%9A%84path%E6%B3%A8%E8%A7%A3&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2021&#x2F;06&#x2F;11&#x2F;FeignClient%E7%9A%84path%E6%B3%A8%E8%A7%A3&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FeignClient/" rel="tag">FeignClient</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2021/07/14/%E9%9D%A2%E8%AF%95%E9%A2%98/"><i class="iconfont iconleft"></i>面试题</a>
+    <a href="/2021/06/07/mybatis-plus.mapper-locations%E7%9A%84%E4%BD%9C%E7%94%A8/">mybatis-plus.mapper-locations的作用<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FeignClient%E8%AF%B4%E6%98%8E"><span class="toc-text">FeignClient说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E4%B8%80-Feign-404-%E5%B0%8F%E5%9D%91"><span class="toc-text">问题一 Feign 404 小坑</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

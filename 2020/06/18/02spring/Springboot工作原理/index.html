@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Springboot工作原理 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="Springboot启动流程及其原理
+
+
+spring...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Springboot工作原理</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Springboot工作原理</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>June 18, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>12630</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="springboot启动原理及相关流程概览"><a href="#springboot启动原理及相关流程概览" class="headerlink" title="springboot启动原理及相关流程概览"></a>springboot启动原理及相关流程概览</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xufei.sharding;<br><br><span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;<br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;<br><br><span class="hljs-meta">@SpringBootApplication</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringBootShardingTableApplication</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>        SpringApplication.run(SpringBootShardingTableApplication.class, args);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>从上面代码可以看出，Annotation定义（@SpringBootApplication）和类定义（SpringApplication.run）最为耀眼，所以要揭开SpringBoot的神秘面纱，我们要从这两位开始就可以了</p>
+<h2 id="单单是SpringBootApplication接口用到了这些注解"><a href="#单单是SpringBootApplication接口用到了这些注解" class="headerlink" title="单单是SpringBootApplication接口用到了这些注解"></a>单单是SpringBootApplication接口用到了这些注解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span> <span class="hljs-comment">// 注解的适用范围，其中TYPE用于描述类、接口（包括包注解类型）或enum声明</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span> <span class="hljs-comment">// 注解的生命周期，保留到class文件中（三个生命周期）</span><br><span class="hljs-meta">@Documented</span> <span class="hljs-comment">// 表明这个注解应该被javadoc记录</span><br><span class="hljs-meta">@Inherited</span> <span class="hljs-comment">// 子类可以继承该注解</span><br><span class="hljs-meta">@SpringBootConfiguration</span> <span class="hljs-comment">// 继承了Configuration，表示当前是注解类</span><br><span class="hljs-meta">@EnableAutoConfiguration</span> <span class="hljs-comment">// 开启springboot的注解功能，springboot的四大神器之一，其借助@import的帮助</span><br><span class="hljs-meta">@ComponentScan(excludeFilters = &#123; // 扫描路径设置（具体使用待确认）</span><br><span class="hljs-meta">@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),</span><br><span class="hljs-meta">@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SpringBootApplication &#123;<br>...<br>&#125;　　<br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SpringBootApplication &#123;<br>        ......<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190709114128801-171612088.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span><br>在其中比较重要的有三个注解，分别是:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>）<span class="hljs-meta">@SpringBootConfiguration</span> <span class="hljs-comment">// 继承了Configuration，表示当前是注解类）</span><br><span class="hljs-number">2</span>）<span class="hljs-meta">@EnableAutoConfiguration</span> <span class="hljs-comment">// 开启springboot的注解功能，springboot的四大神器之一,其借助@import的帮助</span><br><span class="hljs-number">3</span>）<span class="hljs-meta">@ComponentScan(excludeFilters = &#123; // 扫描路径设置（具体使用待确认）</span><br></code></pre></td></tr></table></figure>
+<p>接下来对主要谈下@EnableAutoConfiguration，增加对springbootApplication的理解：<br>此注解顾名思义是可以自动配置，所以应该是springboot中最为重要的注解。</p>
+<p>在spring框架中就提供了各种以@Enable开头的注解，例如： @EnableScheduling、@EnableCaching、@EnableMBeanExport等； @EnableAutoConfiguration的理念和做事方式其实一脉相承简单概括一下就是，借助@Import的支持，收集和注册特定场景相关的bean定义。　　</p>
+<p>@EnableScheduling是通过@Import将Spring调度框架相关的bean定义都加载到IoC容器【定时任务、时间调度任务】<br>@EnableMBeanExport是通过@Import将JMX相关的bean定义加载到IoC容器【监控JVM运行时状态】<br>@EnableAutoConfiguration也是借助@Import的帮助，将所有符合自动配置条件的bean定义加载到IoC容器。</p>
+<p>@EnableAutoConfiguration作为一个复合Annotation,其自身定义关键信息如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@AutoConfigurationPackage</span><br><span class="hljs-meta">@Import(&#123;AutoConfigurationImportSelector.class&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableAutoConfiguration &#123;<br>    String ENABLED_OVERRIDE_PROPERTY = <span class="hljs-string">&quot;spring.boot.enableautoconfiguration&quot;</span>;<br><br>    Class&lt;?&gt;[] exclude() <span class="hljs-keyword">default</span> &#123;&#125;;<br><br>    String[] excludeName() <span class="hljs-keyword">default</span> &#123;&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中最重要的两个注解已经标注:<br>1、@AutoConfigurationPackage【重点注解】2、@Import(AutoConfigurationImportSelector.class)【重点注解】<br>当然还有其中比较重要的一个类就是：EnableAutoConfigurationImportSelector.class</p>
+<h2 id="AutoConfigurationPackage注解："><a href="#AutoConfigurationPackage注解：" class="headerlink" title="AutoConfigurationPackage注解："></a>AutoConfigurationPackage注解：</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Target(&#123;ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Import(&#123;Registrar.class&#125;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> AutoConfigurationPackage &#123;<br>&#125;<br>通过<span class="hljs-meta">@Import(AutoConfigurationPackages.Registrar.class)</span><br><br>    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Registrar</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ImportBeanDefinitionRegistrar</span>, <span class="hljs-title">DeterminableImports</span> </span>&#123;<br>        Registrar() &#123;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerBeanDefinitions</span><span class="hljs-params">(AnnotationMetadata metadata, BeanDefinitionRegistry registry)</span> </span>&#123;<br>            AutoConfigurationPackages.register(registry, (<span class="hljs-keyword">new</span> AutoConfigurationPackages.PackageImport(metadata)).getPackageName());<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> Set&lt;Object&gt; <span class="hljs-title">determineImports</span><span class="hljs-params">(AnnotationMetadata metadata)</span> </span>&#123;<br>            <span class="hljs-keyword">return</span> Collections.singleton(<span class="hljs-keyword">new</span> AutoConfigurationPackages.PackageImport(metadata));<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<p>它其实是注册了一个Bean的定义;new AutoConfigurationPackages.PackageImport(metadata)).getPackageName(),它其实返回了当前主程序类的<strong>同级以及子级</strong>的包组件(<strong>重点</strong>)<br>那么总体上就是注册当前程序类的同级及子级包中符合条件的Bean的定义;<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190707174953083-464337578.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p>以上图为例，DemoApplication是和demo包同级，但是demo2这个类是DemoApplication的父级，和example包同级</p>
+<p>也就是说，DemoApplication启动加载的Bean中，并不会加载demo2，这也就是为什么，我们要把DemoApplication放在项目的最高级中。</p>
+<h3 id="Import-AutoConfigurationImportSelector-class-注解"><a href="#Import-AutoConfigurationImportSelector-class-注解" class="headerlink" title="Import(AutoConfigurationImportSelector.class)注解"></a>Import(AutoConfigurationImportSelector.class)注解</h3><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190707175201406-322411811.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><strong>（重点）</strong>可以从图中看出 <strong>AutoConfigurationImportSelector 实现</strong>了 DeferredImportSelector 从 ImportSelector继承的方法：<strong>selectImports</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String[] selectImports(AnnotationMetadata annotationMetadata) &#123;<br>        <span class="hljs-keyword">if</span> (!isEnabled(annotationMetadata)) &#123;<br>            <span class="hljs-keyword">return</span> NO_IMPORTS;<br>        &#125;<br>        AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader<br>                .loadMetadata(<span class="hljs-keyword">this</span>.beanClassLoader);<br>        AnnotationAttributes attributes = getAttributes(annotationMetadata);<br>        List&lt;String&gt; configurations = getCandidateConfigurations(annotationMetadata,<br>                attributes);<br>        configurations = removeDuplicates(configurations);<br>        Set&lt;String&gt; exclusions = getExclusions(annotationMetadata, attributes);<br>        checkExcludedClasses(configurations, exclusions);<br>        configurations.removeAll(exclusions);<br>        configurations = filter(configurations, autoConfigurationMetadata);<br>        fireAutoConfigurationImportEvents(configurations, exclusions);<br>        <span class="hljs-keyword">return</span> StringUtils.toStringArray(configurations);<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h6 id="第9行"><a href="#第9行" class="headerlink" title="第9行"></a>第9行</h6><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-string">`List&lt;String&gt;</span> <span class="hljs-string">configurations</span> <span class="hljs-string">=</span> <span class="hljs-string">getCandidateConfigurations(annotationMetadata,`attributes);其实是去加载各个组件jar下的</span><br><span class="hljs-string">public</span> <span class="hljs-string">static</span> <span class="hljs-string">final</span> <span class="hljs-string">String</span> <span class="hljs-string">FACTORIES_RESOURCE_LOCATION</span> <span class="hljs-string">=</span> <span class="hljs-string">&quot;META-INF/spring.factories&quot;</span><span class="hljs-string">;外部文件。</span><br></code></pre></td></tr></table></figure>
+<p>该方法在springboot启动流程——bean实例化前被执行，返回要实例化的类信息列表；</p>
+<p>如果获取到类信息，spring可以通过类加载器将类加载到jvm中，现在我们已经通过spring-boot的starter依赖方式依赖了我们需要的组件，那么这些组件的类信息在select方法中就可以被获取到。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">protected</span><span class="hljs-string">` `</span>List&lt;<span class="hljs-built_in">String</span>&gt; <span class="hljs-function"><span class="hljs-title">getCandidateConfigurations</span>(<span class="hljs-params">AnnotationMetadata metadata, AnnotationAttributes attributes</span>)</span> &#123;<span class="hljs-string">``</span> <span class="hljs-string">``</span>List&lt;<span class="hljs-built_in">String</span>&gt; configurations = SpringFactoriesLoader.loadFactoryNames(<span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.getSpringFactoriesLoaderFactoryClass(), <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.getBeanClassLoader());<span class="hljs-string">``</span> <span class="hljs-string">``</span>Assert.notEmpty(configurations, <span class="hljs-string">``</span><span class="hljs-string">&quot;No auto configuration classes found in META-INF/spring.factories. If you are using a custom packaging, make sure that file is correct.&quot;</span><span class="hljs-string">``</span>);<span class="hljs-string">``</span> <span class="hljs-string">``</span><span class="hljs-keyword">return</span><span class="hljs-string">` `</span>configurations;<span class="hljs-string">``</span> <span class="hljs-string">``</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>　　</p>
+<p>其返回一个自动配置类的类名列表，方法调用了loadFactoryNames方法，查看该方法</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">public</span><span class="hljs-string">` `</span><span class="hljs-keyword">static</span><span class="hljs-string">` `</span>List&lt;<span class="hljs-built_in">String</span>&gt; <span class="hljs-function"><span class="hljs-title">loadFactoryNames</span>(<span class="hljs-params">Class&lt;?&gt; factoryClass, <span class="hljs-string">``</span><span class="hljs-meta">@Nullable</span><span class="hljs-string">` `</span>ClassLoader classLoader</span>)</span> &#123;<span class="hljs-string">``</span> <span class="hljs-string">``</span><span class="hljs-built_in">String</span> factoryClassName = factoryClass.getName();<span class="hljs-string">``</span> <span class="hljs-string">``</span><span class="hljs-keyword">return</span><span class="hljs-string">` `</span>(List)loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList());<span class="hljs-string">``</span> <span class="hljs-string">``</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>自动配置器会跟根据传入的factoryClass.getName()到项目系统路径下所有的spring.factories文件中找到相应的key，从而加载里面的类。</p>
+<p>这个外部文件，有很多自动配置的类。如下：</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190707180956760-1536038503.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><strong>（重点）</strong>其中，最关键的要属@Import(AutoConfigurationImportSelector.class)，借助AutoConfigurationImportSelector，@EnableAutoConfiguration可以帮助SpringBoot应用将所有符合条件(spring.factories)的<strong>bean定义</strong>（如Java Config@Configuration配置）都加载到当前SpringBoot创建并使用的IoC容器。就像一只“八爪鱼”一样。</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190707202520918-906267842.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<h2 id="自动配置幕后英雄：SpringFactoriesLoader详解"><a href="#自动配置幕后英雄：SpringFactoriesLoader详解" class="headerlink" title="自动配置幕后英雄：SpringFactoriesLoader详解"></a>自动配置幕后英雄：SpringFactoriesLoader详解</h2><p>借助于Spring框架<strong>原有</strong>的一个工具类：<strong>SpringFactoriesLoader</strong>的支持，@EnableAutoConfiguration可以智能的自动配置功效才得以大功告成！</p>
+<p>SpringFactoriesLoader属于Spring框架私有的一种扩展方案，其主要功能就是从<strong>指定的配置文件META-INF/spring.factories</strong>加载配置,<strong>加载工厂类</strong>。</p>
+<p>SpringFactoriesLoader为Spring工厂加载器，该对象提供了loadFactoryNames方法，入参为factoryClass和classLoader即需要传入<strong>工厂类</strong>名称和对应的类加载器，方法会根据指定的classLoader，加载该类加器搜索路径下的指定文件，即spring.factories文件；</p>
+<p>传入的工厂类为接口，而文件中对应的类则是接口的实现类，或最终作为实现类。</p>
+<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey">public` `abstract` `class` `SpringFactoriesLoader &#123;``//...``　　``public` `static` `&lt;T&gt; List&lt;T&gt; loadFactories(Class&lt;T&gt; factoryClass, ClassLoader classLoader) &#123;``　　　　...``　　&#125;`` ` ` ` `　　``public` `static` `List&lt;String&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, ClassLoader classLoader) &#123;``　　　　....``　　&#125;``&#125;<br></code></pre></td></tr></table></figure>
+
+<p>配合@EnableAutoConfiguration使用的话，它更多是提供一种配置查找的功能支持，即根据@EnableAutoConfiguration的完整类名org.springframework.boot.autoconfigure.EnableAutoConfiguration作为查找的Key,获取对应的一组@Configuration类　　</p>
+<p> <img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190708145522504-1677532764.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p>上图就是从SpringBoot的autoconfigure依赖包中的META-INF/spring.factories配置文件中摘录的一段内容，可以很好地说明问题。</p>
+<p>（重点）所以，@EnableAutoConfiguration自动配置的魔法其实就变成了：</p>
+<p>从classpath中搜寻所有的META-INF/spring.factories配置文件，并将其中org.springframework.boot.autoconfigure.EnableAutoConfiguration对应的<strong>配置项</strong>通过<strong>反射（Java Refletion）</strong>实例化为对应的标注了**@Configuration**的JavaConfig形式的IoC容器配置类，然后汇总为一个并加载到IoC容器。</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190708145522504-1677532764.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<h1 id="四-springboot启动流程概览图"><a href="#四-springboot启动流程概览图" class="headerlink" title="四 springboot启动流程概览图"></a>四 springboot启动流程概览图</h1><p> <img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201907/1158841-20190707203656740-1805253848.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201907/1158841-20190707203726850-831777585.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<h1 id="五-深入探索SpringApplication执行流程"><a href="#五-深入探索SpringApplication执行流程" class="headerlink" title="五 深入探索SpringApplication执行流程"></a>五 深入探索SpringApplication执行流程</h1><p> <img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20190716164535793-477823131.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201907/1158841-20190717114952544-1705075996.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p> <img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201907/1158841-20190717115009703-517805589.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">public</span>` `<span class="hljs-keyword">class</span>` `<span class="hljs-symbol">EventPublishingRunListener</span> ``<span class="hljs-symbol">implements</span>` `<span class="hljs-symbol">SpringApplicationRunListener, <span class="hljs-symbol">Ordered</span></span><br></code></pre></td></tr></table></figure>
+
+<p>EventPublishingRunListener实现了SpringApplicationRunListener接口；</p>
+<p>实现了方法，下面是部分方法源码</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-meta">@Override</span><span class="hljs-string">``</span>  <span class="hljs-string">``</span><span class="hljs-keyword">public</span><span class="hljs-string">` `</span><span class="hljs-built_in">void</span><span class="hljs-string">` `</span><span class="hljs-function"><span class="hljs-title">starting</span>(<span class="hljs-params"></span>)</span> &#123;<span class="hljs-string">``</span>    <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.initialMulticaster.multicastEvent(<span class="hljs-string">``</span>        <span class="hljs-string">``</span><span class="hljs-keyword">new</span><span class="hljs-string">` `</span>ApplicationStartingEvent(<span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.application, <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.args));<span class="hljs-string">``</span>  <span class="hljs-string">``</span>&#125;<span class="hljs-string">` `</span>  <span class="hljs-string">``</span><span class="hljs-meta">@Override</span><span class="hljs-string">``</span>  <span class="hljs-string">``</span><span class="hljs-keyword">public</span><span class="hljs-string">` `</span><span class="hljs-built_in">void</span><span class="hljs-string">` `</span><span class="hljs-function"><span class="hljs-title">environmentPrepared</span>(<span class="hljs-params">ConfigurableEnvironment environment</span>)</span> &#123;<span class="hljs-string">``</span>    <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.initialMulticaster.multicastEvent(<span class="hljs-string">``</span><span class="hljs-keyword">new</span><span class="hljs-string">` `</span>ApplicationEnvironmentPreparedEvent(<span class="hljs-string">``</span>        <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.application, <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.args, environment));<span class="hljs-string">``</span>  <span class="hljs-string">``</span>&#125;<span class="hljs-string">` `</span>  <span class="hljs-string">``</span><span class="hljs-meta">@Override</span><span class="hljs-string">``</span>  <span class="hljs-string">``</span><span class="hljs-keyword">public</span><span class="hljs-string">` `</span><span class="hljs-built_in">void</span><span class="hljs-string">` `</span><span class="hljs-function"><span class="hljs-title">contextPrepared</span>(<span class="hljs-params">ConfigurableApplicationContext context</span>)</span> &#123;<span class="hljs-string">``</span>    <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.initialMulticaster.multicastEvent(<span class="hljs-string">``</span><span class="hljs-keyword">new</span><span class="hljs-string">` `</span>ApplicationContextInitializedEvent(<span class="hljs-string">``</span>        <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.application, <span class="hljs-string">``</span><span class="hljs-built_in">this</span><span class="hljs-string">``</span>.args, context));<span class="hljs-string">``</span>  <span class="hljs-string">``</span>&#125;<span class="hljs-string">` `</span>  <span class="hljs-string">``</span><span class="hljs-meta">@Override</span><span class="hljs-string">``</span>  <span class="hljs-string">``</span><span class="hljs-keyword">public</span><span class="hljs-string">` `</span><span class="hljs-built_in">void</span><span class="hljs-string">` `</span><span class="hljs-function"><span class="hljs-title">contextLoaded</span>(<span class="hljs-params">ConfigurableApplicationContext context</span>)</span> &#123;<span class="hljs-string">``</span>　　　　 .....................<br></code></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h1 id="简单了解下Bean的生命周期"><a href="#简单了解下Bean的生命周期" class="headerlink" title="简单了解下Bean的生命周期"></a>简单了解下Bean的生命周期</h1><p><img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201907/1158841-20190724210248256-956610315.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p>一个Bean的构造函数初始化时是最先执行的，这个时候，<strong>bean属性还没有被注入</strong>；</p>
+<p>@PostConstruct注解的方法优先于InitializingBean的afterPropertiesSet执行，这时Bean的属性竟然被注入了；</p>
+<p>spring很多组件的初始化都放在afterPropertiesSet做,想和spring一起启动，可以放在这里启动;</p>
+<p>spring为bean提供了两种初始化bean的方式，实现InitializingBean接口，实现afterPropertiesSet方法，或者在配置文件中同过init-method指定，两种方式可以同时使用；</p>
+<p>实现InitializingBean接口是直接调用afterPropertiesSet方法，比通过反射调用init-method指定的方法效率相对来说要高点；但是init-method方式消除了对spring的依赖；</p>
+<p>如果调用afterPropertiesSet方法时出错，则不调用init-method指定的方法。</p>
+<p>Bean在实例化的过程中：</p>
+<p>Constructor &gt; @PostConstruct &gt; InitializingBean &gt; init-method</p>
+<h1 id="BeanFactory-和ApplicationContext的区别"><a href="#BeanFactory-和ApplicationContext的区别" class="headerlink" title="BeanFactory 和ApplicationContext的区别"></a><strong>BeanFactory 和ApplicationContext的区别</strong></h1><p>BeanFactory和ApplicationContext都是接口，并且ApplicationContext间接继承了BeanFactory。</p>
+<p>BeanFactory是Spring中最底层的接口，提供了最简单的容器的功能，只提供了实例化对象和获取对象的功能，而ApplicationContext是Spring的一个更高级的容器，提供了更多的有用的功能。 </p>
+<p>ApplicationContext提供的额外的功能：获取Bean的详细信息(如定义、类型)、国际化的功能、统一加载资源的功能、强大的事件机制、对Web应用的支持等等。</p>
+<p>加载方式的区别：BeanFactory采用的是<strong>延迟加载的</strong>形式来注入Bean；ApplicationContext则相反的，它是在Ioc<strong>启动</strong>时就一次性创建**所有的Bean,**好处是可以马上发现Spring配置文件中的错误，坏处是造成浪费。</p>
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><span class="hljs-keyword">public</span>` `<span class="hljs-keyword">interface</span>` `<span class="hljs-symbol">ApplicationContext</span> ``<span class="hljs-symbol">extends</span>` `<span class="hljs-symbol">EnvironmentCapable</span>, <span class="hljs-symbol">ListableBeanFactory</span>, <span class="hljs-symbol">HierarchicalBeanFactory</span>,``    ``<span class="hljs-symbol">MessageSource</span>, <span class="hljs-symbol">ApplicationEventPublisher</span>, <span class="hljs-symbol">ResourcePatternResolver</span><br></code></pre></td></tr></table></figure>
+
+<p>　　</p>
+<h1 id="SpringMVC处理请求的流程"><a href="#SpringMVC处理请求的流程" class="headerlink" title="SpringMVC处理请求的流程"></a><strong>SpringMVC<strong><strong>处理请求的</strong></strong>流程</strong></h1><p>1、用户发送请求至前端控制器DispatcherServlet</p>
+<p>2、DispatcherServlet收到请求调用HandlerMapping处理器映射器。</p>
+<p>3、处理器映射器根据请求url找到具体的处理器，生成处理器对象Handler及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。</p>
+<p>4、DispatcherServlet通过HandlerAdapter（让Handler实现更加灵活）处理器适配器调用处理器</p>
+<p>5、执行处理器(Controller，也叫后端控制器)。</p>
+<p>6、Controller执行完成返回ModelAndView（连接业务逻辑层和展示层的桥梁，持有一个ModelMap对象和一个View对象）。</p>
+<p>7、HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet</p>
+<p>8、DispatcherServlet将ModelAndView传给ViewReslover视图解析器</p>
+<p>9、ViewReslover解析后返回具体View</p>
+<p>10、DispatcherServlet对View进行渲染视图（将ModelMap模型数据填充至视图中）。</p>
+<p>11、DispatcherServlet响应用户</p>
+<h1 id="BEANFACTORY和FACTORYBEAN的区别与联系"><a href="#BEANFACTORY和FACTORYBEAN的区别与联系" class="headerlink" title="BEANFACTORY和FACTORYBEAN的区别与联系"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/theRhyme/p/9139673.html">BEANFACTORY和FACTORYBEAN的区别与联系</a></h1><ol>
+<li>两者都是接口；</li>
+<li>BeanFactory主要是用来创建Bean和获得Bean的；</li>
+<li>FactoryBean跟普通Bean不同，其返回的对象不是指定类的一个实例，而是该FactoryBean的<strong>getObject</strong>方法所返回的对象；</li>
+<li>通过BeanFactory和beanName获取bean时，如果beanName不加&amp;则获取到对应bean的实例；如果beanName加上&amp;，则获取到FactoryBean本身的实例</li>
+<li>FactoryBean 通常是用来<strong>创建**<strong>比较复杂的bean</strong></strong>(如创建mybatis的SqlSessionFactory很复杂)<strong>，一般的bean 直接用xml配置即可，但如果创建一个bean的创建过程中涉及到很多</strong>其他的bean** 和复杂的逻辑，用xml配置比较困难，这时可以考虑用FactoryBean。</li>
+</ol>
+<h1 id="Bean的循环依赖"><a href="#Bean的循环依赖" class="headerlink" title="Bean的循环依赖"></a>Bean的循环依赖</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/itmrchen/article/details/90201279">https://blog.csdn.net/itmrchen/article/details/90201279</a></p>
+<p>对于Spring中Bean的管理，下图一目了然： </p>
+<p><img    class="lazyload" data-original="https://img2018.cnblogs.com/blog/1158841/201910/1158841-20191031165056809-1219399286.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p>先调用构造函数进行实例化，然后填充属性，再接着进行其他附加操作和初始化，正是这样的生命周期，才有了Spring的解决循环依赖，这样的解决机制是根据Spring框架内定义的三级缓存来实现的，也就是说：三级缓存解决了Bean之间的循环依赖。我们从源码中来说明。</p>
+<p>先来看Spring中Bean工厂是怎么获取Bean的（AbstractBeanFactory中）：<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20191031165137246-994866848.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p> <img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20191031165143002-1751267656.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p> <img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20191031165150173-1161185844.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p> <img    class="lazyload" data-original="http://xmt.ssluxury.cn/1158841-20191031165155277-1290927126.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p> 一级一级向下寻找，找出了前面提到的三级缓存，也就是三个Map集合类：</p>
+<p>singletonObjects：第一级缓存，里面放置的是已经实例化好的单例对象；</p>
+<p>earlySingletonObjects：第二级缓存，里面存放的是提前曝光的单例对象；</p>
+<p>singletonFactories：第三级缓存，里面存放的是将要被实例化的对象的对象工厂。</p>
+<p>所以当一个Bean调用构造函数进行实例化后，即使set属性还未填充，就可以通过<strong>三级缓存</strong>向外暴露依赖的引用值进行set（所以循环依赖问题的解决也是基于Java的引用传递），这也说明了另外一点，基于构造函数的注入，如果有循环依赖，Spring是不能够解决的。</p>
+<p>还要说明一点，Spring默认的Bean Scope是<strong>单例</strong>的，而三级缓存中都包含singleton，可见是对于单例Bean之间的循环依赖的解决，Spring是通过三级缓存来实现的。</p>
+<h1 id="同一个类中调用-Transaction注解的方法会有事务效果吗？"><a href="#同一个类中调用-Transaction注解的方法会有事务效果吗？" class="headerlink" title="同一个类中调用 @Transaction注解的方法会有事务效果吗？"></a>同一个类中调用 @Transaction注解的方法会有事务效果吗？</h1><p>没有，可以Autowired注入自己，然后再调用注入的类中的方法，即自己依赖自己，循环依赖；</p>
+<p>这里在一个内部调用应该是相当于单纯的调用方法this.methodName()，并没有AOP动态代理。</p>
+<h6 id="来源："><a href="#来源：" class="headerlink" title="来源："></a>来源：</h6><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs yml"><span class="hljs-string">https://www.cnblogs.com/theRhyme/p/11057233.html#_label0</span><br><br><span class="hljs-string">https://www.cnblogs.com/l3306/p/10752907.html</span><br><br><span class="hljs-string">https://www.toutiao.com/a6704225799840465422/?timestamp=1560991132&amp;app=news_article&amp;group_id=6704225799840465422&amp;req_id=201906200838520100220620357346BE4</span><br><br><span class="hljs-string">https://blog.csdn.net/qq_41063141/article/details/83239941</span><br><br><span class="hljs-string">https://www.toutiao.com/a6646351921307189764/?tt_from=weixin&amp;utm_campaign=client_share&amp;wxshare_count=1&amp;timestamp=1547529100&amp;app=news_article_lite&amp;utm_source=weixin&amp;iid=57655139443&amp;utm_medium=toutiao_android&amp;group_id=6646351921307189764</span><br><br><span class="hljs-string">https://blog.51cto.com/luecsc/1964056</span><br><br><span class="hljs-string">https://www.cnblogs.com/javazhiyin/p/xiaozhi.html</span><br><br><span class="hljs-string">https://blog.csdn.net/qq_38409944/article/details/82663361</span><br></code></pre></td></tr></table></figure>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/06/18/02spring/Springboot%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;18&#x2F;02spring&#x2F;Springboot%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;18&#x2F;02spring&#x2F;Springboot%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Springboot/" rel="tag">Springboot</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/06/19/DebuggerException/"><i class="iconfont iconleft"></i>DebuggerException</a>
+    <a href="/2020/06/18/linux%20centos7%20%E5%AE%89%E8%A3%85mysql-5.7.17%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%BE%E8%A7%A3%EF%BC%89/">linux centos7 安装mysql-5.7.17教程（图解）<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#springboot%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A7%88"><span class="toc-text">springboot启动原理及相关流程概览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%8D%95%E6%98%AFSpringBootApplication%E6%8E%A5%E5%8F%A3%E7%94%A8%E5%88%B0%E4%BA%86%E8%BF%99%E4%BA%9B%E6%B3%A8%E8%A7%A3"><span class="toc-text">单单是SpringBootApplication接口用到了这些注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AutoConfigurationPackage%E6%B3%A8%E8%A7%A3%EF%BC%9A"><span class="toc-text">AutoConfigurationPackage注解：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Import-AutoConfigurationImportSelector-class-%E6%B3%A8%E8%A7%A3"><span class="toc-text">Import(AutoConfigurationImportSelector.class)注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%B9%95%E5%90%8E%E8%8B%B1%E9%9B%84%EF%BC%9ASpringFactoriesLoader%E8%AF%A6%E8%A7%A3"><span class="toc-text">自动配置幕后英雄：SpringFactoriesLoader详解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B-springboot%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E6%A6%82%E8%A7%88%E5%9B%BE"><span class="toc-text">四 springboot启动流程概览图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94-%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%B4%A2SpringApplication%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-text">五 深入探索SpringApplication执行流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3%E4%B8%8BBean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">简单了解下Bean的生命周期</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BeanFactory-%E5%92%8CApplicationContext%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">BeanFactory 和ApplicationContext的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SpringMVC%E5%A4%84%E7%90%86%E8%AF%B7%E6%B1%82%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="toc-text">SpringMVC处理请求的流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BEANFACTORY%E5%92%8CFACTORYBEAN%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="toc-text">BEANFACTORY和FACTORYBEAN的区别与联系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Bean%E7%9A%84%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-text">Bean的循环依赖</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8C%E4%B8%80%E4%B8%AA%E7%B1%BB%E4%B8%AD%E8%B0%83%E7%94%A8-Transaction%E6%B3%A8%E8%A7%A3%E7%9A%84%E6%96%B9%E6%B3%95%E4%BC%9A%E6%9C%89%E4%BA%8B%E5%8A%A1%E6%95%88%E6%9E%9C%E5%90%97%EF%BC%9F"><span class="toc-text">同一个类中调用 @Transaction注解的方法会有事务效果吗？</span></a>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

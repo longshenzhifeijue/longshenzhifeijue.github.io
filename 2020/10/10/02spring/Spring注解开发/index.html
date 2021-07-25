@@ -1,0 +1,449 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Spring注解开发 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="Spring注解开发
+
+Spring认为所有组件应该放...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">Spring注解开发</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-8de14e7653d7f31633d6c3cecba1ea36_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">Spring注解开发</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 10, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>19202</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <p>Spring认为所有组件应该放在IOC容器中,组件之间关系通过容器进行自动装配,也即是依赖注入<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920145002577.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920145002577</span></p>
+<h2 id="ComponentScan"><a href="#ComponentScan" class="headerlink" title="@ComponentScan"></a>@ComponentScan</h2> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ComponentScan(excludeFilters = &#123; @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),</span><br><span class="hljs-meta">        @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;,useDefaultFilters = false)</span><br><br><span class="hljs-number">1</span>)type = FilterType.CUSTOM<br>    按照自定义排除<br><span class="hljs-number">2</span>)关闭默认过滤规则<br>    useDefaultFilters = <span class="hljs-keyword">false</span><br><br></code></pre></td></tr></table></figure>
+
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920150656787.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920150656787</span></p>
+<h2 id="Scope和-Lazy"><a href="#Scope和-Lazy" class="headerlink" title="@Scope和@Lazy"></a>@Scope和@Lazy</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920151113361.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920151113361</span></p>
+<h2 id="Conditional"><a href="#Conditional" class="headerlink" title="@Conditional"></a>@Conditional</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152259604.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152259604</span><br>a<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920151959188.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920151959188</span><br>变成linux<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152048339.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152048339</span><br>放在类上,统一思想设置<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152214496.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152214496</span></p>
+<h2 id="Import"><a href="#Import" class="headerlink" title="@Import"></a>@Import</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152503756.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152503756</span><br>导入单个<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152706940.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152706940</span></p>
+<h2 id="ImportSelector"><a href="#ImportSelector" class="headerlink" title="@ImportSelector"></a>@ImportSelector</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920152947401.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920152947401</span><br>自定义逻辑返回需要导入的组件<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920153424428.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920153424428</span><br>验证容器中注册了这两个组件<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920153437979.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920153437979</span></p>
+<h2 id="BeanDefinitionRegistry"><a href="#BeanDefinitionRegistry" class="headerlink" title="BeanDefinitionRegistry"></a>BeanDefinitionRegistry</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920154121634.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920154121634</span></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ImportBeanDefinitionRegistrar</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerBeanDefinitions</span><span class="hljs-params">(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator)</span> </span>&#123;<br>        <span class="hljs-keyword">this</span>.registerBeanDefinitions(importingClassMetadata, registry);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerBeanDefinitions</span><span class="hljs-params">(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry)</span> </span>&#123;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920154734598.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920154734598</span></p>
+<h2 id="FactoryBean"><a href="#FactoryBean" class="headerlink" title="FactoryBean"></a>FactoryBean</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920154918411.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920154918411</span><br>自定义<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920154959322.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920154959322</span><br>为啥是color?是因为FactoryBean中间做了一层处理<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920155314238.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920155314238</span><br>那我注册是colorFactoryBean,拿到color,我想拿colorFactoryBean如何操作呢?<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920155442904.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920155442904</span><br>加一个&amp; 工程前缀,告诉spring获取工厂本身<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920155617554.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920155617554</span></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920155659186.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920155659186</span></p>
+<h2 id="bean的生命周期"><a href="#bean的生命周期" class="headerlink" title="bean的生命周期"></a>bean的生命周期</h2><p>1<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920160128606.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920160128606</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920160023364.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920160023364</span></p>
+<h2 id="InitializingBean和DisposableBean接口"><a href="#InitializingBean和DisposableBean接口" class="headerlink" title="InitializingBean和DisposableBean接口"></a>InitializingBean和DisposableBean接口</h2><p>2<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920160317817.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920160317817</span></p>
+<h2 id="PostContruct和-PreDestroy"><a href="#PostContruct和-PreDestroy" class="headerlink" title="@PostContruct和@PreDestroy"></a>@PostContruct和@PreDestroy</h2><p>3<br>PostContruct和是JSR250中的注解在bean创建完成并且属性值赋值完成来执行初始化<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161036625.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161036625</span></p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161101727.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161101727</span></p>
+<h2 id="BeanProcessor后置处理器"><a href="#BeanProcessor后置处理器" class="headerlink" title="BeanProcessor后置处理器"></a>BeanProcessor后置处理器</h2><p>意思就是每个bean对象在初始化之前调用postProcessBeforeInitialization<br>意思就是每个bean对象在初始化之后调用postProcessAfterInitialization</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161258082.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161258082</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161431496.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161431496</span><br>强大,细看BeanProcessor英文解释<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161548590.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161548590</span></p>
+<h2 id="BeanPostProcessor总结"><a href="#BeanPostProcessor总结" class="headerlink" title="BeanPostProcessor总结"></a>BeanPostProcessor总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920161851951.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920161851951</span></p>
+<h2 id="BeanPostProcessor原理"><a href="#BeanPostProcessor原理" class="headerlink" title="BeanPostProcessor原理"></a>BeanPostProcessor原理</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920162331469.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920162331469</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920162407992.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920162407992</span><br>this.populateBean(beanName, mbd, instanceWrapper);<br>给bean赋值<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920163257943.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920163257943</span><br>自己点真开心<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920162957845.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920162957845</span></p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920163349075.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920163349075</span></p>
+<h2 id="spring底层对BeanPostprocessor的使用"><a href="#spring底层对BeanPostprocessor的使用" class="headerlink" title="spring底层对BeanPostprocessor的使用"></a>spring底层对BeanPostprocessor的使用</h2><h2 id="对ayscn处理"><a href="#对ayscn处理" class="headerlink" title="对ayscn处理"></a>对ayscn处理</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920163558824.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920163558824</span></p>
+<h2 id="向组件注入IOC容器"><a href="#向组件注入IOC容器" class="headerlink" title="向组件注入IOC容器"></a>向组件注入IOC容器</h2><p>ApplicationContextAwareProcessor<br>如何使用?<br>实现这个接口,重写方法<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920163831870.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920163831870</span></p>
+<h2 id="BeanValidationPostProcessor做数据校验"><a href="#BeanValidationPostProcessor做数据校验" class="headerlink" title="BeanValidationPostProcessor做数据校验"></a>BeanValidationPostProcessor做数据校验</h2><h2 id="InitDestroyAnnotationBeanPostProcessor"><a href="#InitDestroyAnnotationBeanPostProcessor" class="headerlink" title="InitDestroyAnnotationBeanPostProcessor"></a>InitDestroyAnnotationBeanPostProcessor</h2><p>处理PostConstruct和PreDestroy注解<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920164158147.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920164158147</span></p>
+<h2 id="AutowiredAnnotationBeanPostProcessor"><a href="#AutowiredAnnotationBeanPostProcessor" class="headerlink" title="AutowiredAnnotationBeanPostProcessor"></a>AutowiredAnnotationBeanPostProcessor</h2><p>处理Autowire注解,在对象创建完成后,处理Autowire注解标记的所有属性</p>
+<h2 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920164404403.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920164404403</span></p>
+<h2 id="Autowired是Spring规范"><a href="#Autowired是Spring规范" class="headerlink" title="@Autowired是Spring规范"></a>@Autowired是Spring规范</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920165458168.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920165458168</span><br>总结<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920165643200.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920165643200</span></p>
+<h2 id="resource是java规范"><a href="#resource是java规范" class="headerlink" title="resource是java规范"></a>resource是java规范</h2><p>@resource默认属性名字装配,也可以指定名字</p>
+<h2 id="Inject需要导入中央仓库包"><a href="#Inject需要导入中央仓库包" class="headerlink" title="Inject需要导入中央仓库包"></a>Inject需要导入中央仓库包</h2><h2 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920170308292.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920170308292</span></p>
+<h2 id="自动装配Aware注入Sping底层组件和原理"><a href="#自动装配Aware注入Sping底层组件和原理" class="headerlink" title="自动装配Aware注入Sping底层组件和原理"></a>自动装配Aware注入Sping底层组件和原理</h2><p>只看接口<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920171151429.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920171151429</span><br>第一个ApplicationContextAware<br>第二个BeanNameAware<br>第三个EmbeddedValueResolverAware:解析字符串,如占位符# ,{},返回一个解析后的值<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920171358351.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920171358351</span><br>例子:<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920171513670.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920171513670</span></p>
+<h2 id="总结-5"><a href="#总结-5" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920171659057.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920171659057</span></p>
+<h2 id="AOP原理"><a href="#AOP原理" class="headerlink" title="AOP原理"></a>AOP原理</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920204100271.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920204100271</span><br>注册一个bean<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920205046462.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920205046462</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920205139060.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920205139060</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920211713070.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920211713070</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920211735304.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920211735304</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920211642388.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920211642388</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200920211657177.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200920211657177</span></p>
+<h2 id="BeanFactoryPostProcess"><a href="#BeanFactoryPostProcess" class="headerlink" title="BeanFactoryPostProcess"></a>BeanFactoryPostProcess</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><br>* 扩展原理:<br>* BeanPostProcessor: bean后置处理器,bean创建对象初始化前后进行拦截工作的<br>*<br>* <span class="hljs-number">1</span>、BeanFactoryPostProcessor: beanFactory的后置处理器<br>*      在BeanFactory标准初始化之后调用,来定制和修改BeanFactory的内容<br>*      所有的bean定义已经保存加载到beanFactory,但是bean的实例还未创建<br>*<br>*<br>* BeanFactoryPostProcessor原理<br>* <span class="hljs-number">1</span>)、ioc容器创建对象<br>* <span class="hljs-number">2</span>)、invokeBeanFactoryPostProcessors(beanFactory);执行BeanFactoryPostProcessor<br>*      如何找到所有BeanFactoryPostProcessors并执行他们的方法<br>*              <span class="hljs-number">1</span>)、直接在BeanFactory中找到所有类型是BeanFactoryPostProcessor的组件,并执行他们的方法<br>*              <span class="hljs-number">2</span>)、在初始化创建日他组件前面执行<br></code></pre></td></tr></table></figure>
+
+<h2 id="BeanDefinitionRegistryPostProcessor"><a href="#BeanDefinitionRegistryPostProcessor" class="headerlink" title="BeanDefinitionRegistryPostProcessor"></a>BeanDefinitionRegistryPostProcessor</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java">    * <span class="hljs-number">2</span>、BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProcessor<br>*      <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">postProcessBeanDefinitionRegistry</span><span class="hljs-params">()</span></span>;<br>*      在所有bean信息将要被被加载,bean实例还未创建的<br>*<br>*      优先于BeanFactoryPostProcess执行<br>*      利用BeanDefinitionRegistryPostProcessor给容器中再添加一些组件<br>*          postProcessBeanDefinitionRegistry():第一种or第二种<br>*<br>*  原理:<br>*       <span class="hljs-number">1</span>)、IOC容器创建对象<br>*       <span class="hljs-number">2</span>)、refresh()-&gt;invokeBeanFactoryPostProcessors(beanFactory)<br>*       <span class="hljs-number">3</span>)、从容器中获取到所有的BeanDefinitionRegistryPostProcessor组件,<br>*              <span class="hljs-number">1</span>、依次触发所有的postProcessBeanDefinitionRegistry()方法,就优先执行了<br>*              <span class="hljs-number">2</span>、再来触发postProcessBeanFactory()方法,在BeanFactoryPostProcessor<br>*       <span class="hljs-number">4</span>)、再来从容器中找到BeanFactoryPostProcessors组件,然后依次触发<br><br></code></pre></td></tr></table></figure>
+<h3 id="BeanDefinitionRegistry-1"><a href="#BeanDefinitionRegistry-1" class="headerlink" title="BeanDefinitionRegistry"></a>BeanDefinitionRegistry</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// BeanDefinitionRegistry Bean定义信息的保存中心,以后BeanFactory就是安装BeanDefinitionRegistry里面保存的每一个bean信息创建bean实例的</span><br></code></pre></td></tr></table></figure>
+<h2 id="ApplicationListener"><a href="#ApplicationListener" class="headerlink" title="ApplicationListener"></a>ApplicationListener</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@author</span> xf</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@date</span> 2020-09-27 16:04</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@since</span> 1.0.0</span><br><span class="hljs-comment"> * &lt;p&gt;</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *  步骤：</span><br><span class="hljs-comment"> *      1)、写一个监听器来监听某个事件(ApplicationEvent及其下面自事件)</span><br><span class="hljs-comment"> *      2)、把监听器加到容器</span><br><span class="hljs-comment"> *      3)、只要容器中有事件发生的发布,我们就能监听到这个事件</span><br><span class="hljs-comment"> *              ContextRefreshedEvent:容器创建完成(所有bean都完全创 建,会发布这个事件);</span><br><span class="hljs-comment"> *              ContextClosedEvent:关闭容器会发布这个事件</span><br><span class="hljs-comment"> *      4)、发布事件:</span><br><span class="hljs-comment"> *                      context.publishEvent(new ApplicationEvent(&quot;我发布的事件:&quot;)</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *  原理:</span><br><span class="hljs-comment"> *      ContextRefreshedEvent、com.xf.tx.IOCTest_Ext$1[source=我发布的事件:]、ContextClosedEvent</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *  1、ContextRefreshedEvent事件</span><br><span class="hljs-comment"> *      1)、容器创建对象:refresh()</span><br><span class="hljs-comment"> *      2)、finishRefresh();容器刷新完成会发布ContextRefreshedEvent事件</span><br><span class="hljs-comment"> *  2、自己发布事件</span><br><span class="hljs-comment"> *  3、容器关闭会发布ContextClosedEvent事件</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *   【事件发布流程:】</span><br><span class="hljs-comment"> *      3)、publishEvent(new ContextRefreshedEvent(this));</span><br><span class="hljs-comment"> *                  1)获取事件的多播器(派发器):getApplicationEventMulticaster()</span><br><span class="hljs-comment"> *                  2)multicastEvent派发事件</span><br><span class="hljs-comment"> *                  3)获取所有的ApplicationListener</span><br><span class="hljs-comment"> *                  	for (ApplicationListener&lt;?&gt; listener : getApplicationListeners(event, type)) &#123;</span><br><span class="hljs-comment"> *                  	1)如果有Executor,可以支持使用Executor执行异步派发</span><br><span class="hljs-comment"> *                  	  Executor executor = getTaskExecutor();</span><br><span class="hljs-comment"> *                  	2)否则,同步的方式直接执行listener方法,invokeListener(listener, event);</span><br><span class="hljs-comment"> *                     	  拿到listen回调 onApplicationEvent方法		listener.onApplicationEvent(event);</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *    【事件多播器(派发器):】</span><br><span class="hljs-comment"> *          1)、容器创建对象:refresh();</span><br><span class="hljs-comment"> *          2)、initApplicationEventMulticaster();初始化ApplicationEventMulticaster;</span><br><span class="hljs-comment"> *              1)、先去容器中找有没有id=&quot;applicationEventMulticaster&quot;的组件;</span><br><span class="hljs-comment"> *              2)、如果没有自己new一个	this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(beanFactory);</span><br><span class="hljs-comment"> *                  并且加入到容器中 ,我们就可以在其他组件要派发事件,自动注入这个applicationEventMulticaster</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> *    【容器中有哪些监听器:】</span><br><span class="hljs-comment"> *          1)、容器创建对象:refresh();</span><br><span class="hljs-comment"> *          2)、registerListeners();</span><br><span class="hljs-comment"> *              从容器中拿到所有监听器,把他们注册到applicationEventMulticaster中;</span><br><span class="hljs-comment"> *              把监听器添加到派发器派发出去</span><br><span class="hljs-comment"> *              String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, true, false);</span><br><span class="hljs-comment"> *              // 将listen注册到ApplicationEventMulticaster</span><br><span class="hljs-comment"> *              getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);</span><br><span class="hljs-comment"> */</span><br></code></pre></td></tr></table></figure>
+<h2 id="SmartInitializingSingleton"><a href="#SmartInitializingSingleton" class="headerlink" title="SmartInitializingSingleton"></a>SmartInitializingSingleton</h2><pre><code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">*          <span class="hljs-meta">@EnventListener</span>注解方式<br>*          原理:使用EventListenerMethodProcessor处理器解析<span class="hljs-meta">@EnventListener</span>注解<br>*    【SmartInitializingSingleton原理:】-&gt;afterSingletonsInstantiated();<br>*          <span class="hljs-number">1</span>)、IOC容器创建对象并刷新容器<br>*          <span class="hljs-number">2</span>)、finishBeanFactoryInitialization(beanFactory);初始化剩下的单实例bean<br>*              <span class="hljs-number">1</span>)、先创建所有的单实例bean,getBean();方法创建<br>*              <span class="hljs-number">2</span>)、获取所有的单实例bean,判断是不是SmartInitializingSingleton类型,<br>*                  如果是调用	smartSingleton.afterSingletonsInstantiated();<br></code></pre></td></tr></table></figure>
+</code></pre>
+<h2 id="Spring源代码分析"><a href="#Spring源代码分析" class="headerlink" title="Spring源代码分析"></a>Spring源代码分析</h2><p><code>spring核心逻辑AbstractApplicationContext的refresh()方法如下</code>    </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">refresh</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>.startupShutdownMonitor) &#123;<br>        <span class="hljs-comment">// 刷新前的预准备工作</span><br>        prepareRefresh();<br>        <span class="hljs-comment">// 提取bean的配置信息并封装成BeanDefinition实例，然后将其添加到注册中心。注册中心是一个ConcurrentHashMap&lt;String,BeanDefinition&gt;类型，key为Bean的名字，value为BeanDefinition实例。</span><br>        ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();<br>       <span class="hljs-comment">//对beanFactory进行一些配置，注册一些BeanPostProcessor和一些特殊的Bean。</span><br>        prepareBeanFactory(beanFactory);<br><br>            <span class="hljs-comment">//留给子类在BeanFactory准备工作完成后处理一些工作。</span><br>            postProcessBeanFactory(beanFactory);<br>           <span class="hljs-comment">//调用 BeanFactory的后置处理器。</span><br>           invokeBeanFactoryPostProcessors(beanFactory);<br>           <span class="hljs-comment">//注册Bean的后置处理器。</span><br>            registerBeanPostProcessors(beanFactory);<br>            <span class="hljs-comment">//国际化相关功能</span><br>            initMessageSource();<br>            <span class="hljs-comment">//初始化事件派发器；</span><br>            initApplicationEventMulticaster();<br>            <span class="hljs-comment">// 提供给子容器类，供子容器去实例化其他的特殊的Bean</span><br>            onRefresh();<br>            <span class="hljs-comment">// 处理容器中已有的ApplicationListener</span><br>            registerListeners();<br>            <span class="hljs-comment">//初始化容器中剩余的单实例bean</span><br>            finishBeanFactoryInitialization(beanFactory);<br>            <span class="hljs-comment">//最后一步</span><br>            finishRefresh();<br><br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步:"></a>第一步:</h2><p><code>prepareRefresh()刷新前的预处理</code></p>
+<ol>
+<li>记录启动时间，设置容器的active和close状态。</li>
+<li>initPropertySources():初始化一些属性设置,提供给子容器类，子容器类可覆盖该方法进行一些自定义的属性设置。</li>
+<li>getEnvironment().validateRequiredProperties()：检验属性的合法性</li>
+<li>this.earlyApplicationEvents = new LinkedHashSet<ApplicationEvent>() ：保存容器中的一些早期的事件，待事件多播器创建后执行。</li>
+</ol>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步:"></a>第二步:</h2><p><code>obtainFreshBeanFactory()获取BeanFactory</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">提取bean的配置信息并封装成BeanDefinition实例，然后将其添加到注册中心。注册中心是一个ConcurrentHashMap&lt;String,BeanDefinition&gt;类型，key为Bean的名字，value为BeanDefinition实例。<br><br><span class="hljs-number">1.</span> refreshBeanFactory：【刷新并创建BeanFactory】如果当前容器已经有了BeanFactory就销毁原来的BeanFactory。然后创建一个DefaultListableBeanFactory();<br>    * 创建了一个<span class="hljs-keyword">this</span>.beanFactory = <span class="hljs-keyword">new</span> DefaultListableBeanFactory();<br>    * 设置id,返回刚才GenericApplicationContext创建的BeanFactory对象<br>    * 将创建的BeanFactory【DefaultListableBeanFactory】返回<br><span class="hljs-number">2.</span> getBeanFactory() 简单的返回beanFactory，即DefaultListableBeanFactory。<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步:"></a>第三步:</h2><p><code>prepareBeanFactory(BeanFactory的预准备工作,对BeanFactory进行一些设置)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1.</span> 设置BeanFactory的类加载器、支持SPEL表达式的解析器。<br><span class="hljs-number">2.</span> 添加部分BeanPostProcess【ApplicationContextAwareProcessor】用于处理XXXAware接口的回调。<br><span class="hljs-number">3.</span> 设置忽略的自动装配接口EnvironmentAware、EmbeddedValueResolverAware<br><span class="hljs-number">4.</span> 注册可以解析的自动装配,我们能直接在任何组件中自动注入:<br>        BeanFactory、ResourceLoader、ApplicationEventPublisher、ApplicationContext<br><span class="hljs-number">5.</span> 添加BeanPostProcess【ApplicationListenerDetector】<br><span class="hljs-number">6.</span>添加编译时的AspectJ<br><span class="hljs-number">7.</span>给beanFactory注册一些能用的组件<br>    environment【ConfigurableEnvironment】<br>    systemProperties【<span class="hljs-function">Map&lt;String, Object&gt; <span class="hljs-title">getSystemProperties</span><span class="hljs-params">()</span>】</span><br><span class="hljs-function">    systemEnvironment【Map&lt;String, Object&gt; <span class="hljs-title">getSystemEnvironment</span><span class="hljs-params">()</span>】</span><br><span class="hljs-function">    </span><br></code></pre></td></tr></table></figure>
+
+<h2 id="第四步"><a href="#第四步" class="headerlink" title="第四步:"></a>第四步:</h2><p><code>postProcessBeanFactory（beanFactory）;beanFactory准备工作完成后进行的后置处理工作</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-number">1.</span>子类通过重写这个方法在BeanFactory创建并预准备完成后进行的后置处理工作<br><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="以上时BeanFactory的创建及预准备工作"><a href="#以上时BeanFactory的创建及预准备工作" class="headerlink" title="=========以上时BeanFactory的创建及预准备工作========="></a>=========以上时BeanFactory的创建及预准备工作=========</h2><h2 id="第五步"><a href="#第五步" class="headerlink" title="第五步:"></a>第五步:</h2><p><code>invokeBeanFactoryPostProcessors(beanFactory);执行BeanFactoryPostProcessor</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java">    BeanFactoryPostProcessor:BeanFactory的后置处理器,在BeanFactory标准初始化执行之后执行的<br>    两个接口BeanFactoryPostProcessor和BeanDefinitionRegistryPostProcessor<br><br><span class="hljs-number">1.</span>执行BeanFactoryPostProcessor的方法:<br><br><br>    先执行BeanDefinitionRegistryPostProcessor<br>    <span class="hljs-number">1</span>)、获取所有的BeanDefinitionRegistryPostProcessor<br>    <span class="hljs-number">2</span>)、先执行实现了PriorityOrdered优先级接口的BeanDefinitionRegistryPostProcessor<br>        			postProcessor.postProcessBeanDefinitionRegistry(registry);<br>    <span class="hljs-number">3</span>)、再执行实现了Ordered顺序接口的BeanDefinitionRegistryPostProcessor<br>            		postProcessor.postProcessBeanDefinitionRegistry(registry);<br>    <span class="hljs-number">4</span>)、最后执行没有实现任何优先级或顺序接口的BeanDefinitionRegistryPostProcessor<br>            		postProcessor.postProcessBeanDefinitionRegistry(registry);<br><br><br>    再执行BeanFactoryPostProcessor的方法<br>    <span class="hljs-number">1</span>)、获取所有的BeanFactoryPostProcessor<br>    <span class="hljs-number">2</span>)、先执行实现了PriorityOrdered优先级接口的BeanFactoryPostProcessor<br>			        postProcessor.postProcessBeanFactory(beanFactory);<br>    <span class="hljs-number">3</span>)、再执行实现了Ordered顺序接口的BeanFactoryPostProcessor<br>			        postProcessor.postProcessBeanFactory(beanFactory);<br>    <span class="hljs-number">4</span>)、最后执行没有实现任何优先级或顺序接口的BeanFactoryPostProcessor<br>			        postProcessor.postProcessBeanFactory(beanFactory);<br><br></code></pre></td></tr></table></figure>
+<h2 id="第六步"><a href="#第六步" class="headerlink" title="第六步:"></a>第六步:</h2><p><code>registerBeanPostProcessors(BeanFactory);注册BeanPostProcessor(Bean的后置处理器)【intercept bean creation】</code></p>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">   不同接口类型<span class="hljs-keyword">BeanPostProcessor;在Bean创建前后对执行时机是不一样的</span><br><span class="hljs-keyword"></span>    <span class="hljs-keyword">BeanPostProcessor、</span><br><span class="hljs-keyword"></span>    DestructionAwareBeanPostProcessor、<br>    <span class="hljs-keyword">InstantiationAwareBeanPostProcessor、</span><br><span class="hljs-keyword"></span>    SmartInstantiationAwareBeanPostProcessor、<br>    MergedBeanDefinitionPostProcessor【internalPostProcessors】<br><br><br><span class="hljs-number">1</span>)、获取所有的<span class="hljs-keyword">BeanFactoryProcess;后置处理器都默认可以通过PriorityOrdered、Ordered接口来执行优先级</span><br><span class="hljs-keyword"></span><span class="hljs-number">2</span>)、先注册PriorityOrdered优先级接口的<span class="hljs-keyword">BeanPostProcessor;</span><br><span class="hljs-keyword"></span>    把每一个<span class="hljs-keyword">BeanPostProcessor;添加到BeanFactory中</span><br><span class="hljs-keyword"></span>        <span class="hljs-keyword">beanFactory.addBeanPostProcessor(postProcessor);</span><br><span class="hljs-keyword"></span><br><span class="hljs-number">3</span>)、再注册<span class="hljs-keyword">Ordered接口的</span><br><span class="hljs-keyword"></span><span class="hljs-number">4</span>)、最后注册没有实现任何优先级接口的<br><span class="hljs-number">5</span>)、最终注册MergedBeanDefinitionPostProcessor,它叫internalPostProcessors<br><span class="hljs-number">6</span>)、注册一个ApplicationListenerDetector<span class="hljs-comment">;在Bean创建完成后检查是否是ApplicationListener;</span><br>      如果是this.applicationContext.<span class="hljs-keyword">addApplicationListener((ApplicationListener&lt;?&gt;) </span><span class="hljs-keyword">bean);</span><br><span class="hljs-keyword"></span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="第七步"><a href="#第七步" class="headerlink" title="第七步:"></a>第七步:</h2><p><code>initMessageSource();初始化MessageSource组件(做国际化相关功能,消息绑定,消息解析)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、获取BeanFactory<br><span class="hljs-number">2</span>)、看容器中是否有id为messageSource的,类型是MessageSource的组件<br>    如果有赋值给messageSource,没有则自己创建一个<span class="hljs-keyword">new</span> DelegatingMessageSource();<br>        MessageSource:一般用于取出国际化配置文件中的某个key的值,能按照区域信息获取<br><span class="hljs-number">3</span>)、把创建好的MessageSource注册到容器中,以后获取国际化配置文件的值时候,可以自动注入MessageSource<br>        beanFactory.registerSingleton(MESSAGE_SOURCE_BEAN_NAME, <span class="hljs-keyword">this</span>.messageSource);<br>        	MessageSource.getMessage(String code, <span class="hljs-meta">@Nullable</span> Object[] args, <span class="hljs-meta">@Nullable</span> String defaultMessage, Locale locale);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第八步"><a href="#第八步" class="headerlink" title="第八步:"></a>第八步:</h2><p><code>initApplicationEventMulticaster();初始化事件派发器</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、获取BeanFactory<br><span class="hljs-number">2</span>)、从BeanFactory中获取applicationEventMulticaster的组件ApplicationEventMulticaster<br><span class="hljs-number">3</span>)、如果上一步没有配置,创建一个SimpleApplicationEventMulticaster<br><span class="hljs-number">4</span>)、将创建的ApplicationEventMulticaster添加到BeanFactory中,以后其他组件直接自动注入<br></code></pre></td></tr></table></figure>
+
+<h2 id="第九步"><a href="#第九步" class="headerlink" title="第九步:"></a>第九步:</h2><p><code>onRefresh();留给子容器(子类)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、子类重写这个方法,在容器刷新的时候可以重新自定义逻辑<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十步"><a href="#第十步" class="headerlink" title="第十步:"></a>第十步:</h2><p><code>registerListeners();给容器中将所有项目里面的ApplicationListener注册进来</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、从容器拿到所有的ApplicationListener<br>    	String[] listenerBeanNames = getBeanNamesForType(ApplicationListener.class, <span class="hljs-keyword">true</span>, <span class="hljs-keyword">false</span>);<br><span class="hljs-number">2</span>)、给每个监听器添加到事件派发器中<br>    	getApplicationEventMulticaster().addApplicationListenerBean(listenerBeanName);<br><span class="hljs-number">3</span>)、派发之前步骤产生的事件<br></code></pre></td></tr></table></figure>
+<h2 id="第十一步"><a href="#第十一步" class="headerlink" title="第十一步:"></a>第十一步:</h2><p><code>finishBeanFactoryInitialization();初始化所有剩下的单实例Bean</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、beanFactory.preInstantiateSingletons();初始化剩下的单实例Bean<br>    <span class="hljs-number">1</span>、获取容器中的所有Bean,依次进行初始化和创建对象<br>    <span class="hljs-number">2</span>、获取Bean的定义信息,RootBeanDefinition<br>    <span class="hljs-number">3</span>、Bean不是抽象的,是单实例的,不是懒加载的,【<span class="hljs-keyword">if</span> (!bd.isAbstract() &amp;&amp; bd.isSingleton() &amp;&amp; !bd.isLazyInit()) 】<br>        <span class="hljs-number">1</span>)、判断是否是FactoryBean;是否实现FactoryBean接口的Bean;FactoryBean.getObject()创建Bean;<br>        <span class="hljs-number">2</span>)、不是工厂Bean,利用getBean(beanName);创建对象<br>            <span class="hljs-number">0</span>、getBean(beanName); IOC.getBean<br>            <span class="hljs-number">1</span>、doGetBean(name, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);<br>            <span class="hljs-number">2</span>、先获取缓存中保存的单实例Bean,如果能获取到,说明这个Bean之前被创建过(所有被创建的单实例Bean都会被缓存起来) 【getSingleton(beanName);】<br>                		<span class="hljs-comment">/** Cache of singleton objects: bean name to bean instance. */</span><br>                	从<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, Object&gt; singletonObjects = <span class="hljs-keyword">new</span> ConcurrentHashMap&lt;&gt;(<span class="hljs-number">256</span>);<br><br>            <span class="hljs-number">3</span>、如果缓存中没有就获取BeanFactory,如果是整合SpringMVC,还有获取父工厂【父子容器】<br>                        <span class="hljs-comment">// Check if bean definition exists in this factory.</span><br>              			BeanFactory parentBeanFactory = getParentBeanFactory();<br>            <span class="hljs-number">4</span>、标记当前Bean已经被创建,因为是多线程存在已经创建可能,做一个严谨的小细节<br>                				markBeanAsCreated(beanName);<br>            <span class="hljs-number">5</span>、获取Beaa的定义信息<br>                 getMergedLocalBeanDefinition(beanName);<br>            <span class="hljs-number">6</span>、获取当前Bean依赖的其他Bean,如果有按照getBean()把依赖的Bean先创建出来<br>                 String[] dependsOn = mbd.getDependsOn();<br><br><br>            <span class="hljs-number">7</span>、启动单实例的Bean创建过程:<br>                <span class="hljs-number">1</span>)、createBean(beanName, mbd, args);<br>                <span class="hljs-number">2</span>)、Object bean = resolveBeforeInstantiation(beanName, mbdToUse);<br>                    让BeanPostProcessor先拦截返回代理对象,这是哪一个BeanPostProcessor在工作呢?<br>                    BeanPostProcessor有非常多,详情参考第<span class="hljs-number">6</span>步,而正常的BeanPostProcessor都是在Bean创建完对象初始化前后拦截执行的,<br>                    现在这里我们还没有创建Bean对象,之前有一个BeanPostProcessor<br>                        【InstantiationAwareBeanPostProcessor】提前执行<br>                        触发:postProcessBeforeInstantiation<br>                        如果有返回值,再触发applyBeanPostProcessorsAfterInitialization<br><br>                <span class="hljs-number">3</span>)、如果前面InstantiationAwareBeanPostProcessor没有返回代理对象,调用 <span class="hljs-number">4</span>)<br>                <span class="hljs-number">4</span>)、Object beanInstance = doCreateBean(beanName, mbdToUse, args);创建Bean<br>                    <span class="hljs-number">1</span>)、【创建Bean实例】 createBeanInstance(beanName, mbd, args);<br>                            利用工厂方法或者对象的构造器创建出Bean实例<br>                            instantiateUsingFactoryMethod(beanName, mbd, args);<br>                            ConstructorResolver(<span class="hljs-keyword">this</span>).instantiateUsingFactoryMethod(beanName, mbd, explicitArgs);<br>                            bean就被【工厂+反射】创建出来了<br>                    <span class="hljs-number">2</span>)、applyMergedBeanDefinitionPostProcessors(mbd, beanType, beanName);<br>                        调用MergedBeanDefinitionPostProcessor的bdp.postProcessMergedBeanDefinition(mbd, beanType, beanName);<br><br>                    <span class="hljs-number">3</span>)、【bean属性赋值】populateBean(beanName, mbd, instanceWrapper);<br>                        赋值之前:<br>                            <span class="hljs-number">1</span>)、拿到InstantiationAwareBeanPostProcessor后置处理器<br>                                postProcessAfterInstantiation();<br>                            <span class="hljs-number">2</span>)、第二次还是拿到InstantiationAwareBeanPostProcessor后置处理器<br>                                postProcessPropertyValues();<br>                        ====================================================================================<br>                        赋值:<br>                            <span class="hljs-number">3</span>)、应用Bean的属性,为属性利用Setter方法等进行反射赋值,<br>                            	applyPropertyValues(beanName, mbd, bw, pvs);<br><br>                    <span class="hljs-number">4</span>)、【Bean初始化】initializeBean(beanName, exposedObject, mbd);<br>                            <span class="hljs-number">1</span>)、【执行Aware接口方法】nvokeAwareMethods(beanName, bean);<br>                                判断是不是这些BeanNameAware、BeanClassLoaderAware、BeanFactoryAware<br>                            <span class="hljs-number">2</span>)、【执行后置处理器初始化之前】applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);<br>                                BeanPostProcessor.postProcessBeforeInitialization(result, beanName);<br>                            <span class="hljs-number">3</span>)、【执行初始化方法】invokeInitMethods(beanName, wrappedBean, mbd);(有实现接口和加<span class="hljs-meta">@bean</span>注解两种)<br>                                <span class="hljs-number">1</span>)、是否是InitializingBean接口的实现,执行接口规定的初始化<br>                                <span class="hljs-number">2</span>)、是否自定义初始化方法 mbd.getInitMethodName();<br>                            <span class="hljs-number">4</span>)、【执行后置处理器初始化之后】applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);<br>                                 BeanPostProcessor.postProcessAfterInitialization(result, beanName);<br>                    <span class="hljs-number">5</span>)、【注册Bean的销毁方法】registerDisposableBeanIfNecessary(beanName, bean, mbd);<br>                        <span class="hljs-comment">// Register bean as disposable.</span><br><br>                <span class="hljs-number">5</span>)、将创建的Bean添加到缓存中singletonObject;<br>                IOC容器就是这些Map,很多的Map里面保存了单实例Bean,环境信息,以后获取组件就是从Map中拿东西<br><br>所有Bean都利用getBean创建完成以后<br>    检查所有Bean是否是SmartInitializingSingleton接口的;如果是执行smartSingleton.afterSingletonsInstantiated();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第十二步"><a href="#第十二步" class="headerlink" title="第十二步:"></a>第十二步:</h2><p><code>finishRefresh()：完成BeanFactory的初始化创建工作,IOC容器就创建完成</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、initLifecycleProcessor();初始化和生命周期有关的后置处理器LifecycleProcessor<br>    写一个LifecycleProcessor的实现类,可以在BeanFactory<br>        默认从容器中找是否有lifecycleProcessor的组件【LifecycleProcessor】;<br>            如果没有<span class="hljs-keyword">new</span> DefaultLifecycleProcessor();<br>            	    并加入到容器beanFactory.registerSingleton(LIFECYCLE_PROCESSOR_BEAN_NAME, <span class="hljs-keyword">this</span>.lifecycleProcessor);<br><br>        	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onRefresh</span><span class="hljs-params">()</span></span>;<br>        	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onClose</span><span class="hljs-params">()</span></span>;<br><span class="hljs-number">2</span>)、getLifecycleProcessor().onRefresh();<br>    拿到前面定义的生命周期处理器(BeanFactory),回调onRefresh();<br><span class="hljs-number">3</span>)、publishEvent(<span class="hljs-keyword">new</span> ContextRefreshedEvent(<span class="hljs-keyword">this</span>));发布容器刷新发布事件<br><span class="hljs-number">4</span>)、LiveBeansView.registerApplicationContext(<span class="hljs-keyword">this</span>);<br></code></pre></td></tr></table></figure>
+<p>==============================总结==============================</p>
+<h2 id="Spring容器在启动的时候-先会保存所有注册的Bean的定义信息"><a href="#Spring容器在启动的时候-先会保存所有注册的Bean的定义信息" class="headerlink" title="Spring容器在启动的时候,先会保存所有注册的Bean的定义信息"></a>Spring容器在启动的时候,先会保存所有注册的Bean的定义信息</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-number">1</span>)、用到这个Bean的时候,利用getBean()方法创建Bean并保存到容器中,<br><span class="hljs-number">2</span>)、统一创建剩下所有Bean的时候,finishBeanFactoryInitialization(beanFactory);<br><span class="hljs-number">3</span>)、后置处理器,<br>    <span class="hljs-number">1</span>)、每一个Bean创建完成的时候,都会使用各种后置处理器进行处理,来增强Bean的功能<br>        AutowiredAnnotationBeanPostProcessor:处理自动注入功能,<br>        AnnotationAwareAspectJAutoProxyCreator来做AOP功能,给bean创建代理对象,<br>        等等....<br>        增强的功能注解:<br>        AsyncAnnotationBeanPostProcessor<br><span class="hljs-number">4</span>)、事件驱动模型<br>    ApplicationListener:事件监听<br>        ApplicationListener&lt;ApplicationEvent&gt;<br>       【多播器】 ApplicationEventMulticaster<br><br></code></pre></td></tr></table></figure>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/10/10/02spring/Spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;10&#x2F;02spring&#x2F;Spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;10&#x2F;02spring&#x2F;Spring%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/10/12/Https%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/"><i class="iconfont iconleft"></i></a>
+    <a href="/2020/10/10/Redis%E7%AE%80%E4%BB%8B/">Redis简介<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ComponentScan"><span class="toc-text">@ComponentScan</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scope%E5%92%8C-Lazy"><span class="toc-text">@Scope和@Lazy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conditional"><span class="toc-text">@Conditional</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Import"><span class="toc-text">@Import</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ImportSelector"><span class="toc-text">@ImportSelector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanDefinitionRegistry"><span class="toc-text">BeanDefinitionRegistry</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FactoryBean"><span class="toc-text">FactoryBean</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-text">bean的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InitializingBean%E5%92%8CDisposableBean%E6%8E%A5%E5%8F%A3"><span class="toc-text">InitializingBean和DisposableBean接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PostContruct%E5%92%8C-PreDestroy"><span class="toc-text">@PostContruct和@PreDestroy</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanProcessor%E5%90%8E%E7%BD%AE%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-text">BeanProcessor后置处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanPostProcessor%E6%80%BB%E7%BB%93"><span class="toc-text">BeanPostProcessor总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanPostProcessor%E5%8E%9F%E7%90%86"><span class="toc-text">BeanPostProcessor原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring%E5%BA%95%E5%B1%82%E5%AF%B9BeanPostprocessor%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-text">spring底层对BeanPostprocessor的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9ayscn%E5%A4%84%E7%90%86"><span class="toc-text">对ayscn处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E7%BB%84%E4%BB%B6%E6%B3%A8%E5%85%A5IOC%E5%AE%B9%E5%99%A8"><span class="toc-text">向组件注入IOC容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanValidationPostProcessor%E5%81%9A%E6%95%B0%E6%8D%AE%E6%A0%A1%E9%AA%8C"><span class="toc-text">BeanValidationPostProcessor做数据校验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#InitDestroyAnnotationBeanPostProcessor"><span class="toc-text">InitDestroyAnnotationBeanPostProcessor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AutowiredAnnotationBeanPostProcessor"><span class="toc-text">AutowiredAnnotationBeanPostProcessor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-3"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Autowired%E6%98%AFSpring%E8%A7%84%E8%8C%83"><span class="toc-text">@Autowired是Spring规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#resource%E6%98%AFjava%E8%A7%84%E8%8C%83"><span class="toc-text">resource是java规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Inject%E9%9C%80%E8%A6%81%E5%AF%BC%E5%85%A5%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93%E5%8C%85"><span class="toc-text">Inject需要导入中央仓库包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-4"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8DAware%E6%B3%A8%E5%85%A5Sping%E5%BA%95%E5%B1%82%E7%BB%84%E4%BB%B6%E5%92%8C%E5%8E%9F%E7%90%86"><span class="toc-text">自动装配Aware注入Sping底层组件和原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-5"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOP%E5%8E%9F%E7%90%86"><span class="toc-text">AOP原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanFactoryPostProcess"><span class="toc-text">BeanFactoryPostProcess</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BeanDefinitionRegistryPostProcessor"><span class="toc-text">BeanDefinitionRegistryPostProcessor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BeanDefinitionRegistry-1"><span class="toc-text">BeanDefinitionRegistry</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ApplicationListener"><span class="toc-text">ApplicationListener</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SmartInitializingSingleton"><span class="toc-text">SmartInitializingSingleton</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-text">Spring源代码分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="toc-text">第一步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="toc-text">第二步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="toc-text">第三步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5"><span class="toc-text">第四步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E4%B8%8A%E6%97%B6BeanFactory%E7%9A%84%E5%88%9B%E5%BB%BA%E5%8F%8A%E9%A2%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-text">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;以上时BeanFactory的创建及预准备工作&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5"><span class="toc-text">第五步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5"><span class="toc-text">第六步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%83%E6%AD%A5"><span class="toc-text">第七步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AB%E6%AD%A5"><span class="toc-text">第八步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B9%9D%E6%AD%A5"><span class="toc-text">第九步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E6%AD%A5"><span class="toc-text">第十步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E6%AD%A5"><span class="toc-text">第十一步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E6%AD%A5"><span class="toc-text">第十二步:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring%E5%AE%B9%E5%99%A8%E5%9C%A8%E5%90%AF%E5%8A%A8%E7%9A%84%E6%97%B6%E5%80%99-%E5%85%88%E4%BC%9A%E4%BF%9D%E5%AD%98%E6%89%80%E6%9C%89%E6%B3%A8%E5%86%8C%E7%9A%84Bean%E7%9A%84%E5%AE%9A%E4%B9%89%E4%BF%A1%E6%81%AF"><span class="toc-text">Spring容器在启动的时候,先会保存所有注册的Bean的定义信息</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

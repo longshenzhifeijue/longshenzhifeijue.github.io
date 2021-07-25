@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>四、Mysql锁机制 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="四、Mysql锁机制
+
+
+定义image-202010...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">四、Mysql锁机制</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">四、Mysql锁机制</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 15, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>2539</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012171417063.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012171417063</span></p>
+<h2 id="例子-生活购物"><a href="#例子-生活购物" class="headerlink" title="例子:生活购物"></a>例子:生活购物</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012171505066.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012171505066</span></p>
+<h2 id="锁分类"><a href="#锁分类" class="headerlink" title="锁分类"></a>锁分类</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012171554256.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012171554256</span><br><code>加锁</code><br>lock table mylock read,book write<br><code>解锁</code><br>unlock tables;</p>
+<h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">table</span> mylock(<br>id <span class="hljs-type">int</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span> <span class="hljs-keyword">PRIMARY</span> key AUTO_INCREMENT,<br>name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">20</span>)<br>) engine myisam;<br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">table</span> book(<br>id <span class="hljs-type">int</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span> <span class="hljs-keyword">PRIMARY</span> key AUTO_INCREMENT,<br>name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">20</span>)<br>) engine myisam;<br></code></pre></td></tr></table></figure>
+<p><code>加读锁</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175014017.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175014017</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175141443.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175141443</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175200074.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175200074</span><br><code>自己测试</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012174816589.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012174816589</span><br><code>解锁后,第二个立马抢到锁,但是他等待了2分钟多</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012174856896.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012174856896</span><br><code>加写锁</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175717776.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175717776</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175741860.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175741860</span><br><code>自己测试</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175616048.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175616048</span></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012175941792.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012175941792</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012180014231.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012180014231</span><br><code>表锁分析</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012180139928.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012180139928</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012180346309.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012180346309</span></p>
+<h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012180740393.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012180740393</span><br><code>事物及其ACID属性</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181341565.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181341565</span></p>
+<h2 id="并发事物处理带来问题"><a href="#并发事物处理带来问题" class="headerlink" title="并发事物处理带来问题"></a>并发事物处理带来问题</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181504611.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181504611</span><br><code>1)更新丢失</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181554290.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181554290</span><br><code>2)脏读</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181631533.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181631533</span><br><code>3)不可重读读</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181720743.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181720743</span><br><code>4)幻读</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181805365.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181805365</span></p>
+<h2 id="事物的隔离级别"><a href="#事物的隔离级别" class="headerlink" title="事物的隔离级别"></a>事物的隔离级别</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012181900319.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012181900319</span></p>
+<h2 id="默认级别"><a href="#默认级别" class="headerlink" title="默认级别"></a>默认级别</h2><p><code>mysql&gt; show  variables like &#39;tx_isolation&#39;;</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201012182102365.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201012182102365</span></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">由此得出结论,mysql解决了脏读,不可重复读问题,但是存在幻读问题<br></code></pre></td></tr></table></figure>
+
+<p><code>建表</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs sql"><br><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> test_innodb_lock (<br>a <span class="hljs-type">int</span> (<span class="hljs-number">11</span>),<br>b <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">16</span>)<br>)ENGINE<span class="hljs-operator">=</span>INNODB;<br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;b2&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">3</span>,<span class="hljs-string">&#x27;3&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">4</span>,<span class="hljs-string">&#x27;4000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">5</span>,<span class="hljs-string">&#x27;5000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">6</span>,<span class="hljs-string">&#x27;6000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">7</span>,<span class="hljs-string">&#x27;7000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">8</span>,<span class="hljs-string">&#x27;8000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">9</span>,<span class="hljs-string">&#x27;9000&#x27;</span>);<br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">into</span> test_innodb_lock <span class="hljs-keyword">values</span>(<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;b1&#x27;</span>);<br><br><span class="hljs-keyword">CREATE</span> INDEX test_innodb_a_ind <span class="hljs-keyword">on</span> test_innodb_lock(a);<br><br><span class="hljs-keyword">CREATE</span> INDEX test_innodb_lock_b_ind <span class="hljs-keyword">on</span> test_innodb_lock(b);<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">CAP<br>保证P的基础上,淘宝,京东电商网站都是分布式架构,要满足高可用性<br>双<span class="hljs-number">11</span>当天,很多人上淘宝网址,对于一个用户来讲,他关心的是下单成功,而不是这个时候网站上有多少人访问,有多少人对商品收藏过,分享过商品,此时强一致性若于高可用性,再比如发一条微博,没有必要让全球人马上都知道你发微博了,先保证整个网站可用,平台架构稳定,数据一致性在合理范围内有延时性,一定保证高可用,再保证最终一致性<br></code></pre></td></tr></table></figure>
+
+<p>1)关闭自动提交<br>set autocommit=0<br>2)修过A查询B<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014172514831.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014172514831</span><br>3)修过A修过B<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014173615291.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014173615291</span><br>4<br><code>行锁演示</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014174104143.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014174104143</span><br><code>自己测试</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014174352726.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014174352726</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014174406640.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014174406640</span></p>
+<p><code>无索引行锁升级表锁</code><br>varchar类型不加单引号导致索引失效<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014175441408.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014175441408</span></p>
+<p><code>最危险的可能会出现在生产上的故障</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014175957167.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014175957167</span></p>
+<p><code>间隙锁危害</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014181747696.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014181747696</span><br><code>新增都被阻塞了13秒</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014181811253.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014181811253</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014182142463.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014182142463</span></p>
+<p><code>总结</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201014182201667.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201014182201667</span></p>
+<p><code>面试题:如何锁定一行?</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015115251126.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015115251126</span></p>
+<p><code>自己测试</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015115958705.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015115958705</span></p>
+<h2 id="大总结"><a href="#大总结" class="headerlink" title="大总结"></a>大总结</h2><p><code>案例结论</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015135118179.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015135118179</span><br><code>行锁分析</code><br>show status like ‘innodb_row_lock%’;<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015140124816.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015140124816</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015140047743.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015140047743</span><br><code>优化建议</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015140225817.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015140225817</span><br><code>页锁</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015140306078.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015140306078</span></p>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/10/15/01mysql/(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;(%E5%9B%9B)Mysql-%E9%94%81%E6%9C%BA%E5%88%B6&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/10/15/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E6%A1%86%E6%9E%B6Seata/"><i class="iconfont iconleft"></i>分布式事务框架Seata</a>
+    <a href="/2020/10/15/01mysql/(%E4%B8%89)Mysql-%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/">三、Mysql-索引优化<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E7%94%9F%E6%B4%BB%E8%B4%AD%E7%89%A9"><span class="toc-text">例子:生活购物</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%81%E5%88%86%E7%B1%BB"><span class="toc-text">锁分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E9%94%81"><span class="toc-text">表锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E9%94%81"><span class="toc-text">行锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E4%BA%8B%E7%89%A9%E5%A4%84%E7%90%86%E5%B8%A6%E6%9D%A5%E9%97%AE%E9%A2%98"><span class="toc-text">并发事物处理带来问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E7%89%A9%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="toc-text">事物的隔离级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%BA%A7%E5%88%AB"><span class="toc-text">默认级别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E6%80%BB%E7%BB%93"><span class="toc-text">大总结</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

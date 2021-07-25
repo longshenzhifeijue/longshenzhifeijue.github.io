@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html lang="en" color-mode=light>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>二、Mysql-性能分析 - Hexo</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="google" content="notranslate" />
+  
+  <meta name="description" content="mysql-性能分析
+
+
+如何进行性能分析呢
+Mysq...">
+  <meta name="author" content="John Doe">
+  <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
+  <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
+  <meta rel="mask-icon" href="/images/icons/stun-logo.svg" color="#333333">
+  
+    <meta rel="msapplication-TileImage" content="/images/icons/favicon-144x144.png">
+    <meta rel="msapplication-TileColor" content="#000000">
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1445822_r673sha78lq.css">
+
+  
+
+  
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+
+  
+
+  
+    
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/xcode.min.css" name="highlight-style" mode="light">
+
+      
+        
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.18.1/styles/solarized-dark.min.css" name="highlight-style" mode="dark">
+
+      
+  
+
+  <script>
+    var CONFIG = window.CONFIG || {};
+    var ZHAOO = window.ZHAOO || {};
+    CONFIG = {
+      isHome: false,
+      fancybox: true,
+      pjax: false,
+      lazyload: {
+        enable: true,
+        only_post: 'false',
+        loading: '[object Object]'
+      },
+      donate: {
+        enable: true,
+        alipay: 'https://pic.izhaoo.com/alipay.jpg',
+        wechat: 'https://pic.izhaoo.com/wechat.jpg'
+      },
+      galleries: {
+        enable: true
+      },
+      fab: {
+        enable: true,
+        always_show: false
+      },
+      carrier: {
+        enable: true
+      },
+      daovoice: {
+        enable: false
+      },
+      preview: {
+        background: {
+          default: '',
+          api: ''
+        },
+        motto: {
+          default: '真正的大师，永远怀着一颗学徒的心',
+          typing: false,
+          api: '',
+          data_contents: '["data","content"]'
+        },
+      },
+      qrcode: {
+        enable: true,
+        type: 'url',
+        image: 'https://pic.izhaoo.com/weapp-code.jpg',
+      },
+      toc: {
+        enable: true
+      },
+      scrollbar: {
+        type: 'default'
+      },
+      notification: {
+        enable: false,
+        delay: 4500,
+        list: '',
+        page_white_list: '',
+        page_black_list: ''
+      },
+      search: {
+        enable: false,
+        path: ''
+      }
+    }
+  </script>
+
+  
+
+  
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="lock-screen">
+  <div class="loading"></div>
+  
+    
+
+
+  <nav class="navbar">
+    <div class="left">
+      
+        <i class="iconfont iconhome j-navbar-back-home"></i>
+      
+      
+        <i class="iconfont iconqrcode j-navbar-qrcode"></i>
+      
+      
+        <i class="iconfont iconmoono" id="color-toggle" color-toggle="light"></i>
+      
+      
+    </div>
+    <div class="center">二、Mysql-性能分析</div>
+    <div class="right">
+      <i class="iconfont iconmenu j-navbar-menu"></i>
+    </div>
+    
+      <div id="qrcode-navbar"></div>
+    
+  </nav>
+
+  
+  
+
+<nav class="menu">
+  <div class="menu-container">
+    <div class="menu-close">
+      <i class="iconfont iconbaseline-close-px"></i>
+    </div>
+    <ul class="menu-content"><li class="menu-item">
+        <a href="/ " class="underline "> 首页</a>
+      </li><li class="menu-item">
+        <a href="/galleries/ " class="underline "> 摄影</a>
+      </li><li class="menu-item">
+        <a href="/archives/ " class="underline "> 归档</a>
+      </li><li class="menu-item">
+        <a href="/tags/ " class="underline "> 标签</a>
+      </li><li class="menu-item">
+        <a href="/categories/ " class="underline "> 分类</a>
+      </li><li class="menu-item">
+        <a href="/about/ " class="underline "> 关于</a>
+      </li></ul>
+    
+      <div class="menu-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+    
+  </div>
+</nav>
+  <main id="main">
+  <div class="article-wrap">
+    <div class="row container">
+      <div class="col-xl-3"></div>
+      <div class="col-xl-6"><article class="article">
+  <div class="wrap">
+    <section class="head">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <div class="head-mask">
+    <h1 class="head-title">二、Mysql-性能分析</h1>
+    <div class="head-info">
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 30, 2020</span>
+      
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1908</span>
+    </div>
+  </div>
+</section>
+    <section class="main">
+      <section class="content">
+        <h2 id="如何进行性能分析呢"><a href="#如何进行性能分析呢" class="headerlink" title="如何进行性能分析呢"></a>如何进行性能分析呢</h2><ul>
+<li>Mysql Query Optimizer</li>
+<li>Mysql常见瓶颈</li>
+<li>Explain</li>
+</ul>
+<h2 id="Mysql-Query-Optimizer"><a href="#Mysql-Query-Optimizer" class="headerlink" title="Mysql Query Optimizer"></a>Mysql Query Optimizer</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719212216215.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719212216215</span></p>
+<h2 id="Mysql常见瓶颈"><a href="#Mysql常见瓶颈" class="headerlink" title="Mysql常见瓶颈"></a>Mysql常见瓶颈</h2><blockquote>
+<p>CPU: CPU在饱和的适合一般发生在数据装入内存或从磁盘上读取数据时候<br> IO: 磁盘I/O瓶颈发生在装入数据远大于内存容量的时候<br> 服务器硬件的性能瓶颈:TOP,free,iostat和vmstat来查看系统的性能状态</p>
+</blockquote>
+<h2 id="Explain"><a href="#Explain" class="headerlink" title="Explain"></a>Explain</h2><h3 id="是什么-查看执行计划"><a href="#是什么-查看执行计划" class="headerlink" title="是什么(查看执行计划)"></a>是什么(查看执行计划)</h3><p>使用EXPLAIN关键字可以模拟优化器执行SQL查询语句,从而知道MYSQL是如何处理你的SQL语句的.分析你的查询语句或是表结构的性能瓶颈</p>
+<h3 id="能干嘛"><a href="#能干嘛" class="headerlink" title="能干嘛"></a>能干嘛</h3><ul>
+<li>表的读取顺序</li>
+<li>数据读取操作的操作类型</li>
+<li>那些索引可以使用</li>
+<li>那些索引被实际使用</li>
+<li>表之间的引用</li>
+<li>每张表有多少行被优化器查询<h3 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h3>Explain+sql语句<br>执行计划包含的信息<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719213846343.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719213846343</span></li>
+</ul>
+<h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><ul>
+<li>select 查询的序列号包含一组数字,表示查询中执行select子句或操作表的顺序</li>
+<li>三种情况</li>
+</ul>
+<ol>
+<li>id相同,执行顺序由上至下</li>
+<li>id不同,如果是子查询,id的序号会递增,id值越大优先级越高,越先被执行</li>
+<li>id相同不同,同时存在</li>
+</ol>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220300414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220300414</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220336096.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220336096</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220630068.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220630068</span></p>
+<h2 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h2><blockquote>
+<p>查询的类型,主要是用于区别普通查询,联合查询,子查询等等复杂查询</p>
+</blockquote>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719221845157.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719221845157</span></p>
+<h2 id="table"><a href="#table" class="headerlink" title="table"></a>table</h2><p>显示这一行数据是那一张表的</p>
+<h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p>访问类型排列,显示查询使用了何种类型,从最好到最差依次是:<br>    <code>system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;All</code></p>
+<h4 id="详解-实际工作中一般调优到ref-range-index"><a href="#详解-实际工作中一般调优到ref-range-index" class="headerlink" title="详解,实际工作中一般调优到ref/range/index"></a>详解,实际工作中一般调优到ref/range/index</h4><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719223852719.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719223852719</span></p>
+<ul>
+<li>const<br>输入的是一个1常量,给system只有一条数据(是很快,但是实际工作中没有这么用的)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719223656853.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719223656853</span></li>
+<li> eq_ref<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719224505062.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719224505062</span></li>
+<li>ref<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719224906073.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719224906073</span></li>
+<li>range<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225148875.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225148875</span></li>
+<li>index<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225243974.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225243974</span></li>
+<li>all<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225304805.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225304805</span><h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225616120.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225616120</span><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225641444.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225641444</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225847716.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225847716</span><h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719230223877.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719230223877</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719230654490.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719230654490</span>   <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2>显示索引的那一列被使用了,如果可能的话,是一个常量,那些列或者常量被用于查找索引列上的值<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2>根据表统计信息及索引选用情况,大致估算出找到所需的记录和所需要读取的行数<h2 id="extra"><a href="#extra" class="headerlink" title="extra"></a>extra</h2>包含不适合唉其他列中的显示但十分重要的额外信息<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730204936086.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730204936086</span></li>
+<li>Using filert(出现代表九死一生)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730205457418.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730205457418</span></li>
+<li>Using tempoporary(出现代表十死无生)<br>使用了临时表保存中间结果,MySQL在对查询结果排序时使用临时表,常见于排序order by和分组查询group by<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210226079.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210226079</span></li>
+<li>USING index(发财了)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210346021.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210346021</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210625424.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210625424</span><br><code>覆盖索引</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210835200.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210835200</span></li>
+<li>Using where<br>表明使用了where过滤</li>
+<li>using join buffer<br>使用了连接缓存</li>
+<li>impossible where<br>where 子句的值总是flase,不能用来获取任何元组<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211144432.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211144432</span></li>
+<li>select tableso optimized away<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211313833.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211313833</span></li>
+<li>distinct<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211346166.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211346166</span></li>
+</ul>
+<h2 id="热身CASE"><a href="#热身CASE" class="headerlink" title="热身CASE"></a>热身CASE</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211449899.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211449899</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730212224451.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730212224451</span></p>
+      </section>
+      <section class="extra">
+        
+          <ul class="copyright">
+  
+    <li><strong>本文作者：</strong>John Doe</li>
+    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/07/30/01mysql/(%E4%BA%8C)Mysql-%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;30&#x2F;01mysql&#x2F;(%E4%BA%8C)Mysql-%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;30&#x2F;01mysql&#x2F;(%E4%BA%8C)Mysql-%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90&#x2F;index.html</a></li>
+    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
+  
+</ul>
+        
+        
+          <section class="donate">
+  <div id="qrcode-donate">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+  </div>
+  <div class="icon">
+    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
+    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
+  </div>
+</section>
+        
+        
+  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul> 
+
+        
+  <nav class="nav">
+    <a href="/2020/08/12/Java%20SPI%E6%9C%BA%E5%88%B6%E8%AF%A6%E8%A7%A3/"><i class="iconfont iconleft"></i>Java SPI机制详解</a>
+    <a href="/2020/07/30/CodePipeline/">CodePipeline构建<i class="iconfont iconright"></i></a>
+  </nav>
+
+      </section>
+      
+    </section>
+  </div>
+</article></div>
+      <div class="col-xl-3">
+        
+          
+  <aside class="toc-wrap">
+    <h3 class="toc-title">文章目录：</h3>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%91%A2"><span class="toc-text">如何进行性能分析呢</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql-Query-Optimizer"><span class="toc-text">Mysql Query Optimizer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql%E5%B8%B8%E8%A7%81%E7%93%B6%E9%A2%88"><span class="toc-text">Mysql常见瓶颈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Explain"><span class="toc-text">Explain</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88-%E6%9F%A5%E7%9C%8B%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92"><span class="toc-text">是什么(查看执行计划)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%BD%E5%B9%B2%E5%98%9B"><span class="toc-text">能干嘛</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%8E%E4%B9%88%E7%8E%A9"><span class="toc-text">怎么玩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id"><span class="toc-text">id</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#select-type"><span class="toc-text">select_type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#table"><span class="toc-text">table</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#type"><span class="toc-text">type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#possible-keys"><span class="toc-text">possible_keys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keys"><span class="toc-text">keys</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#key-len"><span class="toc-text">key_len</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ref"><span class="toc-text">ref</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rows"><span class="toc-text">rows</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#extra"><span class="toc-text">extra</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%83%AD%E8%BA%ABCASE"><span class="toc-text">热身CASE</span></a></li></ol>
+  </aside>
+
+        
+      </div>
+    </div>
+  </div>
+</main>
+  
+
+<footer class="footer">
+  <div class="footer-social"><a 
+        href="tencent://message/?Menu=yes&uin=894519210 "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#12B7F5'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconQQ "></i>
+      </a><a 
+        href="javascript:; "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#09BB07'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconwechat-fill "></i>
+      </a><a 
+        href="https://github.com/longshenzhifeijue "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color= '#9f7be1'" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  icongithub-fill "></i>
+      </a><a 
+        href="mailto:xufei20160601@163.com "
+        target="_blank"
+        class="footer-social-item"
+        onMouseOver="this.style.color=#FF3B00" 
+        onMouseOut="this.style.color='#33333D'">
+          <i class="iconfont  iconmail"></i>
+      </a></div>
+  
+    <div class="footer-copyright"><p>Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme - <a target="_blank" href="https://github.com/longshenzhifeijue">XuFei</a></p></div>
+  
+</footer>
+  
+      <div class="fab fab-plus">
+    <i class="iconfont iconplus"></i>
+  </div>
+  
+  
+  <div class="fab fab-up">
+    <i class="iconfont iconcaret-up"></i>
+  </div>
+  
+  
+  
+    
+<script src="/js/color-mode.js"></script>
+
+  
+  
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+
+
+
+
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+  
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+
+
+
+<script src="/js/utils.js"></script>
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
