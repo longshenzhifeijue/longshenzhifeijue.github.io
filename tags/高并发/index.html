@@ -6,14 +6,13 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>五、Mysql主从复制 - Hexo</title>
+  <title>高并发 - Hexo</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   
-  <meta name="description" content="五、Mysql主从复制
-复制的基本原理salve会从m...">
-  <meta name="author" content="John Doe">
+  
+  <meta name="author" content="Xu Fei">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
@@ -146,7 +145,7 @@
       
       
     </div>
-    <div class="center">五、Mysql主从复制</div>
+    <div class="center">标签</div>
     <div class="right">
       <i class="iconfont iconmenu j-navbar-menu"></i>
     </div>
@@ -182,82 +181,29 @@
   </div>
 </nav>
   <main id="main">
-  <div class="article-wrap">
-    <div class="row container">
-      <div class="col-xl-3"></div>
-      <div class="col-xl-6"><article class="article">
-  <div class="wrap">
-    <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
-  <div class="head-mask">
-    <h1 class="head-title">五、Mysql主从复制</h1>
-    <div class="head-info">
-      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 15, 2020</span>
-      
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>187</span>
-    </div>
-  </div>
-</section>
-    <section class="main">
-      <section class="content">
-        <p><code>五、Mysql主从复制</code></p>
-<h2 id="复制的基本原理"><a href="#复制的基本原理" class="headerlink" title="复制的基本原理"></a>复制的基本原理</h2><p>salve会从master读取binlog来进行数据同步<br><code>三步骤+原理图</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141146375.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141146375</span></p>
-<h2 id="复制的基本原则"><a href="#复制的基本原则" class="headerlink" title="复制的基本原则"></a>复制的基本原则</h2><ul>
-<li>每个salve只有一个master</li>
-<li>每个salve只能有一个唯一的服务器ID</li>
-<li>每个master可以有多个salve</li>
-</ul>
-<h2 id="复制的最大问题"><a href="#复制的最大问题" class="headerlink" title="复制的最大问题"></a>复制的最大问题</h2><p>延时</p>
-<h2 id="一主一从常见配置"><a href="#一主一从常见配置" class="headerlink" title="一主一从常见配置"></a>一主一从常见配置</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141615557.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141615557</span></p>
-
-      </section>
-      <section class="extra">
+  <section class="archive">
+    <div class="archive-container">
+      <div class="archive-post">
+        <h2 class="archive-total"># 高并发</h2>
         
-          <ul class="copyright">
-  
-    <li><strong>本文作者：</strong>John Doe</li>
-    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/10/15/01mysql/(%E4%BA%94)Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;(%E4%BA%94)Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;(%E4%BA%94)Mysql%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6&#x2F;index.html</a></li>
-    <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
-  
-</ul>
-        
-        
-          <section class="donate">
-  <div id="qrcode-donate">
-    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
-  </div>
-  <div class="icon">
-    <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
-    <a href="javascript:;" id="wechat"><i class="iconfont iconwechat-fill"></i></a>
-  </div>
-</section>
-        
-        
-  <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul> 
-
-        
-  <nav class="nav">
-    <a href="/2020/10/15/01mysql/(%E4%B8%89)Mysql-%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/"><i class="iconfont iconleft"></i>三、Mysql-索引优化</a>
-    <a href="/2020/10/12/01mysql/MySQL%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%99%BE%E4%B8%87%E7%BA%A7%E5%88%AB%E6%95%B0%E6%8D%AE/">Mysql随机生成百万级别数据<i class="iconfont iconright"></i></a>
-  </nav>
-
-      </section>
-      
-    </section>
-  </div>
-</article></div>
-      <div class="col-xl-3">
         
           
-  <aside class="toc-wrap">
-    <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">复制的基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99"><span class="toc-text">复制的基本原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E6%9C%80%E5%A4%A7%E9%97%AE%E9%A2%98"><span class="toc-text">复制的最大问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%BB%E4%B8%80%E4%BB%8E%E5%B8%B8%E8%A7%81%E9%85%8D%E7%BD%AE"><span class="toc-text">一主一从常见配置</span></a></li></ol>
-  </aside>
-
+            <h3 class="archive-year">2021 年</h3>
+          
+          <div class="archive-item">
+            <a class="archive-date" href="/2021/07/25/%E9%AB%98%E5%B9%B6%E5%8F%91/">07/25</a>
+            <a class="archive-title" href="/2021/07/25/%E9%AB%98%E5%B9%B6%E5%8F%91/">QPS和RT</a>
+          </div>
+        
+          
+          <div class="archive-item">
+            <a class="archive-date" href="/2021/07/25/Untitled-2/">07/25</a>
+            <a class="archive-title" href="/2021/07/25/Untitled-2/">QPS和RT</a>
+          </div>
         
       </div>
     </div>
-  </div>
+  </section>
 </main>
   
 

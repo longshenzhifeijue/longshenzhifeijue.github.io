@@ -6,16 +6,14 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>一、Mysql-索引简介 - Hexo</title>
+  <title>五、Mysql主从复制 - Hexo</title>
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="google" content="notranslate" />
   
-  <meta name="description" content="mysql-索引简介
-
-
-image-20200719...">
-  <meta name="author" content="John Doe">
+  <meta name="description" content="五、Mysql主从复制
+复制的基本原理salve会从m...">
+  <meta name="author" content="Xu Fei">
   <link rel="icon" href="/images/icons/favicon-16x16.png" type="image/png" sizes="16x16">
   <link rel="icon" href="/images/icons/favicon-32x32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png" sizes="180x180">
@@ -148,7 +146,7 @@ image-20200719...">
       
       
     </div>
-    <div class="center">一、Mysql-索引简介</div>
+    <div class="center">五、Mysql主从复制</div>
     <div class="right">
       <i class="iconfont iconmenu j-navbar-menu"></i>
     </div>
@@ -190,35 +188,35 @@ image-20200719...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-ea33c6c96b037b2a505834001fa80a00_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
-    <h1 class="head-title">一、Mysql-索引简介</h1>
+    <h1 class="head-title">五、Mysql主从复制</h1>
     <div class="head-info">
-      <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 19, 2020</span>
+      <span class="post-info-item"><i class="iconfont iconcalendar"></i>October 15, 2020</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>555</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>187</span>
     </div>
   </div>
 </section>
     <section class="main">
       <section class="content">
-        <p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165033146.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165033146</span></p>
-<h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>MYSQL 官方对索引对定义为:索引(Index)是帮助MYSQL高效获取数据对数据结构(可以得到索引的本质是一种数据结构)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719162518739.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719162518739</span><br>你可以简单理解为<code>排好序的快速查找数据结构</code></p>
-<h3 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h3><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164028859.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164028859</span></p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164103526.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164103526</span><br>注意:索引会影响where后面的查询和order by后面的排序<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164903194.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164903194</span></p>
-<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165322867.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165322867</span></p>
-<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165712838.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165712838</span></p>
-<h2 id="mysql索引分类"><a href="#mysql索引分类" class="headerlink" title="mysql索引分类"></a>mysql索引分类</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165923209.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165923209</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170120207.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170120207</span></p>
-<h2 id="mysql索引结构"><a href="#mysql索引结构" class="headerlink" title="mysql索引结构"></a>mysql索引结构</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170229864.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170229864</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170823892.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170823892</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170927849.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170927849</span></p>
-<h2 id="那些情况需要创建索引"><a href="#那些情况需要创建索引" class="headerlink" title="那些情况需要创建索引"></a>那些情况需要创建索引</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719210845447.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719210845447</span></p>
-<h2 id="那些情况不需要创建索引"><a href="#那些情况不需要创建索引" class="headerlink" title="那些情况不需要创建索引"></a>那些情况不需要创建索引</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211245446.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211245446</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211315427.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211315427</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211114334.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211114334</span></p>
+        <p><code>五、Mysql主从复制</code></p>
+<h2 id="复制的基本原理"><a href="#复制的基本原理" class="headerlink" title="复制的基本原理"></a>复制的基本原理</h2><p>salve会从master读取binlog来进行数据同步<br><code>三步骤+原理图</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141146375.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141146375</span></p>
+<h2 id="复制的基本原则"><a href="#复制的基本原则" class="headerlink" title="复制的基本原则"></a>复制的基本原则</h2><ul>
+<li>每个salve只有一个master</li>
+<li>每个salve只能有一个唯一的服务器ID</li>
+<li>每个master可以有多个salve</li>
+</ul>
+<h2 id="复制的最大问题"><a href="#复制的最大问题" class="headerlink" title="复制的最大问题"></a>复制的最大问题</h2><p>延时</p>
+<h2 id="一主一从常见配置"><a href="#一主一从常见配置" class="headerlink" title="一主一从常见配置"></a>一主一从常见配置</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20201015141615557.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20201015141615557</span></p>
+
       </section>
       <section class="extra">
         
           <ul class="copyright">
   
-    <li><strong>本文作者：</strong>John Doe</li>
-    <li><strong>本文链接：</strong><a href="http://yoursite.com/2020/07/19/01mysql/01Mysql%E7%B4%A2%E5%BC%95%E7%AE%80%E4%BB%8B/index.html" title="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;19&#x2F;01mysql&#x2F;01Mysql%E7%B4%A2%E5%BC%95%E7%AE%80%E4%BB%8B&#x2F;index.html">http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;19&#x2F;01mysql&#x2F;01Mysql%E7%B4%A2%E5%BC%95%E7%AE%80%E4%BB%8B&#x2F;index.html</a></li>
+    <li><strong>本文作者：</strong>Xu Fei</li>
+    <li><strong>本文链接：</strong><a href="https://longshenzhifeijue.github.io/2020/10/15/01mysql/07Mysql-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/index.html" title="https:&#x2F;&#x2F;longshenzhifeijue.github.io&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;07Mysql-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6&#x2F;index.html">https:&#x2F;&#x2F;longshenzhifeijue.github.io&#x2F;2020&#x2F;10&#x2F;15&#x2F;01mysql&#x2F;07Mysql-%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6&#x2F;index.html</a></li>
     <li><strong>版权声明：</strong>本博客所有文章均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" title="BY-NC-SA" target="_blank" rel="noopener">BY-NC-SA</a> 许可协议，转载请注明出处！</li>
   
 </ul>
@@ -239,8 +237,8 @@ image-20200719...">
 
         
   <nav class="nav">
-    <a href="/2020/07/23/git%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%96%87%E4%BB%B6/"><i class="iconfont iconleft"></i>git删除远程仓库文件</a>
-    <a href="/2020/07/12/%E4%BD%A0%E7%9C%9F%E6%AD%A3%E4%BA%86%E8%A7%A3HashMap%E5%90%97/">你真正了解HashMap吗<i class="iconfont iconright"></i></a>
+    <a href="/2020/10/15/01mysql/05Mysql-%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96/"><i class="iconfont iconleft"></i>三、Mysql-索引优化</a>
+    <a href="/2020/10/12/01mysql/08MySQL-%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%99%BE%E4%B8%87%E7%BA%A7%E5%88%AB%E6%95%B0%E6%8D%AE/">Mysql随机生成百万级别数据<i class="iconfont iconright"></i></a>
   </nav>
 
       </section>
@@ -253,7 +251,7 @@ image-20200719...">
           
   <aside class="toc-wrap">
     <h3 class="toc-title">文章目录：</h3>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-text">是什么</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3"><span class="toc-text">详解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-text">优势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A3%E5%8A%BF"><span class="toc-text">劣势</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E7%B4%A2%E5%BC%95%E5%88%86%E7%B1%BB"><span class="toc-text">mysql索引分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84"><span class="toc-text">mysql索引结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%A3%E4%BA%9B%E6%83%85%E5%86%B5%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-text">那些情况需要创建索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%82%A3%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8D%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="toc-text">那些情况不需要创建索引</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-text">复制的基本原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99"><span class="toc-text">复制的基本原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%8D%E5%88%B6%E7%9A%84%E6%9C%80%E5%A4%A7%E9%97%AE%E9%A2%98"><span class="toc-text">复制的最大问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%BB%E4%B8%80%E4%BB%8E%E5%B8%B8%E8%A7%81%E9%85%8D%E7%BD%AE"><span class="toc-text">一主一从常见配置</span></a></li></ol>
   </aside>
 
         
