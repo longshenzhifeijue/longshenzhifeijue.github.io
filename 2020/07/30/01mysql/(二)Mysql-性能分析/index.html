@@ -197,7 +197,7 @@ Mysq...">
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>July 30, 2020</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1241</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1908</span>
     </div>
   </div>
 </section>
@@ -208,7 +208,7 @@ Mysq...">
 <li>Mysql常见瓶颈</li>
 <li>Explain</li>
 </ul>
-<h2 id="Mysql-Query-Optimizer"><a href="#Mysql-Query-Optimizer" class="headerlink" title="Mysql Query Optimizer"></a>Mysql Query Optimizer</h2><p><img src="http://xmt.ssluxury.cn/image-20200719212216215.png" alt="image-20200719212216215"></p>
+<h2 id="Mysql-Query-Optimizer"><a href="#Mysql-Query-Optimizer" class="headerlink" title="Mysql Query Optimizer"></a>Mysql Query Optimizer</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719212216215.png"  ><span class="image-caption">image-20200719212216215</span></p>
 <h2 id="Mysql常见瓶颈"><a href="#Mysql常见瓶颈" class="headerlink" title="Mysql常见瓶颈"></a>Mysql常见瓶颈</h2><blockquote>
 <p>CPU: CPU在饱和的适合一般发生在数据装入内存或从磁盘上读取数据时候<br> IO: 磁盘I/O瓶颈发生在装入数据远大于内存容量的时候<br> 服务器硬件的性能瓶颈:TOP,free,iostat和vmstat来查看系统的性能状态</p>
 </blockquote>
@@ -219,7 +219,7 @@ Mysq...">
 <li>那些索引可以使用</li>
 <li>那些索引被实际使用</li>
 <li>表之间的引用</li>
-<li>每张表有多少行被优化器查询<h3 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h3>Explain+sql语句<br>执行计划包含的信息<br><img src="http://xmt.ssluxury.cn/image-20200719213846343.png" alt="image-20200719213846343"></li>
+<li>每张表有多少行被优化器查询<h3 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h3>Explain+sql语句<br>执行计划包含的信息<br><img  src="http://xmt.ssluxury.cn/image-20200719213846343.png"  ><span class="image-caption">image-20200719213846343</span></li>
 </ul>
 <h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><ul>
 <li>select 查询的序列号包含一组数字,表示查询中执行select子句或操作表的顺序</li>
@@ -230,31 +230,31 @@ Mysq...">
 <li>id不同,如果是子查询,id的序号会递增,id值越大优先级越高,越先被执行</li>
 <li>id相同不同,同时存在</li>
 </ol>
-<p><img src="http://xmt.ssluxury.cn/image-20200719220300414.png" alt="image-20200719220300414"><br><img src="http://xmt.ssluxury.cn/image-20200719220336096.png" alt="image-20200719220336096"><br><img src="http://xmt.ssluxury.cn/image-20200719220630068.png" alt="image-20200719220630068"></p>
+<p><img  src="http://xmt.ssluxury.cn/image-20200719220300414.png"  ><span class="image-caption">image-20200719220300414</span><br><img  src="http://xmt.ssluxury.cn/image-20200719220336096.png"  ><span class="image-caption">image-20200719220336096</span><br><img  src="http://xmt.ssluxury.cn/image-20200719220630068.png"  ><span class="image-caption">image-20200719220630068</span></p>
 <h2 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h2><blockquote>
 <p>查询的类型,主要是用于区别普通查询,联合查询,子查询等等复杂查询</p>
 </blockquote>
-<p><img src="http://xmt.ssluxury.cn/image-20200719221845157.png" alt="image-20200719221845157"></p>
+<p><img  src="http://xmt.ssluxury.cn/image-20200719221845157.png"  ><span class="image-caption">image-20200719221845157</span></p>
 <h2 id="table"><a href="#table" class="headerlink" title="table"></a>table</h2><p>显示这一行数据是那一张表的</p>
 <h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p>访问类型排列,显示查询使用了何种类型,从最好到最差依次是:<br>    <code>system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;All</code></p>
-<h4 id="详解-实际工作中一般调优到ref-range-index"><a href="#详解-实际工作中一般调优到ref-range-index" class="headerlink" title="详解,实际工作中一般调优到ref/range/index"></a>详解,实际工作中一般调优到ref/range/index</h4><p><img src="http://xmt.ssluxury.cn/image-20200719223852719.png" alt="image-20200719223852719"></p>
+<h4 id="详解-实际工作中一般调优到ref-range-index"><a href="#详解-实际工作中一般调优到ref-range-index" class="headerlink" title="详解,实际工作中一般调优到ref/range/index"></a>详解,实际工作中一般调优到ref/range/index</h4><p><img  src="http://xmt.ssluxury.cn/image-20200719223852719.png"  ><span class="image-caption">image-20200719223852719</span></p>
 <ul>
-<li>const<br>输入的是一个1常量,给system只有一条数据(是很快,但是实际工作中没有这么用的)<br><img src="http://xmt.ssluxury.cn/image-20200719223656853.png" alt="image-20200719223656853"></li>
-<li> eq_ref<br><img src="http://xmt.ssluxury.cn/image-20200719224505062.png" alt="image-20200719224505062"></li>
-<li>ref<br><img src="http://xmt.ssluxury.cn/image-20200719224906073.png" alt="image-20200719224906073"></li>
-<li>range<br><img src="http://xmt.ssluxury.cn/image-20200719225148875.png" alt="image-20200719225148875"></li>
-<li>index<br><img src="http://xmt.ssluxury.cn/image-20200719225243974.png" alt="image-20200719225243974"></li>
-<li>all<br><img src="http://xmt.ssluxury.cn/image-20200719225304805.png" alt="image-20200719225304805"><h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img src="http://xmt.ssluxury.cn/image-20200719225616120.png" alt="image-20200719225616120"><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img src="http://xmt.ssluxury.cn/image-20200719225641444.png" alt="image-20200719225641444"><br><img src="http://xmt.ssluxury.cn/image-20200719225847716.png" alt="image-20200719225847716"><h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><img src="http://xmt.ssluxury.cn/image-20200719230223877.png" alt="image-20200719230223877"><br><img src="http://xmt.ssluxury.cn/image-20200719230654490.png" alt="image-20200719230654490">   <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2>显示索引的那一列被使用了,如果可能的话,是一个常量,那些列或者常量被用于查找索引列上的值<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2>根据表统计信息及索引选用情况,大致估算出找到所需的记录和所需要读取的行数<h2 id="extra"><a href="#extra" class="headerlink" title="extra"></a>extra</h2>包含不适合唉其他列中的显示但十分重要的额外信息<br><img src="http://xmt.ssluxury.cn/image-20200730204936086.png" alt="image-20200730204936086"></li>
-<li>Using filert(出现代表九死一生)<br><img src="http://xmt.ssluxury.cn/image-20200730205457418.png" alt="image-20200730205457418"></li>
-<li>Using tempoporary(出现代表十死无生)<br>使用了临时表保存中间结果,MySQL在对查询结果排序时使用临时表,常见于排序order by和分组查询group by<br><img src="http://xmt.ssluxury.cn/image-20200730210226079.png" alt="image-20200730210226079"></li>
-<li>USING index(发财了)<br><img src="http://xmt.ssluxury.cn/image-20200730210346021.png" alt="image-20200730210346021"><br><img src="http://xmt.ssluxury.cn/image-20200730210625424.png" alt="image-20200730210625424"><br><code>覆盖索引</code><br><img src="http://xmt.ssluxury.cn/image-20200730210835200.png" alt="image-20200730210835200"></li>
+<li>const<br>输入的是一个1常量,给system只有一条数据(是很快,但是实际工作中没有这么用的)<br><img  src="http://xmt.ssluxury.cn/image-20200719223656853.png"  ><span class="image-caption">image-20200719223656853</span></li>
+<li> eq_ref<br><img  src="http://xmt.ssluxury.cn/image-20200719224505062.png"  ><span class="image-caption">image-20200719224505062</span></li>
+<li>ref<br><img  src="http://xmt.ssluxury.cn/image-20200719224906073.png"  ><span class="image-caption">image-20200719224906073</span></li>
+<li>range<br><img  src="http://xmt.ssluxury.cn/image-20200719225148875.png"  ><span class="image-caption">image-20200719225148875</span></li>
+<li>index<br><img  src="http://xmt.ssluxury.cn/image-20200719225243974.png"  ><span class="image-caption">image-20200719225243974</span></li>
+<li>all<br><img  src="http://xmt.ssluxury.cn/image-20200719225304805.png"  ><span class="image-caption">image-20200719225304805</span><h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img  src="http://xmt.ssluxury.cn/image-20200719225616120.png"  ><span class="image-caption">image-20200719225616120</span><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img  src="http://xmt.ssluxury.cn/image-20200719225641444.png"  ><span class="image-caption">image-20200719225641444</span><br><img  src="http://xmt.ssluxury.cn/image-20200719225847716.png"  ><span class="image-caption">image-20200719225847716</span><h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><img  src="http://xmt.ssluxury.cn/image-20200719230223877.png"  ><span class="image-caption">image-20200719230223877</span><br><img  src="http://xmt.ssluxury.cn/image-20200719230654490.png"  ><span class="image-caption">image-20200719230654490</span>   <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2>显示索引的那一列被使用了,如果可能的话,是一个常量,那些列或者常量被用于查找索引列上的值<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2>根据表统计信息及索引选用情况,大致估算出找到所需的记录和所需要读取的行数<h2 id="extra"><a href="#extra" class="headerlink" title="extra"></a>extra</h2>包含不适合唉其他列中的显示但十分重要的额外信息<br><img  src="http://xmt.ssluxury.cn/image-20200730204936086.png"  ><span class="image-caption">image-20200730204936086</span></li>
+<li>Using filert(出现代表九死一生)<br><img  src="http://xmt.ssluxury.cn/image-20200730205457418.png"  ><span class="image-caption">image-20200730205457418</span></li>
+<li>Using tempoporary(出现代表十死无生)<br>使用了临时表保存中间结果,MySQL在对查询结果排序时使用临时表,常见于排序order by和分组查询group by<br><img  src="http://xmt.ssluxury.cn/image-20200730210226079.png"  ><span class="image-caption">image-20200730210226079</span></li>
+<li>USING index(发财了)<br><img  src="http://xmt.ssluxury.cn/image-20200730210346021.png"  ><span class="image-caption">image-20200730210346021</span><br><img  src="http://xmt.ssluxury.cn/image-20200730210625424.png"  ><span class="image-caption">image-20200730210625424</span><br><code>覆盖索引</code><br><img  src="http://xmt.ssluxury.cn/image-20200730210835200.png"  ><span class="image-caption">image-20200730210835200</span></li>
 <li>Using where<br>表明使用了where过滤</li>
 <li>using join buffer<br>使用了连接缓存</li>
-<li>impossible where<br>where 子句的值总是flase,不能用来获取任何元组<br><img src="http://xmt.ssluxury.cn/image-20200730211144432.png" alt="image-20200730211144432"></li>
-<li>select tableso optimized away<br><img src="http://xmt.ssluxury.cn/image-20200730211313833.png" alt="image-20200730211313833"></li>
-<li>distinct<br><img src="http://xmt.ssluxury.cn/image-20200730211346166.png" alt="image-20200730211346166"></li>
+<li>impossible where<br>where 子句的值总是flase,不能用来获取任何元组<br><img  src="http://xmt.ssluxury.cn/image-20200730211144432.png"  ><span class="image-caption">image-20200730211144432</span></li>
+<li>select tableso optimized away<br><img  src="http://xmt.ssluxury.cn/image-20200730211313833.png"  ><span class="image-caption">image-20200730211313833</span></li>
+<li>distinct<br><img  src="http://xmt.ssluxury.cn/image-20200730211346166.png"  ><span class="image-caption">image-20200730211346166</span></li>
 </ul>
-<h2 id="热身CASE"><a href="#热身CASE" class="headerlink" title="热身CASE"></a>热身CASE</h2><p><img src="http://xmt.ssluxury.cn/image-20200730211449899.png" alt="image-20200730211449899"><br><img src="http://xmt.ssluxury.cn/image-20200730212224451.png" alt="image-20200730212224451"></p>
+<h2 id="热身CASE"><a href="#热身CASE" class="headerlink" title="热身CASE"></a>热身CASE</h2><p><img  src="http://xmt.ssluxury.cn/image-20200730211449899.png"  ><span class="image-caption">image-20200730211449899</span><br><img  src="http://xmt.ssluxury.cn/image-20200730212224451.png"  ><span class="image-caption">image-20200730212224451</span></p>
       </section>
       <section class="extra">
         

@@ -196,7 +196,7 @@
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>June 28, 2020</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1559</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1600</span>
     </div>
   </div>
 </section>
@@ -204,7 +204,7 @@
       <section class="content">
         <h2 id="先了解下如何建立通信"><a href="#先了解下如何建立通信" class="headerlink" title="先了解下如何建立通信"></a>先了解下如何建立通信</h2><p>三条命令跟百度建立双向的一个连接</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs linux">exec 8&lt;&gt; /dev/tcp/www.baidu.com/80<br>echo -e &quot;GET / HTTP/1.0\n&quot; &gt;&amp; 8 <br>cat &lt;&amp; 8<br></code></pre></td></tr></table></figure>
-<p>web server 通信…<br><img src="http://xmt.ssluxury.cn/image-20200628152249834.png" alt="image-20200628152249834"></p>
+<p>web server 通信…<br><img  src="http://xmt.ssluxury.cn/image-20200628152249834.png"  ><span class="image-caption">image-20200628152249834</span></p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs stylus">curl www<span class="hljs-selector-class">.baidu</span><span class="hljs-selector-class">.com</span>:<span class="hljs-number">80</span><br>np www<span class="hljs-selector-class">.baidu</span><span class="hljs-selector-class">.com</span> <span class="hljs-number">80</span><br></code></pre></td></tr></table></figure>
 <p>netcat(nc)是一个简单而有用的工具，被誉为网络安全界的“瑞士均道”，不仅可以通过使用TCP或UDP协议的网络连接读写数据，同时还是一个功能强大的网络调试和探测工具，能够建立你需要的几乎所有类型的网络连接。</p>
 <ul>
@@ -229,10 +229,10 @@
 <h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><ul>
 <li>第一次client发送一个数据包到sever端,</li>
 <li>第二次server端响应一个数据包,</li>
-<li>第三次client进行确认<br>为什么三次,也就是客户端为啥有第三次,因为站立在服务端角度,只有三次才能知道客户端是ok的,资源的开辟才代表着连接,代表着可以通信了<br><img src="http://xmt.ssluxury.cn/v2-efe255e2f7706bcf8285c73a68b4b346_b.png" alt="img"><h3 id="四次分手"><a href="#四次分手" class="headerlink" title="四次分手"></a>四次分手</h3>基于三次链接,可以建立通信,服务端开始是有个监听,<br>一个服务器可以跟多个客户端建立通信,服务器只有一台,如果socket里面有一样的ip和端口号,就麻烦了<br>每个连接建立需要资源,需要释放,那么就需要断开,<br>如果客户端想端开?<br>client先发过去,想断开,服务端发过去有想端开或者不断开?<br><img src="http://xmt.ssluxury.cn/v2-c23b902446bdabd56a0a03d37eb7f8c2_b.png" alt="img"></li>
+<li>第三次client进行确认<br>为什么三次,也就是客户端为啥有第三次,因为站立在服务端角度,只有三次才能知道客户端是ok的,资源的开辟才代表着连接,代表着可以通信了<br><img  src="http://xmt.ssluxury.cn/v2-efe255e2f7706bcf8285c73a68b4b346_b.png"  ><span class="image-caption">img</span><h3 id="四次分手"><a href="#四次分手" class="headerlink" title="四次分手"></a>四次分手</h3>基于三次链接,可以建立通信,服务端开始是有个监听,<br>一个服务器可以跟多个客户端建立通信,服务器只有一台,如果socket里面有一样的ip和端口号,就麻烦了<br>每个连接建立需要资源,需要释放,那么就需要断开,<br>如果客户端想端开?<br>client先发过去,想断开,服务端发过去有想端开或者不断开?<br><img  src="http://xmt.ssluxury.cn/v2-c23b902446bdabd56a0a03d37eb7f8c2_b.png"  ><span class="image-caption">img</span></li>
 </ul>
-<h4 id="四元组"><a href="#四元组" class="headerlink" title="四元组"></a>四元组</h4><p>四元组:ip+port+ip+port,能确保一个唯一的socket,端口号取值范围:65535,能用的1000一下,(查下),<br>客户端消耗65535个端口号,对应服务端消耗一个端口号,服务端不会消耗新的端口号,其实就是65535个socket,通过客户端端口号区分,对应返回内容<br>如果再有一个服务器c3,那么客户端仍然可以开启65535个,跟c建立通信<br><img src="http://xmt.ssluxury.cn/v2-35345a4225bd626af7283672eb669420_b.png" alt="img"><br><img src="https://pic1.zhimg.com/v2-c312c6fd90f9f79308259315f2e09160_b.png" alt="img"><br><img src="http://xmt.ssluxury.cn/v2-cbbc112aeeb4411e5d392152cbeb3678_b.png" alt="img"></p>
-<h4 id="先记住吓一跳机制"><a href="#先记住吓一跳机制" class="headerlink" title="先记住吓一跳机制"></a>先记住吓一跳机制</h4><p>路由的下一个点。如果路由器没有直接连接到目的网络，它会有一个提供下一跳路由的邻居路由器，用来传递数据到目的地。<br>简单的来说，可以从字面理解，下一跳就是指路由器路由选择的下面一次跳跃<br>tcpdump -nn -i eth0 port 80<br><img src="http://xmt.ssluxury.cn/v2-e130d6b1c577a5c7a1a2404144732e99_b.png" alt="img"><br>— 未完成待续 —</p>
+<h4 id="四元组"><a href="#四元组" class="headerlink" title="四元组"></a>四元组</h4><p>四元组:ip+port+ip+port,能确保一个唯一的socket,端口号取值范围:65535,能用的1000一下,(查下),<br>客户端消耗65535个端口号,对应服务端消耗一个端口号,服务端不会消耗新的端口号,其实就是65535个socket,通过客户端端口号区分,对应返回内容<br>如果再有一个服务器c3,那么客户端仍然可以开启65535个,跟c建立通信<br><img  src="http://xmt.ssluxury.cn/v2-35345a4225bd626af7283672eb669420_b.png"  ><span class="image-caption">img</span><br><img  src="https://pic1.zhimg.com/v2-c312c6fd90f9f79308259315f2e09160_b.png"  ><span class="image-caption">img</span><br><img  src="http://xmt.ssluxury.cn/v2-cbbc112aeeb4411e5d392152cbeb3678_b.png"  ><span class="image-caption">img</span></p>
+<h4 id="先记住吓一跳机制"><a href="#先记住吓一跳机制" class="headerlink" title="先记住吓一跳机制"></a>先记住吓一跳机制</h4><p>路由的下一个点。如果路由器没有直接连接到目的网络，它会有一个提供下一跳路由的邻居路由器，用来传递数据到目的地。<br>简单的来说，可以从字面理解，下一跳就是指路由器路由选择的下面一次跳跃<br>tcpdump -nn -i eth0 port 80<br><img  src="http://xmt.ssluxury.cn/v2-e130d6b1c577a5c7a1a2404144732e99_b.png"  ><span class="image-caption">img</span><br>— 未完成待续 —</p>
       </section>
       <section class="extra">
         

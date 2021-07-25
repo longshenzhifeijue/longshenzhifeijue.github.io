@@ -195,7 +195,7 @@ DDNSDynamic ...">
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>August 18, 2020</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1115</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>1124</span>
     </div>
   </div>
 </section>
@@ -209,7 +209,7 @@ DDNSDynamic ...">
 <h2 id="什么时候需要DDNS"><a href="#什么时候需要DDNS" class="headerlink" title="什么时候需要DDNS"></a>什么时候需要DDNS</h2><p>目前来说，对于商业域名绝大部分还是不会使用到DDNS的，而是使用的DNS完成解析。那么什么时候需要DDNS呢，下面举出两例：</p>
 <p>在家里的局域网内/公司局域网/学校局域网内，我想搭建<strong>一台Ftp的Server</strong>来共享文件，但是你知道家里的网使用的是动态IP（指的出口IP），一旦我的IP发生变化其他人使用原来域名就不能 找到这台Server 了，因此我的诉求是：即使我IP是动态的，但我希望每次通过域名都能解析到我这来，这便是DDNS可以搞定的事。<br>比如现在流行的远程摄像头（如小米摄像头），你发现不管你在哪只要通过网络就能打开摄像头查看家里的情况。IP虽然是公网动态IP，每断开一次就会变化一次，因此可以想象这也是使用的DDNS解决的。<br>简单描述DDNS能做什么：以把变化的IP动态地映射到域名上，通过不变的域名访问变化IP的主机；</p>
 <h2 id="如何自己实现DDNS"><a href="#如何自己实现DDNS" class="headerlink" title="如何自己实现DDNS"></a>如何自己实现DDNS</h2><p>如果自己需要做一个DDNS动态域名解析，本处共介绍三种方案供以参考：</p>
-<p>1.使用花生壳，优点太多了，稳定、内网穿透、内网端口映射。使用起来非常方便：只需要内网IP就可以搭建一台Server<br><img src="http://xmt.ssluxury.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Y2NDEzODU3MTI=,size_16,color_FFFFFF,t_70.png" alt="在这里插入图片描述"></p>
+<p>1.使用花生壳，优点太多了，稳定、内网穿透、内网端口映射。使用起来非常方便：只需要内网IP就可以搭建一台Server<br><img  src="http://xmt.ssluxury.cn/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2Y2NDEzODU3MTI=,size_16,color_FFFFFF,t_70.png"  ><span class="image-caption">在这里插入图片描述</span></p>
 <p>2.使用DNSPod以及其客户端完成<br>3.使用Alibaba Cloud SDK for Java实现动态域名解析（DDNS），内含使用Demo哦。<br>参考地址：<a target="_blank" rel="noopener" href="https://help.aliyun.com/document_detail/141482.html">https://help.aliyun.com/document_detail/141482.html</a></p>
       </section>
       <section class="extra">

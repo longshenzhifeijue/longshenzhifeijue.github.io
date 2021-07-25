@@ -195,7 +195,7 @@
     <div class="head-info">
       <span class="post-info-item"><i class="iconfont iconcalendar"></i>August 12, 2020</span>
       
-      <span class="post-info-item"><i class="iconfont iconfont-size"></i>7997</span>
+      <span class="post-info-item"><i class="iconfont iconfont-size"></i>8000</span>
     </div>
   </div>
 </section>
@@ -213,7 +213,7 @@
 
 <p>Java原生的序列化方式。</p>
 <h3 id="增加META-INF目录文件"><a href="#增加META-INF目录文件" class="headerlink" title="增加META-INF目录文件"></a>增加META-INF目录文件</h3><p>Resource下面创建META-INF/services 目录里创建一个以服务接口命名的文件</p>
-<p><img src="" alt="img"></p>
+<p><img  src=""  ><span class="image-caption">img</span></p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs stylus">com<span class="hljs-selector-class">.blueskykong</span><span class="hljs-selector-class">.javaspi</span><span class="hljs-selector-class">.serializer</span><span class="hljs-selector-class">.KryoSerializer</span><br>com<span class="hljs-selector-class">.blueskykong</span><span class="hljs-selector-class">.javaspi</span><span class="hljs-selector-class">.serializer</span><span class="hljs-selector-class">.JavaSerializer</span><br><br></code></pre></td></tr></table></figure>
 
 <h3 id="Service类"><a href="#Service类" class="headerlink" title="Service类"></a>Service类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SerializerService</span> </span>&#123;<br><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> ObjectSerializer <span class="hljs-title">getObjectSerializer</span><span class="hljs-params">()</span> </span>&#123;<br>        ServiceLoader&lt;ObjectSerializer&gt; serializers = ServiceLoader.load(ObjectSerializer.class);<br><br>        <span class="hljs-keyword">final</span> Optional&lt;ObjectSerializer&gt; serializer = StreamSupport.stream(serializers.spliterator(), <span class="hljs-keyword">false</span>)<br>                .findFirst();<br><br>        <span class="hljs-keyword">return</span> serializer.orElse(<span class="hljs-keyword">new</span> JavaSerializer());<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
