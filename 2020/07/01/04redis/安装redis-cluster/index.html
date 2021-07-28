@@ -63,7 +63,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: true,
+        enable: false,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -189,7 +189,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img src="/images/theme/post-image.jpg" draggable="false">
   <div class="head-mask">
     <h1 class="head-title">mac安装redis-cluster</h1>
     <div class="head-info">
@@ -201,16 +201,16 @@
 </section>
     <section class="main">
       <section class="content">
-        <h2 id="下载redis-使用redis版本"><a href="#下载redis-使用redis版本" class="headerlink" title="下载redis(使用redis版本)"></a>下载redis(使用redis版本)</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701165120537.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701165120537</span></p>
-<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701164833463.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701164833463</span></p>
+        <h2 id="下载redis-使用redis版本"><a href="#下载redis-使用redis版本" class="headerlink" title="下载redis(使用redis版本)"></a>下载redis(使用redis版本)</h2><p><img  src="http://xmt.ssluxury.cn/image-20200701165120537.png"  ><span class="image-caption">image-20200701165120537</span></p>
+<h2 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h2><p><img  src="http://xmt.ssluxury.cn/image-20200701164833463.png"  ><span class="image-caption">image-20200701164833463</span></p>
 <h2 id="准备redis-cluster配置"><a href="#准备redis-cluster配置" class="headerlink" title="准备redis-cluster配置"></a>准备redis-cluster配置</h2><ul>
 <li>新建文件夹<br>cd /usr/local/etc<br>mkdir redis/cluster/7000<br>mkdir redis/cluster/7001<br>mkdir redis/cluster/7002<br>mkdir redis/cluster/7003<br>mkdir redis/cluster/7004<br>mkdir redis/cluster/7005</li>
-<li>解压redis将redis.conf拷贝到文件夹<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701165440731.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701165440731</span></li>
+<li>解压redis将redis.conf拷贝到文件夹<br><img  src="http://xmt.ssluxury.cn/image-20200701165440731.png"  ><span class="image-caption">image-20200701165440731</span></li>
 <li>修改配置<br>port 700*<br>cluster-enabled yes<br>cluster-config-file nodes-700*.conf<br>cluster-node-timeout 5000<br>appendonly yes</li>
 </ul>
 <h2 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a>启动redis</h2><p>redis-server /usr/local/etc/redis/cluster/7000/7000.conf;<br>redis-server /usr/local/etc/redis/cluster/7001/7001.conf;<br>redis-server /usr/local/etc/redis/cluster/7002/7002.conf;<br>redis-server /usr/local/etc/redis/cluster/7003/7003.conf;<br>redis-server /usr/local/etc/redis/cluster/7004/7004.conf;<br>redis-server /usr/local/etc/redis/cluster/7005/7005.conf;</p>
 <blockquote>
-<p>ps axu | grep redis<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701165635422.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701165635422</span></p>
+<p>ps axu | grep redis<br><img  src="http://xmt.ssluxury.cn/image-20200701165635422.png"  ><span class="image-caption">image-20200701165635422</span></p>
 </blockquote>
 <h2 id="安装redis的ruby模块"><a href="#安装redis的ruby模块" class="headerlink" title="安装redis的ruby模块"></a>安装redis的ruby模块</h2><blockquote>
 <p>brew update<br>brew install ruby<br>sudo gem install redis</p>
@@ -218,8 +218,8 @@
 <h2 id="启动redis-cluster"><a href="#启动redis-cluster" class="headerlink" title="启动redis-cluster"></a>启动redis-cluster</h2><blockquote>
 <p>redis-cli –cluster create –cluster-replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005<br>这里注意redis5.0以后不能拿这个启动了ruby /Users/xufei/myredis/redis-trib.rb create –replicas 1 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005</p>
 </blockquote>
-<h2 id="连接redis-cluster"><a href="#连接redis-cluster" class="headerlink" title="连接redis-cluster"></a>连接redis-cluster</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701170240504.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701170240504</span></p>
-<h2 id="使用以下"><a href="#使用以下" class="headerlink" title="使用以下"></a>使用以下</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200701170836141.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200701170836141</span></p>
+<h2 id="连接redis-cluster"><a href="#连接redis-cluster" class="headerlink" title="连接redis-cluster"></a>连接redis-cluster</h2><p><img  src="http://xmt.ssluxury.cn/image-20200701170240504.png"  ><span class="image-caption">image-20200701170240504</span></p>
+<h2 id="使用以下"><a href="#使用以下" class="headerlink" title="使用以下"></a>使用以下</h2><p><img  src="http://xmt.ssluxury.cn/image-20200701170836141.png"  ><span class="image-caption">image-20200701170836141</span></p>
       </section>
       <section class="extra">
         
@@ -234,7 +234,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+    <img src="https://pic.izhaoo.com/alipay.jpg">
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

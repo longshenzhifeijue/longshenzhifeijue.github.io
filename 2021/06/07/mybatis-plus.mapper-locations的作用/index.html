@@ -63,7 +63,7 @@ Mybatis-Plus官...">
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: true,
+        enable: false,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -189,7 +189,7 @@ Mybatis-Plus官...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img src="/images/theme/post-image.jpg" draggable="false">
   <div class="head-mask">
     <h1 class="head-title">mybatis-plus.mapper-locations的作用</h1>
     <div class="head-info">
@@ -201,10 +201,10 @@ Mybatis-Plus官...">
 </section>
     <section class="main">
       <section class="content">
-        <h2 id="Mybatis-Plus官网默认值说明"><a href="#Mybatis-Plus官网默认值说明" class="headerlink" title="Mybatis-Plus官网默认值说明"></a>Mybatis-Plus官网默认值说明</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20210607191011350.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210607191011350</span></p>
+        <h2 id="Mybatis-Plus官网默认值说明"><a href="#Mybatis-Plus官网默认值说明" class="headerlink" title="Mybatis-Plus官网默认值说明"></a>Mybatis-Plus官网默认值说明</h2><p><img  src="http://xmt.ssluxury.cn/image-20210607191011350.png"  ><span class="image-caption">image-20210607191011350</span></p>
 <h2 id="说明一"><a href="#说明一" class="headerlink" title="说明一"></a>说明一</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">首先配置<span class="hljs-meta">@MapperScan(&#123;&quot;com.*&quot;, &quot;com.order.*&quot;&#125;)</span>,其次只要生成的target包下mapper类和mapper.xml在同一个路径,此时mybatis-plus.mapper-locations没什么用;<br></code></pre></td></tr></table></figure>
 <h2 id="说明二"><a href="#说明二" class="headerlink" title="说明二"></a>说明二</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">【摘要】application上配置了<span class="hljs-meta">@MapperScan(扫面mapper类的路径)</span>和pom.xml中放行了mapper.xml后，配置mapper-locations没有意义 查找后得知，如果mapper类和mapper.xml不在同一个路径下时，mapper-locations就有用了，在pom.xml中配置 mybatis.mapper-locations=classpath*:c...<br></code></pre></td></tr></table></figure>
-<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20210607193609490.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210607193609490</span></p>
+<p><img  src="http://xmt.ssluxury.cn/image-20210607193609490.png"  ><span class="image-caption">image-20210607193609490</span></p>
       </section>
       <section class="extra">
         
@@ -219,7 +219,7 @@ Mybatis-Plus官...">
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+    <img src="https://pic.izhaoo.com/alipay.jpg">
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

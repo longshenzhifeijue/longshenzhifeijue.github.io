@@ -63,7 +63,7 @@ vim进入jar包mac终端进入jar...">
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: true,
+        enable: false,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -189,7 +189,7 @@ vim进入jar包mac终端进入jar...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img src="/images/theme/post-image.jpg" draggable="false">
   <div class="head-mask">
     <h1 class="head-title">mac修改jar包并推送K8s容器部署</h1>
     <div class="head-info">
@@ -203,12 +203,12 @@ vim进入jar包mac终端进入jar...">
       <section class="content">
         <h2 id="vim进入jar包"><a href="#vim进入jar包" class="headerlink" title="vim进入jar包"></a>vim进入jar包</h2><p>mac终端进入jar包所在目录 vim rcs-server-v8.jar</p>
 <h2 id="文件名字找到文件"><a href="#文件名字找到文件" class="headerlink" title="?+文件名字找到文件"></a>?+文件名字找到文件</h2><p>jar包中包含的目录和文件有很多，我们搜索出需要修改的配置文件，输入命令?RCSConfig.xml，然后按下回车<br>当然有另一个命令也可以成功的搜索到指定的文件RCSConfig.xml，即/RCSConfig.xml，输入该命令后也是和上面图示一样的搜索结果。<br>| <code>/word</code>                                                      | <code>?word</code>                                        |<br>| ———————————————————— | ———————————————- |<br>| 向光标之下寻找一个名称为 word 的字符串。例如要在档案内搜寻 vbird 这个字符串，就输入 /vbird 即可！ (常用) | 向光标之上寻找一个字符串名称为 word 的字符串。 |</p>
-<h2 id="修改保存文件即可"><a href="#修改保存文件即可" class="headerlink" title="修改保存文件即可"></a>修改保存文件即可</h2><h2 id="准备jar包和文件"><a href="#准备jar包和文件" class="headerlink" title="准备jar包和文件"></a>准备jar包和文件</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200927115130708.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200927115130708</span></p>
-<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200927115118973.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200927115118973</span></p>
+<h2 id="修改保存文件即可"><a href="#修改保存文件即可" class="headerlink" title="修改保存文件即可"></a>修改保存文件即可</h2><h2 id="准备jar包和文件"><a href="#准备jar包和文件" class="headerlink" title="准备jar包和文件"></a>准备jar包和文件</h2><p><img  src="http://xmt.ssluxury.cn/image-20200927115130708.png"  ><span class="image-caption">image-20200927115130708</span></p>
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><p><img  src="http://xmt.ssluxury.cn/image-20200927115118973.png"  ><span class="image-caption">image-20200927115118973</span></p>
 <blockquote>
 <p>docker build -t registry.cn-hangzhou.aliyuncs.com/tianli/scan-gun-prod:latest .</p>
 </blockquote>
-<h2 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200927134704190.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200927134704190</span></p>
+<h2 id="推送镜像"><a href="#推送镜像" class="headerlink" title="推送镜像"></a>推送镜像</h2><p><img  src="http://xmt.ssluxury.cn/image-20200927134704190.png"  ><span class="image-caption">image-20200927134704190</span></p>
 <blockquote>
 <p>docker push registry.cn-hangzhou.aliyuncs.com/tianli/scan-gun-prod:latest</p>
 </blockquote>
@@ -226,7 +226,7 @@ vim进入jar包mac终端进入jar...">
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+    <img src="https://pic.izhaoo.com/alipay.jpg">
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

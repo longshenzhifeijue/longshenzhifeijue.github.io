@@ -65,7 +65,7 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: true,
+        enable: false,
         only_post: 'false',
         loading: '[object Object]'
       },
@@ -191,7 +191,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
+  <img src="/images/theme/post-image.jpg" draggable="false">
   <div class="head-mask">
     <h1 class="head-title">你真正了解HashMap吗</h1>
     <div class="head-info">
@@ -208,12 +208,12 @@
 <p>由于JDK的向前兼容，在JDK8的使用过程中也没发现<strong>HashMap</strong>有什么特别之处，特性并无变化（依然线程不安全）。但最近的一次好奇心驱使，从IDE中点进去看了下<strong>HashMap</strong>的**<code>put()</code><strong>方法，有点儿懵逼，怎么跟我记忆中的不太一样？从JDK7到JDK8，</strong>HashMap**也做了升级么？升级了什么哪些内容？</p>
 <p>借着这股好奇心，把JDK7和JDK8的源码都翻了翻，对两者的实现原理做一下对比，JDK版本都在半年左右一次的速度推陈出新，我们的认知当然也要跟上，不断学习，站在浪潮之巅，不然就要被这滚滚的信息泥石流给裹挟淹没了。</p>
 <p>先展示下Map家族的关系层级，有助于我们更好的理解后面的内容。</p>
-<p><img    class="lazyload" data-original="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b2c59ed6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img  src="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b2c59ed6?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"  ><span class="image-caption">img</span></p>
 <p><strong>HashMap</strong>的基本知识点介绍就不多啰嗦了，直奔主题，看JDK7和JDK8的功能实现吧。</p>
 <h1 id="一、JDK7中的HashMap底层实现"><a href="#一、JDK7中的HashMap底层实现" class="headerlink" title="一、JDK7中的HashMap底层实现"></a>一、JDK7中的HashMap底层实现</h1><h2 id="1-1-基础知识"><a href="#1-1-基础知识" class="headerlink" title="1.1 基础知识"></a>1.1 基础知识</h2><p>不管是1.7，还是1.8，HashMap的实现框架都是<strong>哈希表 + 链表</strong>的组合方式。结构图如下：</p>
-<p><img    class="lazyload" data-original="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b45739c9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img  src="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b45739c9?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"  ><span class="image-caption">img</span></p>
 <p>平常使用最多的就是**<code>put()</code><strong>、</strong><code>get()</code><strong>操作，想要了解底层实现，最直接的就是从</strong><code>put()/get()</code>**方法看起。不过在具体看源码前，我们先关注几个域变量，打打基础，如下：</p>
-<p><img    class="lazyload" data-original="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b43f614f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img  src="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b43f614f?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"  ><span class="image-caption">img</span></p>
 <p>上图中，已对各个变量做了简单的解释。 再多说一下，最后一个变量**<code>modCount</code><strong>，记录了map新增/删除k-v对，或者内部结构做了调整的次数，其主要作用，是对Map的</strong><code>iterator()</code><strong>操作做一致性校验，如果在iterator操作的过程中，map的数值有修改，直接抛出</strong><code>ConcurrentModificationException</code>**异常。</p>
 <p>还需要说明的是，上面的域变量中存在一个等式：</p>
 <figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sas">threshold = <span class="hljs-meta">table</span>.<span class="hljs-meta">length</span> <span class="hljs-comment">* loadFactor;</span><br>复制代码<br></code></pre></td></tr></table></figure>
@@ -221,7 +221,7 @@
 <p>当执行**<code>put()</code><strong>操作放入一个新的值时，如果map中已经存在对应的key，则作替换即可，若不存在，则会首先判断</strong><code>size&gt;=threshold</code>**是否成立，这是决定哈希table是否扩容的重要因素。</p>
 <p>就使用层面来说，用的最多的莫过于**<code>put()</code><strong>方法、</strong><code>get()</code>**方法。想要详细了解运作原理，那就先从这两个方法看起吧，这两个方法弄明白了，也就基本能理清HashMap的实现原理了。</p>
 <h2 id="1-2-put-方法"><a href="#1-2-put-方法" class="headerlink" title="1.2 put()方法"></a>1.2 put()方法</h2><p>当了解了以上的变量和用途后，接下来看下**<code>put()</code>**方法的具体实现：</p>
-<p><img    class="lazyload" data-original="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b5ad0137?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img  src="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b5ad0137?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"  ><span class="image-caption">img</span></p>
 <p>如上面的截图代码所示，整个put方法的处理过程，可拆分为四部分：</p>
 <ul>
 <li><strong>part1：特殊key值处理，key为null；</strong></li>
@@ -245,7 +245,7 @@
 <p>给定hash、key、value、bucket下标，新增一个Entry结点，另外还担负了扩容职责。如果哈希表中存放的k-v对数量超过了当前阈值(<strong>threshold = table.length * loadFactor</strong>)，且当前的bucket下标有链表存在，那么就做扩容处理（resize）。扩容后，重新计算hash，最终得到新的bucket下标，然后使用头插法新增结点。</p>
 </blockquote>
 <h3 id="1-2-2-扩容"><a href="#1-2-2-扩容" class="headerlink" title="1.2.2 扩容"></a>1.2.2 扩容</h3><p>上一节有提及，当k-v对的容量超出一定限度后，需要对哈希table做扩容操作。那么问题来了，怎么扩容的？ 下面看下源代码：</p>
-<p><img    class="lazyload" data-original="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b62bb33d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img  src="https://user-gold-cdn.xitu.io/2019/12/5/16ed3af3b62bb33d?imageView2/0/w/1280/h/960/format/webp/ignore-error/1"  ><span class="image-caption">img</span></p>
 <p>有两个核心点： <strong>a)</strong> 扩容后大小是扩容前的2倍；</p>
 <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">oldCapacity</span>=table.length<span class="hljs-comment">;</span><br><span class="hljs-attribute">newCapacity</span> = <span class="hljs-number">2</span> * oldCapacity<span class="hljs-comment">;</span><br>复制代码<br></code></pre></td></tr></table></figure>
 
@@ -444,7 +444,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
+    <img src="https://pic.izhaoo.com/alipay.jpg">
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
