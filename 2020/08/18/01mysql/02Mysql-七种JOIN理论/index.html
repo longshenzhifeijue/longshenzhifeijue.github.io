@@ -64,9 +64,9 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -190,7 +190,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">二、Mysql-常见通用的JOIN查询</h1>
     <div class="head-info">
@@ -202,11 +202,11 @@
 </section>
     <section class="main">
       <section class="content">
-        <h2 id="性能下降sql慢"><a href="#性能下降sql慢" class="headerlink" title="性能下降sql慢"></a>性能下降sql慢</h2><p><img  src="http://xmt.ssluxury.cn/image-20210725142850715.png"  ><span class="image-caption">image-20210725142850715</span></p>
-<h2 id="手写"><a href="#手写" class="headerlink" title="手写"></a>手写</h2><p><img  src="http://xmt.ssluxury.cn/image-20200713214232039.png"  ><span class="image-caption">image-20200713214232039</span></p>
-<h2 id="机读"><a href="#机读" class="headerlink" title="机读"></a>机读</h2><p><img  src="http://xmt.ssluxury.cn/image-20210725143632853.png"  ><span class="image-caption">image-20210725143632853</span></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p><img  src="http://xmt.ssluxury.cn/image-20200810140525581.png"  ><span class="image-caption">image-20200810140525581</span></p>
-<h2 id="七种JOIN理论"><a href="#七种JOIN理论" class="headerlink" title="七种JOIN理论"></a>七种JOIN理论</h2><p><img  src="http://xmt.ssluxury.cn/image-20200713213443730.png"  ><span class="image-caption">image-20200713213443730</span><br><img  src="http://xmt.ssluxury.cn/image-20200713213839578.png"  ><span class="image-caption">image-20200713213839578</span></p>
+        <h2 id="性能下降sql慢"><a href="#性能下降sql慢" class="headerlink" title="性能下降sql慢"></a>性能下降sql慢</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20210725142850715.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210725142850715</span></p>
+<h2 id="手写"><a href="#手写" class="headerlink" title="手写"></a>手写</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200713214232039.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200713214232039</span></p>
+<h2 id="机读"><a href="#机读" class="headerlink" title="机读"></a>机读</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20210725143632853.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20210725143632853</span></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200810140525581.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200810140525581</span></p>
+<h2 id="七种JOIN理论"><a href="#七种JOIN理论" class="headerlink" title="七种JOIN理论"></a>七种JOIN理论</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200713213443730.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200713213443730</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200713213839578.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200713213839578</span></p>
 <h2 id="七种SQL编写"><a href="#七种SQL编写" class="headerlink" title="七种SQL编写"></a>七种SQL编写</h2><p>略….自己联系</p>
       </section>
       <section class="extra">
@@ -222,7 +222,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

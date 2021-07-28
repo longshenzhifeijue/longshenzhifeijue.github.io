@@ -63,9 +63,9 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -189,7 +189,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">使用Dockerfile构建Docker镜像</h1>
     <div class="head-info">
@@ -204,14 +204,14 @@
         <h2 id="准备jar包"><a href="#准备jar包" class="headerlink" title="准备jar包"></a>准备jar包</h2><h2 id="准备Dockerfile文件"><a href="#准备Dockerfile文件" class="headerlink" title="准备Dockerfile文件"></a>准备Dockerfile文件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">FROM java:latest<br>MAINTAINER    xufei&lt;<span class="hljs-number">20160601</span>@<span class="hljs-number">163.</span>com&gt;<br>LABEL author=xf<br>ADD RFID-<span class="hljs-number">0.0</span><span class="hljs-number">.1</span>-SNAPSHOT.jar /app.jar<br>EXPOSE <span class="hljs-number">8099</span><br>ENTRYPOINT [<span class="hljs-string">&quot;java&quot;</span>,<span class="hljs-string">&quot;-jar&quot;</span>,<span class="hljs-string">&quot;app.jar&quot;</span>]<br><br><br></code></pre></td></tr></table></figure>
 <h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><p>docker build -t registry.cn-hangzhou.aliyuncs.com/tianli/scan-gun-dev:latest .</p>
 <h2 id="远程推送阿里云镜像仓库"><a href="#远程推送阿里云镜像仓库" class="headerlink" title="远程推送阿里云镜像仓库"></a>远程推送阿里云镜像仓库</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">docker login --username=xufei<span class="hljs-meta">@tianli</span> registry.cn-hangzhou.aliyuncs.com<br>docker push registry.cn-hangzhou.aliyuncs.com/tianli/scan-gun-dev:latest<br></code></pre></td></tr></table></figure>
-<p><img  src="http://xmt.ssluxury.cn/image-20200730092607666.png"  ><span class="image-caption">image-20200730092607666</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730092607666.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730092607666</span></p>
 <h2 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h2><ul>
 <li>镜像名称和tag</li>
 <li>所需资源</li>
 <li>环境变量</li>
-<li>日志服务<br><img  src="http://xmt.ssluxury.cn/image-20200730093654683.png"  ><span class="image-caption">image-20200730093654683</span><br><img  src="http://xmt.ssluxury.cn/image-20200730093909387.png"  ><span class="image-caption">image-20200730093909387</span><br><img  src="http://xmt.ssluxury.cn/image-20200730093930733.png"  ><span class="image-caption">image-20200730093930733</span><h2 id="路由与负载均衡"><a href="#路由与负载均衡" class="headerlink" title="路由与负载均衡"></a>路由与负载均衡</h2></li>
+<li>日志服务<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730093654683.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730093654683</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730093909387.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730093909387</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730093930733.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730093930733</span><h2 id="路由与负载均衡"><a href="#路由与负载均衡" class="headerlink" title="路由与负载均衡"></a>路由与负载均衡</h2></li>
 <li>服务</li>
-<li>路由<br><img  src="http://xmt.ssluxury.cn/image-20200730094123983.png"  ><span class="image-caption">image-20200730094123983</span><br><img  src="http://xmt.ssluxury.cn/image-20200730094207183.png"  ><span class="image-caption">image-20200730094207183</span></li>
+<li>路由<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730094123983.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730094123983</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730094207183.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730094207183</span></li>
 </ul>
       </section>
       <section class="extra">
@@ -227,7 +227,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

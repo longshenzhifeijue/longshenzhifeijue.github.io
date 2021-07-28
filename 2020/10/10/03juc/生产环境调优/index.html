@@ -65,9 +65,9 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -191,7 +191,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="http://xmt.ssluxury.cn/v2-efdb2c9d6ba42326dea5156c2d735331_1440w.jpg" draggable="false">
+  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-efdb2c9d6ba42326dea5156c2d735331_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">生产环境调优</h1>
     <div class="head-info">
@@ -219,71 +219,71 @@
 <p>准备一个程序:</p>
 <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JavaDemo02</span> &#123;</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">String</span>[] args)</span> </span>&#123;<br>        <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)&#123;<br>            System.out.<span class="hljs-built_in">println</span>(<span class="hljs-keyword">new</span> java.util.<span class="hljs-built_in">Random</span>().<span class="hljs-built_in">nextInt</span>(<span class="hljs-number">77778888</span>));<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img  src="http://xmt.ssluxury.cn/v2-b348eed032854ade2376029874865d88_b-20200614223359055.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/v2-b348eed032854ade2376029874865d88_b-20200614223359055.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p>运行程序后</p>
-<p><img  src="http://xmt.ssluxury.cn/v2-b348eed032854ade2376029874865d88_b-20200614223359055.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/v2-b348eed032854ade2376029874865d88_b-20200614223359055.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <ul>
 <li><strong>整机:top</strong></li>
 </ul>
 <figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs gcode">先看cpu和mem已经在上升,再看load average,俗称系统的负载均衡,有三个值:分别代表系统<span class="hljs-number">1</span>分钟,<span class="hljs-number">5</span>分钟,<br><span class="hljs-number">15</span>分钟系统的平均负载值,如果三个值相加再除以三再乘以<span class="hljs-number">100</span><span class="hljs-meta">%</span>,得到的结果如果高于<span class="hljs-number">60</span><span class="hljs-meta">%</span>,说明系统的负担压力<br>重,除此意外 uptime是top的经典版<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic4.zhimg.com/v2-64909633565e3f07b9b87c54f0ca258f_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic4.zhimg.com/v2-64909633565e3f07b9b87c54f0ca258f_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <ul>
 <li><strong>CPU:vmstat</strong></li>
 </ul>
-<p><img  src="https://pic1.zhimg.com/v2-2d7adabc17749a83f5a4bd6894346ea0_b.png"  ><span class="image-caption">img</span></p>
-<p><img  src="https://pic2.zhimg.com/v2-53a728bfe5e7e0b49f720422efe380e1_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic1.zhimg.com/v2-2d7adabc17749a83f5a4bd6894346ea0_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-53a728bfe5e7e0b49f720422efe380e1_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs x86asm">除此之外:<br>查看所有<span class="hljs-meta">CPU</span>核信息<br><span class="hljs-number">1.</span>mpstat -P ALL <span class="hljs-number">2</span><br><br>idle代表<span class="hljs-meta">CPU</span>的空闲率,越高越好,如果idle值低于<span class="hljs-number">60</span>%,<span class="hljs-meta">CPU</span>压力比较大<br><br>在Centos Linux系统中要查看服务器的一些信息,要用到iostat,mpstat,<span class="hljs-keyword">sar</span>等命令,但我的系统中默认没这些命令,想用yum install iostat类似的命令来安装,但是发现没有这些软件包,上网查了一些,原来这些命令都在sysstat这个包里,用以下命令安装就行了,真是太简单了.<br>yum install sysstat<br><br><span class="hljs-number">2.</span>pidstat -u <span class="hljs-number">1</span> -p 进程编号<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic2.zhimg.com/v2-8f01cd4334eb865fc56658ecb2b2f349_b.png"  ><span class="image-caption">img</span></p>
-<p><img  src="https://pic1.zhimg.com/v2-4a3b317a6f05b37fa47fc63829fd33dc_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-8f01cd4334eb865fc56658ecb2b2f349_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic1.zhimg.com/v2-4a3b317a6f05b37fa47fc63829fd33dc_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <ul>
 <li><strong>内存:free</strong></li>
 </ul>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cpp">free是看总的字节,free -g 四舍五入<span class="hljs-built_in">gb</span>(一般不用),free -<span class="hljs-built_in">m</span> (一般用这个)<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic3.zhimg.com/v2-a225267990eb7b8f46903b2c40a4a6de_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic3.zhimg.com/v2-a225267990eb7b8f46903b2c40a4a6de_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs css">查看额外<br>pidstat -<span class="hljs-selector-tag">p</span> 进程号 -r 采样间隔秒数<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic2.zhimg.com/v2-204781de1362d78a5c7195bd110dfbb9_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-204781de1362d78a5c7195bd110dfbb9_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <ul>
 <li><strong>硬盘:dt</strong></li>
 </ul>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs">查看磁盘剩余空间数<br><br>df -h <br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic2.zhimg.com/v2-d556410596b7c8a7130593b4f7aa6e61_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-d556410596b7c8a7130593b4f7aa6e61_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <ul>
 <li><strong>磁盘IO:iostat</strong></li>
 </ul>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">基本上系统慢的原因有两个:一个是CPU导致,另一个就是磁盘IO</span><br>mysql大量查询,多表大数据在磁盘上IO<br><span class="hljs-section">命令:</span><br><span class="hljs-section">磁盘I/O性能评估: iostat -xdk 2 3()</span><br><span class="hljs-section">查看额外:pidstat -d 采样间隔秒数 -p 进程号</span><br><br>util参数很重要<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic4.zhimg.com/v2-b827dc822ffe0508488404a9deb91453_b.png"  ><span class="image-caption">img</span></p>
-<p><img  src="https://pic4.zhimg.com/v2-420f5d0c46eca96c7e739efc72329e43_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic4.zhimg.com/v2-b827dc822ffe0508488404a9deb91453_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic4.zhimg.com/v2-420f5d0c46eca96c7e739efc72329e43_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p><strong>网络IO:ifstat</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">默认本地没有,下载ifstat<br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic1.zhimg.com/v2-93d3c1f03233399f29b5722450d6163c_b.png"  ><span class="image-caption">img</span></p>
-<p><img  src="https://pic2.zhimg.com/v2-670fb638a97c21ae8c0a35f6d5b3cf91_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic1.zhimg.com/v2-93d3c1f03233399f29b5722450d6163c_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-670fb638a97c21ae8c0a35f6d5b3cf91_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p><strong>假如生产环境出现CPU占用过高,请谈谈你的分析思路和定位</strong></p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile">出现此问题必须结合Linux和JDK命令一块分析,<br><br><span class="hljs-section">案例步骤:</span><br></code></pre></td></tr></table></figure>
 
 <p>准备工作:</p>
 <p>linux问题代码:</p>
-<p><img  src="https://pic4.zhimg.com/v2-fca414ae900a316bb24ca2f14c458bcb_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic4.zhimg.com/v2-fca414ae900a316bb24ca2f14c458bcb_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p>将代码运行起来:</p>
 <p>解决办法?(看日志是扯淡)</p>
 <figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs coq"><span class="hljs-built_in">top</span>找到进程<br><span class="hljs-built_in">top</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic2.zhimg.com/v2-284f6e4ac6dc99f331dcb8fc866afc85_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic2.zhimg.com/v2-284f6e4ac6dc99f331dcb8fc866afc85_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">ps</span>-ef或者jps进一步定位,得知是一个什么样的后台程序<br><span class="hljs-keyword">ps</span> -ef|<span class="hljs-keyword">grep</span> java|<span class="hljs-keyword">grep</span> -v <span class="hljs-keyword">grep</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic3.zhimg.com/v2-37f91d25bdedb165d2047e7d659cb93a_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic3.zhimg.com/v2-37f91d25bdedb165d2047e7d659cb93a_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs applescript">定位到具体线程或者代码<br>ps -mp <span class="hljs-number">24680</span> -o THREAD,tid,<span class="hljs-built_in">time</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic4.zhimg.com/v2-81c80a100dccaa548cc11f6edcad3b8f_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic4.zhimg.com/v2-81c80a100dccaa548cc11f6edcad3b8f_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs perl">将线程转换成<span class="hljs-number">16</span>进制,使用jstack命令找到问题代码<br><br><span class="hljs-keyword">printf</span> <span class="hljs-string">&quot;%x\n&quot;</span> <span class="hljs-number">24681</span><br>jstack <span class="hljs-number">24680</span> |<span class="hljs-keyword">grep</span> <span class="hljs-number">6069</span> -A6<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
 
-<p><img  src="https://pic1.zhimg.com/v2-5934b6bcf6f9eb0b65d185e5e047af5c_b.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="https://pic1.zhimg.com/v2-5934b6bcf6f9eb0b65d185e5e047af5c_b.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
       </section>
       <section class="extra">
         
@@ -298,7 +298,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

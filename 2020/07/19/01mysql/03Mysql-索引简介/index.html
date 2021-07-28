@@ -64,9 +64,9 @@ image-20200719...">
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -190,7 +190,7 @@ image-20200719...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="http://xmt.ssluxury.cn/v2-ea33c6c96b037b2a505834001fa80a00_1440w.jpg" draggable="false">
+  <img   class="lazyload" data-original="http://xmt.ssluxury.cn/v2-ea33c6c96b037b2a505834001fa80a00_1440w.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">三、Mysql-索引简介</h1>
     <div class="head-info">
@@ -202,16 +202,16 @@ image-20200719...">
 </section>
     <section class="main">
       <section class="content">
-        <p><img  src="http://xmt.ssluxury.cn/image-20200719165033146.png"  ><span class="image-caption">image-20200719165033146</span></p>
-<h2 id="索引是什么"><a href="#索引是什么" class="headerlink" title="索引是什么"></a>索引是什么</h2><p>MYSQL 官方对索引对定义为:索引(Index)是帮助MYSQL高效获取数据对数据结构(可以得到索引的本质是一种数据结构)<br><img  src="http://xmt.ssluxury.cn/image-20200719162518739.png"  ><span class="image-caption">image-20200719162518739</span><br>你可以简单理解为<code>排好序的快速查找数据结构</code></p>
-<h3 id="索引详解"><a href="#索引详解" class="headerlink" title="索引详解"></a>索引详解</h3><p><img  src="http://xmt.ssluxury.cn/image-20200719164028859.png"  ><span class="image-caption">image-20200719164028859</span></p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img  src="http://xmt.ssluxury.cn/image-20200719164103526.png"  ><span class="image-caption">image-20200719164103526</span><br>注意:索引会影响where后面的查询和order by后面的排序<br><img  src="http://xmt.ssluxury.cn/image-20200719164903194.png"  ><span class="image-caption">image-20200719164903194</span></p>
-<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719165322867.png"  ><span class="image-caption">image-20200719165322867</span></p>
-<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719165712838.png"  ><span class="image-caption">image-20200719165712838</span></p>
-<h2 id="mysql索引分类"><a href="#mysql索引分类" class="headerlink" title="mysql索引分类"></a>mysql索引分类</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719165923209.png"  ><span class="image-caption">image-20200719165923209</span><br>四种添加索引方式<br><img  src="http://xmt.ssluxury.cn/image-20200719170120207.png"  ><span class="image-caption">image-20200719170120207</span></p>
-<h2 id="mysql索引结构"><a href="#mysql索引结构" class="headerlink" title="mysql索引结构"></a>mysql索引结构</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719170229864.png"  ><span class="image-caption">image-20200719170229864</span><br><img  src="http://xmt.ssluxury.cn/image-20200719170823892.png"  ><span class="image-caption">image-20200719170823892</span><br><img  src="http://xmt.ssluxury.cn/image-20200719170927849.png"  ><span class="image-caption">image-20200719170927849</span></p>
-<h2 id="那些情况需要创建索引"><a href="#那些情况需要创建索引" class="headerlink" title="那些情况需要创建索引"></a>那些情况需要创建索引</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719210845447.png"  ><span class="image-caption">image-20200719210845447</span></p>
-<h2 id="那些情况不需要创建索引"><a href="#那些情况不需要创建索引" class="headerlink" title="那些情况不需要创建索引"></a>那些情况不需要创建索引</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719211245446.png"  ><span class="image-caption">image-20200719211245446</span><br><img  src="http://xmt.ssluxury.cn/image-20200719211315427.png"  ><span class="image-caption">image-20200719211315427</span><br><img  src="http://xmt.ssluxury.cn/image-20200719211114334.png"  ><span class="image-caption">image-20200719211114334</span></p>
+        <p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165033146.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165033146</span></p>
+<h2 id="索引是什么"><a href="#索引是什么" class="headerlink" title="索引是什么"></a>索引是什么</h2><p>MYSQL 官方对索引对定义为:索引(Index)是帮助MYSQL高效获取数据对数据结构(可以得到索引的本质是一种数据结构)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719162518739.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719162518739</span><br>你可以简单理解为<code>排好序的快速查找数据结构</code></p>
+<h3 id="索引详解"><a href="#索引详解" class="headerlink" title="索引详解"></a>索引详解</h3><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164028859.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164028859</span></p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164103526.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164103526</span><br>注意:索引会影响where后面的查询和order by后面的排序<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719164903194.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719164903194</span></p>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165322867.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165322867</span></p>
+<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165712838.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165712838</span></p>
+<h2 id="mysql索引分类"><a href="#mysql索引分类" class="headerlink" title="mysql索引分类"></a>mysql索引分类</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719165923209.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719165923209</span><br>四种添加索引方式<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170120207.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170120207</span></p>
+<h2 id="mysql索引结构"><a href="#mysql索引结构" class="headerlink" title="mysql索引结构"></a>mysql索引结构</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170229864.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170229864</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170823892.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170823892</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719170927849.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719170927849</span></p>
+<h2 id="那些情况需要创建索引"><a href="#那些情况需要创建索引" class="headerlink" title="那些情况需要创建索引"></a>那些情况需要创建索引</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719210845447.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719210845447</span></p>
+<h2 id="那些情况不需要创建索引"><a href="#那些情况不需要创建索引" class="headerlink" title="那些情况不需要创建索引"></a>那些情况不需要创建索引</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211245446.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211245446</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211315427.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211315427</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719211114334.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719211114334</span></p>
       </section>
       <section class="extra">
         
@@ -226,7 +226,7 @@ image-20200719...">
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

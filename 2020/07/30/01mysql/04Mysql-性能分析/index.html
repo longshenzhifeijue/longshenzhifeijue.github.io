@@ -65,9 +65,9 @@ Mysq...">
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -191,7 +191,7 @@ Mysq...">
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">四、Mysql-性能分析</h1>
     <div class="head-info">
@@ -208,7 +208,7 @@ Mysq...">
 <li>Mysql常见瓶颈</li>
 <li>Explain</li>
 </ul>
-<h2 id="Mysql-Query-Optimizer"><a href="#Mysql-Query-Optimizer" class="headerlink" title="Mysql Query Optimizer"></a>Mysql Query Optimizer</h2><p><img  src="http://xmt.ssluxury.cn/image-20200719212216215.png"  ><span class="image-caption">image-20200719212216215</span></p>
+<h2 id="Mysql-Query-Optimizer"><a href="#Mysql-Query-Optimizer" class="headerlink" title="Mysql Query Optimizer"></a>Mysql Query Optimizer</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719212216215.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719212216215</span></p>
 <h2 id="Mysql常见瓶颈"><a href="#Mysql常见瓶颈" class="headerlink" title="Mysql常见瓶颈"></a>Mysql常见瓶颈</h2><blockquote>
 <p>CPU: CPU在饱和的适合一般发生在数据装入内存或从磁盘上读取数据时候<br> IO: 磁盘I/O瓶颈发生在装入数据远大于内存容量的时候<br> 服务器硬件的性能瓶颈:TOP,free,iostat和vmstat来查看系统的性能状态</p>
 </blockquote>
@@ -221,7 +221,7 @@ Mysq...">
 <li>表之间的引用</li>
 <li>每张表有多少行被优化器查询</li>
 </ul>
-<h3 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h3><p>Explain+sql语句<br>执行计划包含的信息<br><img  src="http://xmt.ssluxury.cn/image-20200719213846343.png"  ><span class="image-caption">image-20200719213846343</span></p>
+<h3 id="怎么玩"><a href="#怎么玩" class="headerlink" title="怎么玩"></a>怎么玩</h3><p>Explain+sql语句<br>执行计划包含的信息<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719213846343.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719213846343</span></p>
 <h2 id="id"><a href="#id" class="headerlink" title="id"></a>id</h2><ul>
 <li>select 查询的序列号包含一组数字,表示查询中执行select子句或操作表的顺序</li>
 <li>三种情况</li>
@@ -231,31 +231,31 @@ Mysq...">
 <li>id不同,如果是子查询,id的序号会递增,id值越大优先级越高,越先被执行</li>
 <li>id相同不同,同时存在</li>
 </ol>
-<p><img  src="http://xmt.ssluxury.cn/image-20200719220300414.png"  ><span class="image-caption">image-20200719220300414</span><br><img  src="http://xmt.ssluxury.cn/image-20200719220336096.png"  ><span class="image-caption">image-20200719220336096</span><br><img  src="http://xmt.ssluxury.cn/image-20200719220630068.png"  ><span class="image-caption">image-20200719220630068</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220300414.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220300414</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220336096.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220336096</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719220630068.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719220630068</span></p>
 <h2 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h2><blockquote>
 <p>查询的类型,主要是用于区别普通查询,联合查询,子查询等等复杂查询</p>
 </blockquote>
-<p><img  src="http://xmt.ssluxury.cn/image-20200719221845157.png"  ><span class="image-caption">image-20200719221845157</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719221845157.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719221845157</span></p>
 <h2 id="table"><a href="#table" class="headerlink" title="table"></a>table</h2><p>显示这一行数据是那一张表的</p>
 <h2 id="type"><a href="#type" class="headerlink" title="type"></a>type</h2><p>访问类型排列,显示查询使用了何种类型,从最好到最差依次是:<br>    <code>system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;All</code></p>
-<h4 id="详解-实际工作中一般调优到ref-range-index"><a href="#详解-实际工作中一般调优到ref-range-index" class="headerlink" title="详解,实际工作中一般调优到ref/range/index"></a>详解,实际工作中一般调优到ref/range/index</h4><p><img  src="http://xmt.ssluxury.cn/image-20200719223852719.png"  ><span class="image-caption">image-20200719223852719</span></p>
+<h4 id="详解-实际工作中一般调优到ref-range-index"><a href="#详解-实际工作中一般调优到ref-range-index" class="headerlink" title="详解,实际工作中一般调优到ref/range/index"></a>详解,实际工作中一般调优到ref/range/index</h4><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719223852719.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719223852719</span></p>
 <ul>
-<li>const<br>输入的是一个1常量,给system只有一条数据(是很快,但是实际工作中没有这么用的)<br><img  src="http://xmt.ssluxury.cn/image-20200719223656853.png"  ><span class="image-caption">image-20200719223656853</span></li>
-<li> eq_ref<br><img  src="http://xmt.ssluxury.cn/image-20200719224505062.png"  ><span class="image-caption">image-20200719224505062</span></li>
-<li>ref<br><img  src="http://xmt.ssluxury.cn/image-20200719224906073.png"  ><span class="image-caption">image-20200719224906073</span></li>
-<li>range<br><img  src="http://xmt.ssluxury.cn/image-20200719225148875.png"  ><span class="image-caption">image-20200719225148875</span></li>
-<li>index<br><img  src="http://xmt.ssluxury.cn/image-20200719225243974.png"  ><span class="image-caption">image-20200719225243974</span></li>
-<li>all<br><img  src="http://xmt.ssluxury.cn/image-20200719225304805.png"  ><span class="image-caption">image-20200719225304805</span><h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img  src="http://xmt.ssluxury.cn/image-20200719225616120.png"  ><span class="image-caption">image-20200719225616120</span><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img  src="http://xmt.ssluxury.cn/image-20200719225641444.png"  ><span class="image-caption">image-20200719225641444</span><br><img  src="http://xmt.ssluxury.cn/image-20200719225847716.png"  ><span class="image-caption">image-20200719225847716</span><h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><img  src="http://xmt.ssluxury.cn/image-20200719230223877.png"  ><span class="image-caption">image-20200719230223877</span><br><img  src="http://xmt.ssluxury.cn/image-20200719230654490.png"  ><span class="image-caption">image-20200719230654490</span>   <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2>显示索引的那一列被使用了,如果可能的话,是一个常量,那些列或者常量被用于查找索引列上的值<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2>根据表统计信息及索引选用情况,大致估算出找到所需的记录和所需要读取的行数<h2 id="extra"><a href="#extra" class="headerlink" title="extra"></a>extra</h2>包含不适合唉其他列中的显示但十分重要的额外信息<br><img  src="http://xmt.ssluxury.cn/image-20200730204936086.png"  ><span class="image-caption">image-20200730204936086</span></li>
-<li>Using filert(出现代表九死一生)<br><img  src="http://xmt.ssluxury.cn/image-20200730205457418.png"  ><span class="image-caption">image-20200730205457418</span></li>
-<li>Using tempoporary(出现代表十死无生)<br>使用了临时表保存中间结果,MySQL在对查询结果排序时使用临时表,常见于排序order by和分组查询group by<br><img  src="http://xmt.ssluxury.cn/image-20200730210226079.png"  ><span class="image-caption">image-20200730210226079</span></li>
-<li>USING index(发财了)<br><img  src="http://xmt.ssluxury.cn/image-20200730210346021.png"  ><span class="image-caption">image-20200730210346021</span><br><img  src="http://xmt.ssluxury.cn/image-20200730210625424.png"  ><span class="image-caption">image-20200730210625424</span><br><code>覆盖索引</code><br><img  src="http://xmt.ssluxury.cn/image-20200730210835200.png"  ><span class="image-caption">image-20200730210835200</span></li>
+<li>const<br>输入的是一个1常量,给system只有一条数据(是很快,但是实际工作中没有这么用的)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719223656853.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719223656853</span></li>
+<li> eq_ref<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719224505062.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719224505062</span></li>
+<li>ref<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719224906073.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719224906073</span></li>
+<li>range<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225148875.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225148875</span></li>
+<li>index<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225243974.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225243974</span></li>
+<li>all<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225304805.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225304805</span><h2 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225616120.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225616120</span><h2 id="keys"><a href="#keys" class="headerlink" title="keys"></a>keys</h2>是否使用索引,是否索引失效,mysql到底用到了那个索引<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225641444.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225641444</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719225847716.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719225847716</span><h2 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h2><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719230223877.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719230223877</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200719230654490.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200719230654490</span>   <h2 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h2>显示索引的那一列被使用了,如果可能的话,是一个常量,那些列或者常量被用于查找索引列上的值<h2 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h2>根据表统计信息及索引选用情况,大致估算出找到所需的记录和所需要读取的行数<h2 id="extra"><a href="#extra" class="headerlink" title="extra"></a>extra</h2>包含不适合唉其他列中的显示但十分重要的额外信息<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730204936086.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730204936086</span></li>
+<li>Using filert(出现代表九死一生)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730205457418.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730205457418</span></li>
+<li>Using tempoporary(出现代表十死无生)<br>使用了临时表保存中间结果,MySQL在对查询结果排序时使用临时表,常见于排序order by和分组查询group by<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210226079.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210226079</span></li>
+<li>USING index(发财了)<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210346021.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210346021</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210625424.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210625424</span><br><code>覆盖索引</code><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730210835200.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730210835200</span></li>
 <li>Using where<br>表明使用了where过滤</li>
 <li>using join buffer<br>使用了连接缓存</li>
-<li>impossible where<br>where 子句的值总是flase,不能用来获取任何元组<br><img  src="http://xmt.ssluxury.cn/image-20200730211144432.png"  ><span class="image-caption">image-20200730211144432</span></li>
-<li>select tableso optimized away<br><img  src="http://xmt.ssluxury.cn/image-20200730211313833.png"  ><span class="image-caption">image-20200730211313833</span></li>
-<li>distinct<br><img  src="http://xmt.ssluxury.cn/image-20200730211346166.png"  ><span class="image-caption">image-20200730211346166</span></li>
+<li>impossible where<br>where 子句的值总是flase,不能用来获取任何元组<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211144432.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211144432</span></li>
+<li>select tableso optimized away<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211313833.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211313833</span></li>
+<li>distinct<br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211346166.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211346166</span></li>
 </ul>
-<h2 id="热身CASE"><a href="#热身CASE" class="headerlink" title="热身CASE"></a>热身CASE</h2><p><img  src="http://xmt.ssluxury.cn/image-20200730211449899.png"  ><span class="image-caption">image-20200730211449899</span><br><img  src="http://xmt.ssluxury.cn/image-20200730212224451.png"  ><span class="image-caption">image-20200730212224451</span></p>
+<h2 id="热身CASE"><a href="#热身CASE" class="headerlink" title="热身CASE"></a>热身CASE</h2><p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730211449899.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730211449899</span><br><img    class="lazyload" data-original="http://xmt.ssluxury.cn/image-20200730212224451.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">image-20200730212224451</span></p>
       </section>
       <section class="extra">
         
@@ -270,7 +270,7 @@ Mysq...">
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>

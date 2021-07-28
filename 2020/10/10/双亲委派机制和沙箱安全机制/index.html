@@ -64,9 +64,9 @@
       fancybox: true,
       pjax: false,
       lazyload: {
-        enable: false,
+        enable: true,
         only_post: 'false',
-        loading: '[object Object]'
+        loading: '/images/theme/loading.gif'
       },
       donate: {
         enable: true,
@@ -190,7 +190,7 @@
       <div class="col-xl-6"><article class="article">
   <div class="wrap">
     <section class="head">
-  <img src="/images/theme/post-image.jpg" draggable="false">
+  <img   class="lazyload" data-original="/images/theme/post-image.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="  draggable="false">
   <div class="head-mask">
     <h1 class="head-title">双亲委派机制和沙箱安全机制</h1>
     <div class="head-info">
@@ -204,9 +204,9 @@
       <section class="content">
         <p>　　JVM 是 Java Virtual Machine(Java 虚拟机)的缩写,JVM 是一种用于计算设备的规范,它是一个虚构出来的计算机,是通过在实际的计算机上仿真模拟各种计算机功能来实现的。</p>
 <p>　　<strong>JVM所处位置</strong>：从下图可以看出JVM 是运行在操作系统之上的,与硬件没有直接的交互</p>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191227214402806-1825280504-20201010164159086.png"  ><span class="image-caption">img</span><br> 　　　<strong>JVM结构图体系</strong></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191227214402806-1825280504-20201010164159086.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span><br> 　　　<strong>JVM结构图体系</strong></p>
 <hr>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191227214602687-1196290147-20201010164234938.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191227214602687-1196290147-20201010164234938.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p>　　<strong>堆（Heap)</strong></p>
 <hr>
 <p>　 Java堆（Java Heap）是Java虚拟机所管理的内存中最大的一块。Java堆是被所有线程共享的一块内存区域，在虚拟机启动时创建。此内存区域的唯一目的就是存放对象实例，几乎所有的对象实例都在这里分配内存。Java堆是垃圾收集器管理的主要区域，因此很多时候也被称做“GC堆”。如果从内存回收的角度看，由于现在收集器基本都是采用的分代收集算法，所以Java堆中还可以细分为：新生代和老年代；再细致一点的有Eden空间、From Survivor空间、To Survivor空间等。根据Java虚拟机规范的规定，Java堆可以处于物理上不连续的内存空间中，只要逻辑上是连续的即可，就像我们的磁盘空间一样。在实现时，既可以实现成固定大小的，也可以是可扩展的，不过当前主流的虚拟机都是按照可扩展来实现的（通过-Xmx和-Xms控制）。如果在堆中没有内存完成实例分配，并且堆也无法再扩展时，将会抛出OutOfMemoryError异常。</p>
@@ -222,7 +222,7 @@
 <hr>
 <p>　　类装载器 ClassLoader</p>
 <p>　　类装载器负责加载 .class 文件,class 文件在文件开头有特定的文件标示(cafe babe),将.class文件加载到内存中，将其放在运行时数据区的<strong>方法区</strong>（放类的描述信息）内，然后在堆区创建一个java.lang.Class对象，用来封装类在方法区内的数据结构， ClassLoader 只负责 class 文件的加载,至于它是否可以运行,则由 Execution Engine 决定。ClassLoader有多个</p>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191227222414566-918115596-20201010164251160.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191227222414566-918115596-20201010164251160.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
 <p> 　<strong>ClassLoader:</strong>　　</p>
 <hr>
 <p> 　　　启动类加载器：Bootstrap ClassLoader，负责加载存放在JDK\jre\lib(JDK代表JDK的安装目录，下同)下，或被-Xbootclasspath参数指定的路径中的，并且能被虚拟机识别的类库（如rt.jar，所有的java.*开头的类均被Bootstrap ClassLoader加载）。启动类加载器是无法被Java程序直接引用的。</p>
@@ -231,14 +231,14 @@
 <p>　　</p>
 <p>　　<strong>例子：证明类是被那个加载器加载的</strong></p>
 <hr>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191228105235163-379624448-20201010164305665.png"  ><span class="image-caption">img</span><br> 　　 从上图能看出第一个输出null,第二个报了空指针异常，为什么会这样呢？</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191228105235163-379624448-20201010164305665.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span><br> 　　 从上图能看出第一个输出null,第二个报了空指针异常，为什么会这样呢？</p>
 <p>　　　因为Object是jdk自带的，所以在加载的时候是走Bootstrap启动类加载器，而Bootstrap加载器是C++语言写的，所以在查的时候是null,Object已经是祖先了，因为它属于Boostrap，所以它已经没有祖先了，它就是最大的，就好比人家的祖坟已经是最大了，你还要去刨人家的祖坟看看人家的祖先是谁，那肯定没有啊，因为祖坟已经是最大的了，所以报了NullPointException();</p>
 <p>　　　<strong>接着：</strong></p>
 <hr>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191228105949965-1673798442-20201010164317571.png"  ><span class="image-caption">img</span><br> 　　　从上可以看出第一个用的是应用程序加载器（AppClassLoader）,第二个是扩展类加载器（ExtClassLoader),第三个是启动类加载器（BootstrapClassLoader),第四个为空，因为Bootstrap是最高的了，所以顶上没有了。</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191228105949965-1673798442-20201010164317571.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span><br> 　　　从上可以看出第一个用的是应用程序加载器（AppClassLoader）,第二个是扩展类加载器（ExtClassLoader),第三个是启动类加载器（BootstrapClassLoader),第四个为空，因为Bootstrap是最高的了，所以顶上没有了。</p>
 <p>　　　<strong>加载顺序：</strong></p>
 <hr>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191228110543315-27655564-20201010164433849.png"  ><span class="image-caption">img</span><br> 　例如当我们要使用某个类的时候，顺序是这样的，首先先去启动类加载器bootstrap找，如果有就直接用，如果没有就去扩展类加载器找，如果扩展类加载器没有，就去应用程序加载器找，如果还是没有，就报ClassNotFoundException异常，世纪上就是双亲委派机制，下面就说</p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191228110543315-27655564-20201010164433849.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span><br> 　例如当我们要使用某个类的时候，顺序是这样的，首先先去启动类加载器bootstrap找，如果有就直接用，如果没有就去扩展类加载器找，如果扩展类加载器没有，就去应用程序加载器找，如果还是没有，就报ClassNotFoundException异常，世纪上就是双亲委派机制，下面就说</p>
 <p>　　<strong>双亲委派机制：</strong></p>
 <hr>
 <p> 　 如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把请求委托给父加载器去完成，依次向上，因此，所有的类加载请求最终都应该被传递到顶层的启动类加载器（Bootstrap ClassLoader)中，只有当父加载器在它的搜索范围中没有找到所需的类时，即无法完成该加载，子加载器才会尝试自己去加载该类。</p>
@@ -250,7 +250,7 @@
 <p>　　<strong>沙箱安全：防止恶意代码污染java源代码</strong></p>
 <hr>
 <p> 　比如我定义了一个类名为String所在包为java.lang，因为这个类本来是属于jdk的，如果没有沙箱安全机制的话，这个类将会污染到我所有的String,但是由于沙箱安全机制，所以就委托顶层的bootstrap加载器查找这个类，如果没有的话就委托extsion,extsion没有就到aapclassloader，但是由于String就是jdk的源代码，所以在bootstrap那里就加载到了，先找到先使用，所以就使用bootstrap里面的String,后面的一概不能使用，这就保证了不被恶意代码污染</p>
-<p><img  src="http://xmt.ssluxury.cn/1524840-20191228111734221-1305929184-20201010164447474.png"  ><span class="image-caption">img</span></p>
+<p><img    class="lazyload" data-original="http://xmt.ssluxury.cn/1524840-20191228111734221-1305929184-20201010164447474.png" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg=="   ><span class="image-caption">img</span></p>
       </section>
       <section class="extra">
         
@@ -265,7 +265,7 @@
         
           <section class="donate">
   <div id="qrcode-donate">
-    <img src="https://pic.izhaoo.com/alipay.jpg">
+    <img   class="lazyload" data-original="https://pic.izhaoo.com/alipay.jpg" src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==" >
   </div>
   <div class="icon">
     <a href="javascript:;" id="alipay"><i class="iconfont iconalipay"></i></a>
